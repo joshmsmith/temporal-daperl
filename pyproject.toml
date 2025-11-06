@@ -1,0 +1,48 @@
+[tool.poetry]
+name = "temporal-daperl"
+version = "0.1.0"
+description = "A multi-agent Temporal framework implementing the DAPERL pattern (Detection, Analysis, Planning, Execution, Reporting, Learning)"
+authors = ["Your Name <your.email@example.com>"]
+readme = "README.md"
+packages = [{include = "daperl"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+temporalio = "^1.8.0"
+pydantic = "^2.9.0"
+pydantic-settings = "^2.5.0"
+python-dotenv = "^1.0.1"
+litellm = "^1.52.0"
+mcp = "^1.1.0"
+openai = "^1.54.0"
+anthropic = "^0.39.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.0"
+pytest-asyncio = "^0.24.0"
+pytest-cov = "^6.0.0"
+black = "^24.10.0"
+ruff = "^0.7.0"
+mypy = "^1.13.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 100
+target-version = ['py310']
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
