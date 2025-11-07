@@ -85,6 +85,25 @@ temporal server start-dev
 poetry run python scripts/run_worker.py
 ```
 
+## Quick Start
+
+### Run the Example
+
+The easiest way to see DAPERL in action is with the expense report example:
+
+```bash
+# 1. Start Temporal (in a separate terminal)
+temporal server start-dev
+
+# 2. Start the worker (in another terminal)
+poetry run python scripts/run_worker.py
+
+# 3. Run the expense report example
+poetry run python examples/expense_reports/run_example.py
+```
+
+This will process 5 expense reports, detecting issues like missing receipts, policy violations, and duplicate submissions, then automatically fix them!
+
 ## Usage
 
 ### Basic Example
@@ -384,6 +403,24 @@ Contributions welcome! Please:
 2. Create a feature branch
 3. Add tests for new functionality
 4. Submit a pull request
+
+## Examples
+
+### Expense Report Processing
+
+A simple, relatable example in `examples/expense_reports/`:
+
+**The Problem**: Expense reports with missing receipts, policy violations, duplicate submissions
+
+**How DAPERL Solves It**:
+- **Detection**: Finds 4-5 problems (missing receipts, over limits, duplicates, etc.)
+- **Analysis**: Determines root causes (employee error, unclear policy)
+- **Planning**: Creates actions (request receipt, calculate mileage, flag for review)
+- **Execution**: Simulates sending notifications and updating statuses
+- **Reporting**: Generates summary of processed reports
+- **Learning**: Identifies patterns (which employees need training, common errors)
+
+Run it: `poetry run python examples/expense_reports/run_example.py`
 
 ## References
 
