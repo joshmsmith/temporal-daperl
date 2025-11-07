@@ -1,0 +1,559 @@
+{
+  "customer_support_data": {
+    "tickets": [
+      {
+        "ticket_id": "CS-2024-001",
+        "customer_id": "CUST-12345",
+        "subject": "Unable to access premium features after upgrade",
+        "description": "I upgraded to the Pro plan yesterday but I still can't access any of the premium features. The billing shows the charge went through but my account still shows Basic plan. Very frustrated as I need these features for a client presentation tomorrow.",
+        "status": "open",
+        "priority": "high",
+        "category": "billing",
+        "subcategory": "account_upgrade",
+        "created_at": "2024-11-07T09:15:00Z",
+        "last_updated": "2024-11-07T09:15:00Z",
+        "assigned_to": null,
+        "tags": ["billing", "upgrade", "premium", "urgent"],
+        "customer_sentiment": "frustrated",
+        "response_time_sla": "4 hours",
+        "resolution_time_sla": "24 hours"
+      },
+      {
+        "ticket_id": "CS-2024-002", 
+        "customer_id": "CUST-67890",
+        "subject": "API rate limit errors after plan change",
+        "description": "Since we changed from Enterprise to Business plan, we're getting rate limit errors on our API calls. The documentation says Business plan should have 10k calls/hour but we're hitting limits at 5k. This is blocking our production deployment.",
+        "status": "in_progress",
+        "priority": "critical",
+        "category": "technical",
+        "subcategory": "api_limits",
+        "created_at": "2024-11-07T07:30:00Z",
+        "last_updated": "2024-11-07T08:45:00Z",
+        "assigned_to": "agent_sarah_tech",
+        "tags": ["api", "rate_limit", "plan_change", "production"],
+        "customer_sentiment": "concerned",
+        "response_time_sla": "1 hour", 
+        "resolution_time_sla": "4 hours"
+      },
+      {
+        "ticket_id": "CS-2024-003",
+        "customer_id": "CUST-11111", 
+        "subject": "How to set up single sign-on?",
+        "description": "We're a new Enterprise customer and need to set up SSO for our team. I've read the documentation but it's not clear which SAML endpoints to use. Can someone provide step-by-step guidance?",
+        "status": "open",
+        "priority": "medium",
+        "category": "technical",
+        "subcategory": "sso_setup",
+        "created_at": "2024-11-07T10:00:00Z",
+        "last_updated": "2024-11-07T10:00:00Z", 
+        "assigned_to": null,
+        "tags": ["sso", "enterprise", "setup", "saml"],
+        "customer_sentiment": "neutral",
+        "response_time_sla": "8 hours",
+        "resolution_time_sla": "48 hours"
+      },
+      {
+        "ticket_id": "CS-2024-004",
+        "customer_id": "CUST-22222",
+        "subject": "Refund request - service not as described",
+        "description": "I purchased the Analytics addon last week expecting real-time dashboards based on your marketing materials, but the data only updates once per day. This doesn't meet our needs and I'd like a full refund.",
+        "status": "escalated",
+        "priority": "medium", 
+        "category": "billing",
+        "subcategory": "refund_request",
+        "created_at": "2024-11-06T14:20:00Z",
+        "last_updated": "2024-11-07T09:30:00Z",
+        "assigned_to": "agent_mike_billing",
+        "tags": ["refund", "analytics", "expectations", "marketing"],
+        "customer_sentiment": "disappointed",
+        "response_time_sla": "8 hours",
+        "resolution_time_sla": "72 hours"
+      },
+      {
+        "ticket_id": "CS-2024-005",
+        "customer_id": "CUST-33333",
+        "subject": "Account locked after failed login attempts",
+        "description": "My account got locked after someone tried to log in with wrong password multiple times. I can't reset it through the normal flow. Please unlock my account urgently as I have a demo scheduled in 2 hours.",
+        "status": "open",
+        "priority": "high",
+        "category": "account",
+        "subcategory": "security_lockout", 
+        "created_at": "2024-11-07T11:30:00Z",
+        "last_updated": "2024-11-07T11:30:00Z",
+        "assigned_to": null,
+        "tags": ["account_locked", "security", "demo", "urgent"],
+        "customer_sentiment": "anxious",
+        "response_time_sla": "2 hours",
+        "resolution_time_sla": "8 hours"
+      }
+    ],
+    "customers": [
+      {
+        "customer_id": "CUST-12345",
+        "name": "Jennifer Chen",
+        "email": "jennifer.chen@techstartup.io", 
+        "company": "TechStartup Inc",
+        "account_type": "pro",
+        "plan": "Pro",
+        "plan_start_date": "2024-11-06T00:00:00Z",
+        "previous_plan": "Basic",
+        "account_value": 2400.0,
+        "support_tier": "standard",
+        "preferred_contact": "email",
+        "timezone": "America/Los_Angeles",
+        "industry": "technology",
+        "company_size": "11-50",
+        "signup_date": "2024-09-15T00:00:00Z",
+        "last_login": "2024-11-07T08:30:00Z",
+        "total_tickets": 3,
+        "satisfaction_score": 4.2,
+        "health_score": "green",
+        "notes": "Frequent upgrader, price-sensitive but values features"
+      },
+      {
+        "customer_id": "CUST-67890",
+        "name": "Marcus Rodriguez", 
+        "email": "marcus@dataflow.com",
+        "company": "DataFlow Analytics",
+        "account_type": "business",
+        "plan": "Business",
+        "plan_start_date": "2024-11-05T00:00:00Z", 
+        "previous_plan": "Enterprise",
+        "account_value": 18000.0,
+        "support_tier": "priority",
+        "preferred_contact": "phone",
+        "timezone": "America/New_York",
+        "industry": "data_analytics",
+        "company_size": "51-200",
+        "signup_date": "2023-08-20T00:00:00Z",
+        "last_login": "2024-11-07T07:15:00Z",
+        "total_tickets": 12,
+        "satisfaction_score": 4.8,
+        "health_score": "yellow",
+        "notes": "High-value customer, recently downgraded, technical team"
+      },
+      {
+        "customer_id": "CUST-11111",
+        "name": "Sarah Thompson",
+        "email": "sarah.thompson@globalcorp.com",
+        "company": "Global Corp",
+        "account_type": "enterprise", 
+        "plan": "Enterprise",
+        "plan_start_date": "2024-10-01T00:00:00Z",
+        "previous_plan": null,
+        "account_value": 50000.0,
+        "support_tier": "premium",
+        "preferred_contact": "dedicated_channel",
+        "timezone": "Europe/London",
+        "industry": "finance",
+        "company_size": "1000+",
+        "signup_date": "2024-10-01T00:00:00Z",
+        "last_login": "2024-11-07T09:45:00Z",
+        "total_tickets": 1,
+        "satisfaction_score": null,
+        "health_score": "green",
+        "notes": "New enterprise customer, setting up infrastructure"
+      },
+      {
+        "customer_id": "CUST-22222", 
+        "name": "Alex Kim",
+        "email": "alex@marketingpro.net",
+        "company": "Marketing Pro",
+        "account_type": "pro",
+        "plan": "Pro + Analytics",
+        "plan_start_date": "2024-10-30T00:00:00Z",
+        "previous_plan": "Pro",
+        "account_value": 3600.0,
+        "support_tier": "standard",
+        "preferred_contact": "email",
+        "timezone": "America/Chicago", 
+        "industry": "marketing",
+        "company_size": "11-50",
+        "signup_date": "2024-07-12T00:00:00Z",
+        "last_login": "2024-11-06T16:20:00Z",
+        "total_tickets": 5,
+        "satisfaction_score": 3.1,
+        "health_score": "red",
+        "notes": "Recently unhappy with addon purchase, considering churn"
+      },
+      {
+        "customer_id": "CUST-33333",
+        "name": "David Park",
+        "email": "david@consultingfirm.biz", 
+        "company": "Strategic Consulting",
+        "account_type": "basic",
+        "plan": "Basic",
+        "plan_start_date": "2024-06-01T00:00:00Z",
+        "previous_plan": null,
+        "account_value": 600.0,
+        "support_tier": "community",
+        "preferred_contact": "email",
+        "timezone": "America/Los_Angeles",
+        "industry": "consulting",
+        "company_size": "1-10",
+        "signup_date": "2024-06-01T00:00:00Z",
+        "last_login": "2024-11-07T11:15:00Z",
+        "total_tickets": 2,
+        "satisfaction_score": 4.0,
+        "health_score": "green",
+        "notes": "Long-time basic user, occasional security issues"
+      }
+    ],
+    "community_forums": [
+      {
+        "post_id": "FORUM-001",
+        "title": "SSO Setup Issues - SAML Configuration Help",
+        "author": "sarah_globalcorp",
+        "customer_id": "CUST-11111",
+        "category": "technical_help",
+        "content": "Hi everyone, I'm trying to set up SAML SSO for our Enterprise account. I've followed the documentation but getting 'Invalid SAML Response' errors. Has anyone encountered this? The error happens right after the identity provider redirect.",
+        "status": "active",
+        "replies": 3,
+        "views": 45,
+        "upvotes": 2,
+        "created_at": "2024-11-06T15:30:00Z",
+        "last_activity": "2024-11-07T09:20:00Z",
+        "tags": ["sso", "saml", "enterprise", "error"],
+        "replies_data": [
+          {
+            "reply_id": "REPLY-001-1",
+            "author": "mike_support",
+            "is_staff": true,
+            "content": "Hi Sarah! This usually happens when the SAML assertion timestamps don't match. Check that your IdP clock is synchronized and the NotBefore/NotOnOrAfter values are correct.",
+            "created_at": "2024-11-06T16:15:00Z",
+            "upvotes": 3
+          },
+          {
+            "reply_id": "REPLY-001-2", 
+            "author": "tech_user_123",
+            "is_staff": false,
+            "content": "I had similar issue with Okta. Make sure the NameID format matches what's configured in your settings. Also check the certificate validation.",
+            "created_at": "2024-11-06T17:22:00Z",
+            "upvotes": 1
+          },
+          {
+            "reply_id": "REPLY-001-3",
+            "author": "sarah_globalcorp", 
+            "is_staff": false,
+            "content": "Thanks both! The timestamp sync was indeed the issue. Working now!",
+            "created_at": "2024-11-07T09:20:00Z",
+            "upvotes": 0
+          }
+        ]
+      },
+      {
+        "post_id": "FORUM-002",
+        "title": "Analytics Addon - Real-time vs Daily Updates?",
+        "author": "alex_marketing",
+        "customer_id": "CUST-22222",
+        "category": "product_feedback",
+        "content": "I'm confused about the Analytics addon capabilities. The marketing page mentions 'real-time insights' but my data only updates once daily. Is this expected behavior or is there a setting I'm missing?",
+        "status": "answered",
+        "replies": 5,
+        "views": 78,
+        "upvotes": 8,
+        "created_at": "2024-11-05T10:15:00Z",
+        "last_activity": "2024-11-06T14:30:00Z", 
+        "tags": ["analytics", "real-time", "confusion", "addon"],
+        "replies_data": [
+          {
+            "reply_id": "REPLY-002-1",
+            "author": "jenny_support",
+            "is_staff": true,
+            "content": "Great question! The Analytics addon has different update frequencies based on data type: - User activity: Real-time - Usage metrics: Hourly - Revenue data: Daily for accuracy. Which specific metrics are you looking at?",
+            "created_at": "2024-11-05T11:30:00Z",
+            "upvotes": 4
+          },
+          {
+            "reply_id": "REPLY-002-2",
+            "author": "alex_marketing",
+            "is_staff": false, 
+            "content": "I'm mainly interested in user engagement metrics for campaigns. That should be real-time then?",
+            "created_at": "2024-11-05T12:45:00Z",
+            "upvotes": 1
+          },
+          {
+            "reply_id": "REPLY-002-3",
+            "author": "jenny_support",
+            "is_staff": true,
+            "content": "Yes, user engagement should be real-time. If you're not seeing that, please check the dashboard refresh settings or contact support for troubleshooting.",
+            "created_at": "2024-11-05T13:00:00Z",
+            "upvotes": 2
+          },
+          {
+            "reply_id": "REPLY-002-4",
+            "author": "data_guru_99",
+            "is_staff": false,
+            "content": "I've noticed some delays during high-traffic periods. Usually resolves within 15 minutes.",
+            "created_at": "2024-11-06T09:15:00Z", 
+            "upvotes": 1
+          },
+          {
+            "reply_id": "REPLY-002-5",
+            "author": "alex_marketing",
+            "is_staff": false,
+            "content": "Thanks everyone. I'll contact support since mine definitely isn't updating in real-time.",
+            "created_at": "2024-11-06T14:30:00Z",
+            "upvotes": 0
+          }
+        ]
+      },
+      {
+        "post_id": "FORUM-003", 
+        "title": "API Rate Limits - Business vs Enterprise Plans",
+        "author": "marcus_dataflow",
+        "customer_id": "CUST-67890",
+        "category": "technical_help",
+        "content": "We recently moved from Enterprise to Business plan and are hitting API rate limits earlier than expected. Documentation says 10k/hour for Business but we're getting throttled at ~5k. Anyone else experienced this?",
+        "status": "active",
+        "replies": 2,
+        "views": 32,
+        "upvotes": 3,
+        "created_at": "2024-11-07T08:00:00Z",
+        "last_activity": "2024-11-07T08:50:00Z",
+        "tags": ["api", "rate_limits", "business_plan", "throttling"],
+        "replies_data": [
+          {
+            "reply_id": "REPLY-003-1",
+            "author": "api_expert_42",
+            "is_staff": false,
+            "content": "Rate limits are calculated per endpoint, not total. Check if you're hitting a specific endpoint limit rather than the overall quota.",
+            "created_at": "2024-11-07T08:30:00Z",
+            "upvotes": 2
+          },
+          {
+            "reply_id": "REPLY-003-2",
+            "author": "marcus_dataflow",
+            "is_staff": false,
+            "content": "Good point! I'll check the per-endpoint limits. Though this seems like something that should be clearer in the plan comparison.",
+            "created_at": "2024-11-07T08:50:00Z",
+            "upvotes": 1
+          }
+        ]
+      }
+    ],
+    "product_data": [
+      {
+        "product_id": "PLAN-BASIC",
+        "name": "Basic Plan",
+        "description": "Perfect for individuals and small teams getting started",
+        "price_monthly": 29.00,
+        "price_annual": 290.00,
+        "features": [
+          "Up to 5 team members",
+          "5GB storage", 
+          "Basic analytics",
+          "Email support",
+          "Community forum access",
+          "Standard API (1k calls/hour)"
+        ],
+        "limits": {
+          "team_members": 5,
+          "storage_gb": 5,
+          "api_calls_hour": 1000,
+          "projects": 3,
+          "integrations": 2
+        },
+        "support_tier": "community"
+      },
+      {
+        "product_id": "PLAN-PRO",
+        "name": "Pro Plan", 
+        "description": "Advanced features for growing businesses",
+        "price_monthly": 99.00,
+        "price_annual": 990.00,
+        "features": [
+          "Up to 25 team members",
+          "50GB storage",
+          "Advanced analytics",
+          "Priority email support",
+          "Phone support (business hours)",
+          "Enhanced API (5k calls/hour)",
+          "Custom integrations",
+          "Advanced reporting"
+        ],
+        "limits": {
+          "team_members": 25,
+          "storage_gb": 50,
+          "api_calls_hour": 5000,
+          "projects": 15,
+          "integrations": 10
+        },
+        "support_tier": "standard"
+      },
+      {
+        "product_id": "PLAN-BUSINESS",
+        "name": "Business Plan",
+        "description": "Comprehensive solution for established businesses", 
+        "price_monthly": 299.00,
+        "price_annual": 2990.00,
+        "features": [
+          "Up to 100 team members",
+          "200GB storage",
+          "Real-time analytics",
+          "24/7 priority support",
+          "Dedicated phone line",
+          "Premium API (10k calls/hour)",
+          "Unlimited integrations",
+          "Custom reporting",
+          "Advanced security features",
+          "SLA guarantees"
+        ],
+        "limits": {
+          "team_members": 100,
+          "storage_gb": 200,
+          "api_calls_hour": 10000,
+          "projects": 50, 
+          "integrations": "unlimited"
+        },
+        "support_tier": "priority"
+      },
+      {
+        "product_id": "PLAN-ENTERPRISE",
+        "name": "Enterprise Plan",
+        "description": "Full-scale solution for large organizations",
+        "price_monthly": 999.00,
+        "price_annual": 9990.00,
+        "features": [
+          "Unlimited team members",
+          "1TB+ storage",
+          "Real-time analytics & insights",
+          "24/7 dedicated support",
+          "Dedicated account manager",
+          "Enterprise API (50k calls/hour)",
+          "White-label options",
+          "Custom development",
+          "SSO/SAML integration",
+          "Advanced compliance",
+          "On-premise deployment options"
+        ],
+        "limits": {
+          "team_members": "unlimited",
+          "storage_gb": 1000,
+          "api_calls_hour": 50000,
+          "projects": "unlimited",
+          "integrations": "unlimited"
+        },
+        "support_tier": "premium"
+      },
+      {
+        "product_id": "ADDON-ANALYTICS",
+        "name": "Analytics Addon",
+        "description": "Enhanced analytics and reporting capabilities",
+        "price_monthly": 49.00,
+        "compatible_plans": ["PLAN-PRO", "PLAN-BUSINESS", "PLAN-ENTERPRISE"],
+        "features": [
+          "Real-time user engagement metrics",
+          "Hourly usage analytics", 
+          "Daily revenue reporting",
+          "Custom dashboard builder",
+          "Data export capabilities",
+          "Advanced filtering",
+          "Predictive insights"
+        ],
+        "update_frequencies": {
+          "user_engagement": "real-time",
+          "usage_metrics": "hourly", 
+          "revenue_data": "daily",
+          "custom_reports": "configurable"
+        }
+      },
+      {
+        "product_id": "ADDON-SECURITY",
+        "name": "Advanced Security Addon",
+        "description": "Enhanced security features for sensitive data",
+        "price_monthly": 79.00,
+        "compatible_plans": ["PLAN-BUSINESS", "PLAN-ENTERPRISE"],
+        "features": [
+          "Advanced threat detection",
+          "Audit logging",
+          "Compliance reporting",
+          "Data encryption at rest",
+          "Advanced access controls",
+          "Security monitoring dashboard"
+        ]
+      }
+    ],
+    "knowledge_base": [
+      {
+        "article_id": "KB-001",
+        "title": "Setting up SAML Single Sign-On (SSO)",
+        "category": "authentication",
+        "subcategory": "sso_setup", 
+        "content": "This guide walks you through setting up SAML-based Single Sign-On for Enterprise accounts.\n\nPrerequisites:\n- Enterprise plan subscription\n- Admin access to your identity provider\n- Basic understanding of SAML protocol\n\nStep 1: Configure your Identity Provider\n1. Log into your IdP admin panel (Okta, Azure AD, etc.)\n2. Create a new SAML application\n3. Set the ACS URL to: https://app.example.com/auth/saml/callback\n4. Set the Entity ID to: https://app.example.com/auth/saml\n5. Configure NameID format as 'emailAddress'\n\nStep 2: Configure Application Settings\n1. Navigate to Settings > Authentication > SSO\n2. Upload your IdP certificate\n3. Enter your IdP's SSO URL\n4. Set the NameID attribute mapping\n5. Test the connection\n\nTroubleshooting:\n- Invalid SAML Response: Check clock synchronization between systems\n- Certificate errors: Ensure certificate is properly formatted and not expired\n- NameID issues: Verify the attribute mapping matches your IdP configuration\n\nFor additional help, contact our Enterprise support team.",
+        "tags": ["sso", "saml", "enterprise", "authentication", "setup"],
+        "created_at": "2024-10-15T00:00:00Z",
+        "updated_at": "2024-11-01T00:00:00Z",
+        "views": 1247,
+        "helpful_votes": 89,
+        "not_helpful_votes": 3,
+        "related_articles": ["KB-002", "KB-015", "KB-023"]
+      },
+      {
+        "article_id": "KB-002",
+        "title": "Understanding API Rate Limits",
+        "category": "development", 
+        "subcategory": "api_limits",
+        "content": "Our API implements rate limiting to ensure fair usage and system stability.\n\nRate Limits by Plan:\n- Basic: 1,000 requests/hour\n- Pro: 5,000 requests/hour  \n- Business: 10,000 requests/hour\n- Enterprise: 50,000 requests/hour\n\nPer-Endpoint Limits:\nSome endpoints have additional per-endpoint limits:\n- /api/users: 100 requests/minute\n- /api/data/export: 10 requests/hour\n- /api/analytics: 500 requests/hour\n\nRate Limit Headers:\nAll API responses include rate limit headers:\n- X-RateLimit-Limit: Your rate limit\n- X-RateLimit-Remaining: Requests remaining in current window\n- X-RateLimit-Reset: Time when rate limit resets (Unix timestamp)\n\nHandling Rate Limits:\n1. Implement exponential backoff for 429 responses\n2. Monitor rate limit headers to prevent hitting limits\n3. Consider caching responses when possible\n4. Contact support if you need higher limits\n\nBest Practices:\n- Use webhooks instead of polling where available\n- Implement efficient pagination\n- Cache frequently accessed data\n- Consider upgrading your plan for higher limits",
+        "tags": ["api", "rate_limits", "development", "best_practices"],
+        "created_at": "2024-09-20T00:00:00Z", 
+        "updated_at": "2024-10-28T00:00:00Z",
+        "views": 2156,
+        "helpful_votes": 145,
+        "not_helpful_votes": 8,
+        "related_articles": ["KB-003", "KB-012", "KB-018"]
+      },
+      {
+        "article_id": "KB-003",
+        "title": "Analytics Addon: Features and Data Update Frequencies",
+        "category": "analytics",
+        "subcategory": "addon_features",
+        "content": "The Analytics Addon provides enhanced reporting and insights for your account.\n\nFeatures Included:\n- Real-time user engagement tracking\n- Advanced funnel analysis\n- Custom dashboard creation\n- Data export capabilities\n- Predictive insights\n- Advanced filtering and segmentation\n\nData Update Frequencies:\n\nReal-time Data (updates within seconds):\n- User page views and interactions\n- Active user counts\n- Live event tracking\n- Session data\n\nHourly Data (updates every hour at :00):\n- Aggregated usage statistics\n- Feature adoption metrics\n- Performance indicators\n- System health metrics\n\nDaily Data (updates at midnight UTC):\n- Revenue and billing analytics\n- Daily active user counts\n- Retention cohort analysis\n- Subscription metrics\n\nCustom Reports:\n- Update frequency is configurable\n- Can be set to real-time, hourly, or daily\n- Depends on data sources used\n\nData Delays:\nDuring high-traffic periods, real-time data may have delays up to 15 minutes. This is normal and helps maintain system stability.\n\nTroubleshooting Slow Updates:\n1. Check dashboard refresh settings\n2. Clear browser cache\n3. Verify your data filters aren't too restrictive\n4. Contact support if delays exceed 15 minutes for real-time data",
+        "tags": ["analytics", "addon", "real-time", "data_updates", "features"],
+        "created_at": "2024-10-01T00:00:00Z",
+        "updated_at": "2024-11-05T00:00:00Z",
+        "views": 856,
+        "helpful_votes": 67,
+        "not_helpful_votes": 12,
+        "related_articles": ["KB-004", "KB-009", "KB-016"]
+      },
+      {
+        "article_id": "KB-004", 
+        "title": "Account Security: Lockouts and Recovery",
+        "category": "security",
+        "subcategory": "account_recovery",
+        "content": "Account security is paramount. Here's how our lockout system works and how to recover access.\n\nLockout Triggers:\n- 5 failed login attempts within 15 minutes\n- Suspicious activity detected\n- Multiple simultaneous login attempts from different locations\n- Manual lockout by administrator\n\nAutomatic Recovery:\n- Basic accounts: 30 minutes\n- Pro accounts: 15 minutes  \n- Business/Enterprise: 5 minutes\n\nManual Recovery Options:\n\n1. Password Reset:\n   - Use 'Forgot Password' on login page\n   - Check email (including spam folder)\n   - Follow reset link within 1 hour\n\n2. Contact Support:\n   - Submit ticket with account verification\n   - Provide account details for identity verification\n   - Support can unlock immediately after verification\n\n3. Emergency Access (Enterprise only):\n   - Use emergency access codes provided during setup\n   - Contact your dedicated account manager\n   - Use backup admin credentials\n\nPrevention Tips:\n- Use strong, unique passwords\n- Enable two-factor authentication\n- Avoid sharing login credentials\n- Log out from shared computers\n- Monitor account activity regularly\n\nIf you suspect unauthorized access:\n1. Change password immediately\n2. Review recent account activity\n3. Enable 2FA if not already active\n4. Contact support for security review",
+        "tags": ["security", "account_lockout", "recovery", "2fa", "password"],
+        "created_at": "2024-09-10T00:00:00Z",
+        "updated_at": "2024-10-20T00:00:00Z", 
+        "views": 1834,
+        "helpful_votes": 156,
+        "not_helpful_votes": 7,
+        "related_articles": ["KB-005", "KB-011", "KB-020"]
+      },
+      {
+        "article_id": "KB-005",
+        "title": "Refund Policy and Process",
+        "category": "billing",
+        "subcategory": "refunds", 
+        "content": "We want you to be satisfied with your purchase. Here's our refund policy.\n\nRefund Eligibility:\n\nFull Refunds (within 30 days):\n- Unused subscriptions\n- Technical issues preventing service use\n- Service not as described in clear, documented ways\n- Billing errors\n\nPartial Refunds:\n- Pro-rated for remaining unused time\n- Downgrade situations\n- Service disruptions beyond our SLA\n\nNo Refunds:\n- After 30 days of active use\n- Change of business needs\n- User error or misunderstanding (with adequate documentation available)\n- Services already consumed (data exports, API calls, etc.)\n\nRefund Process:\n\n1. Submit Request:\n   - Create support ticket with category 'Billing > Refund Request'\n   - Provide reason for refund\n   - Include relevant details (dates, issues encountered, etc.)\n\n2. Review Process:\n   - Support team reviews within 2 business days\n   - May request additional information\n   - Technical review if service-related issue\n\n3. Resolution:\n   - Approved refunds processed within 5 business days\n   - Refund to original payment method\n   - Account access adjusted accordingly\n\nAlternatives to Refunds:\n- Plan downgrades with credit\n- Service extensions for outages\n- Additional training or support\n- Custom solutions for Enterprise clients\n\nContact our billing team for questions about specific situations.",
+        "tags": ["billing", "refunds", "policy", "process", "subscription"],
+        "created_at": "2024-08-15T00:00:00Z",
+        "updated_at": "2024-10-30T00:00:00Z",
+        "views": 2341,
+        "helpful_votes": 178,
+        "not_helpful_votes": 23,
+        "related_articles": ["KB-006", "KB-013", "KB-019"]
+      }
+    ],
+    "metadata": {
+      "data_collected_at": "2024-11-07T12:00:00Z",
+      "data_source": "customer_support_system",
+      "version": "1.0",
+      "total_active_tickets": 3,
+      "total_customers": 5,
+      "avg_response_time_hours": 3.2,
+      "customer_satisfaction_avg": 4.0
+    }
+  }
+}

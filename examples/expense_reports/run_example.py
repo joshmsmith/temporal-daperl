@@ -6,6 +6,7 @@ process expense reports, detecting issues, analyzing them, planning fixes,
 executing actions, reporting results, and learning from the process.
 """
 
+import argparse
 import asyncio
 import json
 from pathlib import Path
@@ -18,6 +19,15 @@ from daperl.config.settings import settings
 
 async def main():
     """Run the expense report processing example."""
+    
+    # Parse command line arguments
+    parser = argparse.ArgumentParser(description="DAPERL Expense Report Processing Example")
+    parser.add_argument(
+        "--auto-approve", 
+        action="store_true",
+        help="Auto-approve actions without human intervention (default: False)"
+    )
+    args = parser.parse_args()
     
     print("=" * 60)
     print("DAPERL Expense Report Processing Example")
@@ -66,7 +76,7 @@ async def main():
             domain="expense-reports",
             data=expense_data,
             config=config,
-            auto_approve=True,  # Auto-approve for demo
+            auto_approve=args.auto_approve,
             metadata={"example": "expense_reports"}
         )
         
@@ -75,7 +85,7 @@ async def main():
         
         print(f"\nStarting DAPERL workflow...")
         print(f"Workflow ID: {workflow_id}")
-        print(f"Auto-approve: True (for demo)")
+        print(f"Auto-approve: {args.auto_approve}")
         
         # Start workflow
         handle = await client.start_workflow(
