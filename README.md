@@ -1,8 +1,8 @@
-# DAPERL Framework
+# DAPERL Framework: Intelligent Automation
 
 A multi-agent Temporal framework implementing the **DAPERL** pattern: **D**etection, **A**nalysis, **P**lanning, **E**xecution, **R**eporting, and **L**earning.
 
-## Overview
+## Overview: Humans + Agents Getting Things Done Together
 
 DAPERL is a generic, extensible framework for building intelligent automation systems using Temporal workflows and AI agents. Each phase of the DAPERL cycle is handled by a specialized agent that can use different LLMs and configurations.
 
