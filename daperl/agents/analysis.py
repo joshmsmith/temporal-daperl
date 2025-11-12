@@ -30,6 +30,8 @@ class AnalysisAgent(BaseAnalysisAgent):
         
         # Get detection results from history
         detection_result = self._get_detection_result(context)
+        print("detection result in analysis agent: ", detection_result)
+        print("problems in analysis agent: ", detection_result.problems if detection_result else "no detection result"  )
         if not detection_result or not detection_result.problems:
             return AnalysisResult(
                 success=True,
