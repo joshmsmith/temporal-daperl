@@ -1,3 +1,5 @@
+import ReactMarkdown from 'react-markdown';
+
 interface ReportingResultsProps {
   data: {
     report: string;
@@ -12,7 +14,7 @@ export default function ReportingResults({ data }: ReportingResultsProps) {
       
       {data.report && (
         <div className="section-summary">
-          <p>{data.report}</p>
+          <ReactMarkdown>{data.report}</ReactMarkdown>
         </div>
       )}
 

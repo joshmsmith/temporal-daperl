@@ -19,6 +19,21 @@ export default function Dashboard({ workflowId }: DashboardProps) {
   const [loadTimestamp, setLoadTimestamp] = useState<number>(0);
   const workflowRef = useRef<WorkflowData | null>(null);
   
+  // Collapsible sections state
+  const [expandedSections, setExpandedSections] = useState({
+    detection: false,
+    analysis: false,
+    execution: false,
+    reporting: false,
+  });
+
+  const toggleSection = (section: keyof typeof expandedSections) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [section]: !prev[section],
+    }));
+  };
+  
   // Keep ref in sync with state
   useEffect(() => {
     workflowRef.current = workflow;
@@ -254,19 +269,83 @@ export default function Dashboard({ workflowId }: DashboardProps) {
       {/* Results Sections */}
       <div className="results-container">
         {workflow.results.detection && (
-          <DetectionResults data={workflow.results.detection} />
+          <div className="collapsible-section">
+            <div 
+              className="collapsible-header"
+              onClick={() => toggleSection('detection')}
+              style={{ cursor: 'pointer' }}
+            >
+              <span className="collapsible-icon">
+                {expandedSections.detection ? '▼' : '▶'}
+              </span>
+              <h3>Detection Results</h3>
+            </div>
+            {expandedSections.detection && (
+              <div className="collapsible-content">
+                <DetectionResults data={workflow.results.detection} />
+              </div>
+            )}
+          </div>
         )}
 
         {workflow.results.analysis && (
-          <AnalysisResults data={workflow.results.analysis} />
+          <div className="collapsible-section">
+            <div 
+              className="collapsible-header"
+              onClick={() => toggleSection('analysis')}
+              style={{ cursor: 'pointer' }}
+            >
+              <span className="collapsible-icon">
+                {expandedSections.analysis ? '▼' : '▶'}
+              </span>
+              <h3>Analysis Results</h3>
+            </div>
+            {expandedSections.analysis && (
+              <div className="collapsible-content">
+                <AnalysisResults data={workflow.results.analysis} />
+              </div>
+            )}
+          </div>
         )}
 
         {workflow.results.execution && (
-          <ExecutionResults data={workflow.results.execution} />
+          <div className="collapsible-section">
+            <div 
+              className="collapsible-header"
+              onClick={() => toggleSection('execution')}
+              style={{ cursor: 'pointer' }}
+            >
+              <span className="collapsible-icon">
+                {expandedSections.execution ? '▼' : '▶'}
+              </span>
+              <h3>Execution Results</h3>
+            </div>
+            {expandedSections.execution && (
+              <div className="collapsible-content">
+                <ExecutionResults data={workflow.results.execution} />
+              </div>
+            )}
+          </div>
         )}
 
         {workflow.results.reporting && (
-          <ReportingResults data={workflow.results.reporting} />
+          <div className="collapsible-section">
+            <div 
+              className="collapsible-header"
+              onClick={() => toggleSection('reporting')}
+              style={{ cursor: 'pointer' }}
+            >
+              <span className="collapsible-icon">
+                {expandedSections.reporting ? '▼' : '▶'}
+              </span>
+              <h3>Reporting Results</h3>
+            </div>
+            {expandedSections.reporting && (
+              <div className="collapsible-content">
+                <ReportingResults data={workflow.results.reporting} />
+              </div>
+            )}
+          </div>
         )}
       </div>
 
