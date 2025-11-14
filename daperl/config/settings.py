@@ -106,46 +106,46 @@ class Settings(BaseSettings):
     temporal_task_queue: str = Field(default="daperl-task-queue", alias="TEMPORAL_TASK_QUEUE")
     
     # Default LLM Configuration
-    default_llm_provider: str = Field(default="openai", alias="DEFAULT_LLM_PROVIDER")
-    default_llm_model: str = Field(default="gpt-4o", alias="DEFAULT_LLM_MODEL")
-    default_llm_temperature: float = Field(default=0.7, alias="DEFAULT_LLM_TEMPERATURE")
-    default_llm_max_tokens: int = Field(default=4000, alias="DEFAULT_LLM_MAX_TOKENS")
+    default_llm_provider: Optional[str] = Field(default=None, alias="DEFAULT_LLM_PROVIDER")
+    default_llm_model: Optional[str] = Field(default=None, alias="DEFAULT_LLM_MODEL")
+    default_llm_temperature: Optional[float] = Field(default=None, alias="DEFAULT_LLM_TEMPERATURE")
+    default_llm_max_tokens: Optional[int] = Field(default=None, alias="DEFAULT_LLM_MAX_TOKENS")
     
     # Detection Agent LLM
-    detection_llm_provider: str = Field(default="openai", alias="DETECTION_LLM_PROVIDER")
-    detection_llm_model: str = Field(default="gpt-3.5-turbo", alias="DETECTION_LLM_MODEL")
-    detection_llm_temperature: float = Field(default=0.3, alias="DETECTION_LLM_TEMPERATURE")
-    detection_llm_max_tokens: int = Field(default=2000, alias="DETECTION_LLM_MAX_TOKENS")
+    detection_llm_provider: Optional[str] = Field(default=None, alias="DETECTION_LLM_PROVIDER")
+    detection_llm_model: Optional[str] = Field(default=None, alias="DETECTION_LLM_MODEL")
+    detection_llm_temperature: Optional[float] = Field(default=None, alias="DETECTION_LLM_TEMPERATURE")
+    detection_llm_max_tokens: Optional[int] = Field(default=None, alias="DETECTION_LLM_MAX_TOKENS")
     
     # Analysis Agent LLM
-    analysis_llm_provider: str = Field(default="openai", alias="ANALYSIS_LLM_PROVIDER")
-    analysis_llm_model: str = Field(default="gpt-4o", alias="ANALYSIS_LLM_MODEL")
-    analysis_llm_temperature: float = Field(default=0.5, alias="ANALYSIS_LLM_TEMPERATURE")
-    analysis_llm_max_tokens: int = Field(default=4000, alias="ANALYSIS_LLM_MAX_TOKENS")
+    analysis_llm_provider: Optional[str] = Field(default=None, alias="ANALYSIS_LLM_PROVIDER")
+    analysis_llm_model: Optional[str] = Field(default=None, alias="ANALYSIS_LLM_MODEL")
+    analysis_llm_temperature: Optional[float] = Field(default=None, alias="ANALYSIS_LLM_TEMPERATURE")
+    analysis_llm_max_tokens: Optional[int] = Field(default=None, alias="ANALYSIS_LLM_MAX_TOKENS")
     
     # Planning Agent LLM
-    planning_llm_provider: str = Field(default="anthropic", alias="PLANNING_LLM_PROVIDER")
-    planning_llm_model: str = Field(default="claude-3-5-sonnet-20241022", alias="PLANNING_LLM_MODEL")
-    planning_llm_temperature: float = Field(default=0.7, alias="PLANNING_LLM_TEMPERATURE")
-    planning_llm_max_tokens: int = Field(default=8000, alias="PLANNING_LLM_MAX_TOKENS")
+    planning_llm_provider: Optional[str] = Field(default=None, alias="PLANNING_LLM_PROVIDER")
+    planning_llm_model: Optional[str] = Field(default=None, alias="PLANNING_LLM_MODEL")
+    planning_llm_temperature: Optional[float] = Field(default=None, alias="PLANNING_LLM_TEMPERATURE")
+    planning_llm_max_tokens: Optional[int] = Field(default=None, alias="PLANNING_LLM_MAX_TOKENS")
     
     # Execution Agent LLM
-    execution_llm_provider: str = Field(default="openai", alias="EXECUTION_LLM_PROVIDER")
-    execution_llm_model: str = Field(default="gpt-4o", alias="EXECUTION_LLM_MODEL")
-    execution_llm_temperature: float = Field(default=0.2, alias="EXECUTION_LLM_TEMPERATURE")
-    execution_llm_max_tokens: int = Field(default=4000, alias="EXECUTION_LLM_MAX_TOKENS")
+    execution_llm_provider: Optional[str] = Field(default=None, alias="EXECUTION_LLM_PROVIDER")
+    execution_llm_model: Optional[str] = Field(default=None, alias="EXECUTION_LLM_MODEL")
+    execution_llm_temperature: Optional[float] = Field(default=None, alias="EXECUTION_LLM_TEMPERATURE")
+    execution_llm_max_tokens: Optional[int] = Field(default=None, alias="EXECUTION_LLM_MAX_TOKENS")
     
     # Reporting Agent LLM
-    reporting_llm_provider: str = Field(default="openai", alias="REPORTING_LLM_PROVIDER")
-    reporting_llm_model: str = Field(default="gpt-3.5-turbo", alias="REPORTING_LLM_MODEL")
-    reporting_llm_temperature: float = Field(default=0.7, alias="REPORTING_LLM_TEMPERATURE")
-    reporting_llm_max_tokens: int = Field(default=3000, alias="REPORTING_LLM_MAX_TOKENS")
+    reporting_llm_provider: Optional[str] = Field(default=None, alias="REPORTING_LLM_PROVIDER")
+    reporting_llm_model: Optional[str] = Field(default=None, alias="REPORTING_LLM_MODEL")
+    reporting_llm_temperature: Optional[float] = Field(default=None, alias="REPORTING_LLM_TEMPERATURE")
+    reporting_llm_max_tokens: Optional[int] = Field(default=None, alias="REPORTING_LLM_MAX_TOKENS")
     
     # Learning Agent LLM
-    learning_llm_provider: str = Field(default="openai", alias="LEARNING_LLM_PROVIDER")
-    learning_llm_model: str = Field(default="gpt-4o", alias="LEARNING_LLM_MODEL")
-    learning_llm_temperature: float = Field(default=0.5, alias="LEARNING_LLM_TEMPERATURE")
-    learning_llm_max_tokens: int = Field(default=4000, alias="LEARNING_LLM_MAX_TOKENS")
+    learning_llm_provider: Optional[str] = Field(default=None, alias="LEARNING_LLM_PROVIDER")
+    learning_llm_model: Optional[str] = Field(default=None, alias="LEARNING_LLM_MODEL")
+    learning_llm_temperature: Optional[float] = Field(default=None, alias="LEARNING_LLM_TEMPERATURE")
+    learning_llm_max_tokens: Optional[int] = Field(default=None, alias="LEARNING_LLM_MAX_TOKENS")
     
     # API Keys
     openai_api_key: Optional[str] = Field(default=None, alias="OPENAI_API_KEY")
@@ -168,48 +168,84 @@ class Settings(BaseSettings):
     
     def get_daperl_config(self) -> DAPERLConfig:
         """Get DAPERL configuration with per-agent LLM configs."""
+        # Detection Agent
+        detection_provider = self._resolve_provider(self.detection_llm_provider, "DETECTION_LLM_PROVIDER", "openai")
+        detection_model = self._resolve_model(self.detection_llm_model, "DETECTION_LLM_MODEL", "gpt-3.5-turbo")
+        detection_temperature = self._resolve_temperature(self.detection_llm_temperature, "DETECTION_LLM_TEMPERATURE", 0.3)
+        detection_max_tokens = self._resolve_max_tokens(self.detection_llm_max_tokens, "DETECTION_LLM_MAX_TOKENS", 2000)
+        
+        # Analysis Agent
+        analysis_provider = self._resolve_provider(self.analysis_llm_provider, "ANALYSIS_LLM_PROVIDER", "openai")
+        analysis_model = self._resolve_model(self.analysis_llm_model, "ANALYSIS_LLM_MODEL", "gpt-4o")
+        analysis_temperature = self._resolve_temperature(self.analysis_llm_temperature, "ANALYSIS_LLM_TEMPERATURE", 0.5)
+        analysis_max_tokens = self._resolve_max_tokens(self.analysis_llm_max_tokens, "ANALYSIS_LLM_MAX_TOKENS", 4000)
+        
+        # Planning Agent
+        planning_provider = self._resolve_provider(self.planning_llm_provider, "PLANNING_LLM_PROVIDER", "anthropic")
+        planning_model = self._resolve_model(self.planning_llm_model, "PLANNING_LLM_MODEL", "claude-3-5-sonnet-20241022")
+        planning_temperature = self._resolve_temperature(self.planning_llm_temperature, "PLANNING_LLM_TEMPERATURE", 0.7)
+        planning_max_tokens = self._resolve_max_tokens(self.planning_llm_max_tokens, "PLANNING_LLM_MAX_TOKENS", 8000)
+        
+        # Execution Agent
+        execution_provider = self._resolve_provider(self.execution_llm_provider, "EXECUTION_LLM_PROVIDER", "openai")
+        execution_model = self._resolve_model(self.execution_llm_model, "EXECUTION_LLM_MODEL", "gpt-4o")
+        execution_temperature = self._resolve_temperature(self.execution_llm_temperature, "EXECUTION_LLM_TEMPERATURE", 0.2)
+        execution_max_tokens = self._resolve_max_tokens(self.execution_llm_max_tokens, "EXECUTION_LLM_MAX_TOKENS", 4000)
+        
+        # Reporting Agent
+        reporting_provider = self._resolve_provider(self.reporting_llm_provider, "REPORTING_LLM_PROVIDER", "openai")
+        reporting_model = self._resolve_model(self.reporting_llm_model, "REPORTING_LLM_MODEL", "gpt-3.5-turbo")
+        reporting_temperature = self._resolve_temperature(self.reporting_llm_temperature, "REPORTING_LLM_TEMPERATURE", 0.7)
+        reporting_max_tokens = self._resolve_max_tokens(self.reporting_llm_max_tokens, "REPORTING_LLM_MAX_TOKENS", 3000)
+        
+        # Learning Agent
+        learning_provider = self._resolve_provider(self.learning_llm_provider, "LEARNING_LLM_PROVIDER", "openai")
+        learning_model = self._resolve_model(self.learning_llm_model, "LEARNING_LLM_MODEL", "gpt-4o")
+        learning_temperature = self._resolve_temperature(self.learning_llm_temperature, "LEARNING_LLM_TEMPERATURE", 0.5)
+        learning_max_tokens = self._resolve_max_tokens(self.learning_llm_max_tokens, "LEARNING_LLM_MAX_TOKENS", 4000)
+        
         return DAPERLConfig(
             detection_llm=LLMConfig(
-                provider=self.detection_llm_provider,
-                model=self.detection_llm_model,
-                api_key=self._get_api_key(self.detection_llm_provider),
-                temperature=self.detection_llm_temperature,
-                max_tokens=self.detection_llm_max_tokens
+                provider=detection_provider,
+                model=detection_model,
+                api_key=self._get_api_key(detection_provider),
+                temperature=detection_temperature,
+                max_tokens=detection_max_tokens
             ),
             analysis_llm=LLMConfig(
-                provider=self.analysis_llm_provider,
-                model=self.analysis_llm_model,
-                api_key=self._get_api_key(self.analysis_llm_provider),
-                temperature=self.analysis_llm_temperature,
-                max_tokens=self.analysis_llm_max_tokens
+                provider=analysis_provider,
+                model=analysis_model,
+                api_key=self._get_api_key(analysis_provider),
+                temperature=analysis_temperature,
+                max_tokens=analysis_max_tokens
             ),
             planning_llm=LLMConfig(
-                provider=self.planning_llm_provider,
-                model=self.planning_llm_model,
-                api_key=self._get_api_key(self.planning_llm_provider),
-                temperature=self.planning_llm_temperature,
-                max_tokens=self.planning_llm_max_tokens
+                provider=planning_provider,
+                model=planning_model,
+                api_key=self._get_api_key(planning_provider),
+                temperature=planning_temperature,
+                max_tokens=planning_max_tokens
             ),
             execution_llm=LLMConfig(
-                provider=self.execution_llm_provider,
-                model=self.execution_llm_model,
-                api_key=self._get_api_key(self.execution_llm_provider),
-                temperature=self.execution_llm_temperature,
-                max_tokens=self.execution_llm_max_tokens
+                provider=execution_provider,
+                model=execution_model,
+                api_key=self._get_api_key(execution_provider),
+                temperature=execution_temperature,
+                max_tokens=execution_max_tokens
             ),
             reporting_llm=LLMConfig(
-                provider=self.reporting_llm_provider,
-                model=self.reporting_llm_model,
-                api_key=self._get_api_key(self.reporting_llm_provider),
-                temperature=self.reporting_llm_temperature,
-                max_tokens=self.reporting_llm_max_tokens
+                provider=reporting_provider,
+                model=reporting_model,
+                api_key=self._get_api_key(reporting_provider),
+                temperature=reporting_temperature,
+                max_tokens=reporting_max_tokens
             ),
             learning_llm=LLMConfig(
-                provider=self.learning_llm_provider,
-                model=self.learning_llm_model,
-                api_key=self._get_api_key(self.learning_llm_provider),
-                temperature=self.learning_llm_temperature,
-                max_tokens=self.learning_llm_max_tokens
+                provider=learning_provider,
+                model=learning_model,
+                api_key=self._get_api_key(learning_provider),
+                temperature=learning_temperature,
+                max_tokens=learning_max_tokens
             )
         )
     
@@ -219,6 +255,69 @@ class Settings(BaseSettings):
             storage_type=self.learning_storage_type,
             storage_path=self.learning_storage_path
         )
+    
+    def _resolve_provider(self, agent_provider: Optional[str], agent_env_var: str, hardcoded_default: str) -> str:
+        """
+        Resolve provider with cascading fallback:
+        1. Agent-specific env var (if set)
+        2. DEFAULT_LLM_PROVIDER env var (if set)
+        3. Hardcoded default for the specific agent
+        """
+        # Check if agent-specific value was set (not None)
+        if agent_provider is not None:
+            return agent_provider
+        
+        # Check if DEFAULT_LLM_PROVIDER was set (not None)
+        if self.default_llm_provider is not None:
+            return self.default_llm_provider
+        
+        # Fall back to hardcoded default for this agent
+        return hardcoded_default
+    
+    def _resolve_model(self, agent_model: Optional[str], agent_env_var: str, hardcoded_default: str) -> str:
+        """
+        Resolve model with cascading fallback:
+        1. Agent-specific env var (if set)
+        2. DEFAULT_LLM_MODEL env var (if set)
+        3. Hardcoded default for the specific agent
+        """
+        if agent_model is not None:
+            return agent_model
+        
+        if self.default_llm_model is not None:
+            return self.default_llm_model
+        
+        return hardcoded_default
+    
+    def _resolve_temperature(self, agent_temperature: Optional[float], agent_env_var: str, hardcoded_default: float) -> float:
+        """
+        Resolve temperature with cascading fallback:
+        1. Agent-specific env var (if set)
+        2. DEFAULT_LLM_TEMPERATURE env var (if set)
+        3. Hardcoded default for the specific agent
+        """
+        if agent_temperature is not None:
+            return agent_temperature
+        
+        if self.default_llm_temperature is not None:
+            return self.default_llm_temperature
+        
+        return hardcoded_default
+    
+    def _resolve_max_tokens(self, agent_max_tokens: Optional[int], agent_env_var: str, hardcoded_default: int) -> int:
+        """
+        Resolve max_tokens with cascading fallback:
+        1. Agent-specific env var (if set)
+        2. DEFAULT_LLM_MAX_TOKENS env var (if set)
+        3. Hardcoded default for the specific agent
+        """
+        if agent_max_tokens is not None:
+            return agent_max_tokens
+        
+        if self.default_llm_max_tokens is not None:
+            return self.default_llm_max_tokens
+        
+        return hardcoded_default
     
     def _get_api_key(self, provider: str) -> Optional[str]:
         """Get API key for the specified provider."""
