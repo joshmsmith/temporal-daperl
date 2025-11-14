@@ -13,6 +13,7 @@ import json
 import datetime
 from pathlib import Path
 from temporalio.client import Client
+from temporalio.contrib.pydantic import pydantic_data_converter
 
 from daperl.workflows import DAPERLWorkflow
 from daperl.core.models import DAPERLInput
@@ -296,9 +297,13 @@ async def main():
     temporal_config = settings.get_temporal_config()
     
     try:
-        # Connect to Temporal
+        # Connect to Temporal with Pydantic v2 data converter
         print(f"\nConnecting to Temporal at {temporal_config.host}...")
-        client = await Client.connect(temporal_config.host, namespace=temporal_config.namespace)
+        client = await Client.connect(
+            temporal_config.host, 
+            namespace=temporal_config.namespace,
+            data_converter=pydantic_data_converter
+        )
         print("✓ Connected to Temporal")
         
         # Create workflow input with enhanced data
@@ -314,7 +319,7 @@ async def main():
         )
         
         # Generate workflow ID
-        workflow_id = f"customer-support-demo"
+        workflow_id = f"customer-support-{int(datetime.datetime.now().timestamp())}"
         
         print(f"\nStarting DAPERL workflow...")
         print(f"Workflow ID: {workflow_id}")

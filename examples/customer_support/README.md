@@ -93,16 +93,42 @@ The domain is designed to integrate with:
 - Confluence, Notion, GitBook
 - Internal documentation systems, wikis
 
+## Installation
+
+This example uses Poetry for Python package management. Install dependencies:
+
+```bash
+# From the customer_support directory
+cd examples/customer_support
+poetry install
+```
+
+This will install all required dependencies including:
+- The main `temporal-daperl` framework (from the parent directory)
+- FastAPI and Uvicorn for the UI backend
+- WebSockets support
+- Pydantic for data validation
+
 ## Running the Example
 
-Execute the main example runner:
+**Start the Worker in the daperl folder**:
+```bash
+poetry run python ../../scripts/run_worker.py
+```
+
+**Start the front end (API layer and UI)**:
+```bash
+poetry run python run_ui.py
+```
+
+**Start the Workflow**:
 
 ```bash
 # Run with manual approval (default)
-python run_example.py
+poetry run python run_example.py
 
 # Run with auto-approval for demo purposes
-python run_example.py --auto-approve
+poetry run python run_example.py --auto-approve
 ```
 
 ### Command Line Options

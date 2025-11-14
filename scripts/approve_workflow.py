@@ -3,6 +3,7 @@
 import asyncio
 import argparse
 from temporalio.client import Client
+from temporalio.contrib.pydantic import pydantic_data_converter
 
 from daperl.config.settings import settings
 from daperl.workflows import DAPERLWorkflow
@@ -18,8 +19,12 @@ async def main():
     # Get Temporal configuration
     temporal_config = settings.get_temporal_config()
     
-    # Connect to Temporal
-    client = await Client.connect(temporal_config.host, namespace=temporal_config.namespace)
+    # Connect to Temporal with Pydantic v2 data converter
+    client = await Client.connect(
+        temporal_config.host, 
+        namespace=temporal_config.namespace,
+        data_converter=pydantic_data_converter
+    )
     
     # Get workflow handle
     handle = client.get_workflow_handle(args.workflow_id)

@@ -39,6 +39,7 @@ class DAPERLWorkflow:
         self._reporting_result = None
         self._learning_result = None
         self._plan_approved = False
+        self._workflow_cancelled = False
         self._started_at = None
     
     @workflow.run
@@ -136,22 +137,23 @@ class DAPERLWorkflow:
                 f"Planning complete: {len(self._planning_result.plan.actions) if self._planning_result.plan else 0} actions planned"
             )
             
-            print("approved? ", self._plan_approved)
-            print("auto approve? ", input.auto_approve  )
-            print("is there a plan? ", self._planning_result.plan)
             # Phase 4: Wait for approval (if required)
             if not input.auto_approve and self._planning_result.plan:
                 self._status = WorkflowStatus.PENDING_APPROVAL
                 workflow.logger.info("Waiting for plan approval")
                 
-                print("approved right before await? ", self._plan_approved)
-                print("auto approve right before await? ", input.auto_approve  )
-                # Wait for approval signal or timeout
+                # Wait for approval signal, cancel signal, or timeout
                 await workflow.wait_condition(
-                    lambda: self._plan_approved,
+                    lambda: self._plan_approved or self._workflow_cancelled,
                     timeout=timedelta(hours=24)
                 )
                 
+                # Check if workflow was cancelled
+                if self._workflow_cancelled:
+                    workflow.logger.info("Workflow cancelled by user")
+                    return self._build_result(workflow_id, "Workflow cancelled by user")
+                
+                # Check if timeout occurred
                 if not self._plan_approved:
                     workflow.logger.info("Plan approval timeout, cancelling workflow")
                     self._status = WorkflowStatus.CANCELLED
@@ -224,7 +226,6 @@ class DAPERLWorkflow:
     def approve_plan(self):
         """Signal to approve the execution plan."""
         workflow.logger.info("Plan approval signal received")
-        print("hey approved signal!")
         self._plan_approved = True
     
     @workflow.signal
@@ -232,6 +233,7 @@ class DAPERLWorkflow:
         """Signal to cancel the workflow."""
         workflow.logger.info("Cancel signal received")
         self._status = WorkflowStatus.CANCELLED
+        self._workflow_cancelled = True
     
     @workflow.query
     def get_status(self) -> dict:
