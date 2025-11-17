@@ -2,11 +2,12 @@ import { useState } from 'react';
 import './App.css';
 import Dashboard from './components/Dashboard.tsx';
 import DataOverview from './components/DataOverview.tsx';
+import ImpactAnalysis from './components/ImpactAnalysis.tsx';
 
 // Default workflow ID for customer support example
 const DEFAULT_WORKFLOW_ID = 'customer-support-demo';
 
-type View = 'data' | 'workflow';
+type View = 'data' | 'workflow' | 'impact';
 
 function App() {
   const [currentView, setCurrentView] = useState<View>('data');
@@ -63,13 +64,21 @@ function App() {
         >
           🔄 Monitor Workflow
         </button>
+        <button
+          className={`nav-button ${currentView === 'impact' ? 'active' : ''}`}
+          onClick={() => setCurrentView('impact')}
+        >
+          📍 Impact Analysis
+        </button>
       </nav>
 
       <main className="app-main">
         {currentView === 'data' ? (
           <DataOverview onWorkflowStarted={handleWorkflowStarted} />
-        ) : (
+        ) : currentView === 'workflow' ? (
           <Dashboard workflowId={workflowId} />
+        ) : (
+          <ImpactAnalysis workflowId={workflowId} />
         )}
       </main>
 
