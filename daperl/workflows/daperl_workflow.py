@@ -39,6 +39,7 @@ class DAPERLWorkflow:
         self._reporting_result = None
         self._learning_result = None
         self._plan_approved = False
+        self._workflow_cancelled = False
         self._started_at = None
     
     @workflow.run
@@ -61,13 +62,26 @@ class DAPERLWorkflow:
         )
         
         # Phase 0: Get the data if it isn't sent in to the workflow
-        # TODO
+        workflow_data = input.data
+        if not workflow_data:
+            workflow.logger.info("Phase 0: Data not provided, would load from external source")
+            # In a production system, you would load data here via an activity
+            # For now, we assume data is always provided in the input
+            # Example:
+            # workflow_data = await workflow.execute_activity(
+            #     load_data_activity,
+            #     {"domain": input.domain, "data_source": input.config.get("data_source")},
+            #     start_to_close_timeout=timedelta(minutes=2),
+            #     retry_policy=retry_policy
+            # )
+        else:
+            workflow.logger.info(f"Phase 0: Data provided in input with {len(workflow_data.get('tickets', []))} tickets")
 
         # Create agent context
         context = AgentContext(
             workflow_id=workflow_id,
             domain=input.domain,
-            data=input.data,
+            data=workflow_data,
             history=[],
             config=input.config,
             metadata=input.metadata
@@ -141,12 +155,18 @@ class DAPERLWorkflow:
                 self._status = WorkflowStatus.PENDING_APPROVAL
                 workflow.logger.info("Waiting for plan approval")
                 
-                # Wait for approval signal or timeout
+                # Wait for approval signal, cancel signal, or timeout
                 await workflow.wait_condition(
-                    lambda: self._plan_approved,
+                    lambda: self._plan_approved or self._workflow_cancelled,
                     timeout=timedelta(hours=24)
                 )
                 
+                # Check if workflow was cancelled
+                if self._workflow_cancelled:
+                    workflow.logger.info("Workflow cancelled by user")
+                    return self._build_result(workflow_id, "Workflow cancelled by user")
+                
+                # Check if timeout occurred
                 if not self._plan_approved:
                     workflow.logger.info("Plan approval timeout, cancelling workflow")
                     self._status = WorkflowStatus.CANCELLED
@@ -226,6 +246,7 @@ class DAPERLWorkflow:
         """Signal to cancel the workflow."""
         workflow.logger.info("Cancel signal received")
         self._status = WorkflowStatus.CANCELLED
+        self._workflow_cancelled = True
     
     @workflow.query
     def get_status(self) -> dict:
@@ -246,6 +267,20 @@ class DAPERLWorkflow:
         """Query to get the current execution plan."""
         if self._planning_result and self._planning_result.plan:
             return self._planning_result.plan.model_dump()
+        return None
+    
+    @workflow.query
+    def get_detection_result(self) -> dict:
+        """Query to get the detection phase results."""
+        if self._detection_result:
+            return self._detection_result.model_dump()
+        return None
+    
+    @workflow.query
+    def get_analysis_result(self) -> dict:
+        """Query to get the analysis phase results."""
+        if self._analysis_result:
+            return self._analysis_result.model_dump()
         return None
     
     @workflow.query

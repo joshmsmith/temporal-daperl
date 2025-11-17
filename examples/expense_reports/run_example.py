@@ -6,10 +6,12 @@ process expense reports, detecting issues, analyzing them, planning fixes,
 executing actions, reporting results, and learning from the process.
 """
 
+import argparse
 import asyncio
 import json
 from pathlib import Path
 from temporalio.client import Client
+from temporalio.contrib.pydantic import pydantic_data_converter
 
 from daperl.workflows import DAPERLWorkflow
 from daperl.core.models import DAPERLInput
@@ -18,6 +20,15 @@ from daperl.config.settings import settings
 
 async def main():
     """Run the expense report processing example."""
+    
+    # Parse command line arguments
+    parser = argparse.ArgumentParser(description="DAPERL Expense Report Processing Example")
+    parser.add_argument(
+        "--auto-approve", 
+        action="store_true",
+        help="Auto-approve actions without human intervention (default: False)"
+    )
+    args = parser.parse_args()
     
     print("=" * 60)
     print("DAPERL Expense Report Processing Example")
@@ -36,12 +47,141 @@ async def main():
     # Configure for expense report domain
     config = {
         "detection_instructions": """
-            Check for:
+            Analyze expense reports and detect the following issues:
+            
+            POLICY VIOLATIONS:
             - Missing receipts (required for expenses over $25)
-            - Expenses exceeding policy limits
-            - Duplicate submissions
-            - Missing calculations (e.g., mileage amounts)
-            - Policy violations
+            - Expenses exceeding policy limits ($150 for meals, $300 for travel, etc.)
+            - Inappropriate expense categories or descriptions
+            - Duplicate submissions (same amount, date, vendor)
+            - Weekend or holiday expenses without business justification
+            
+            CALCULATION ERRORS:
+            - Missing mileage calculations (use $0.65 per mile)
+            - Incorrect tax calculations or currency conversions
+            - Math errors in expense totals
+            - Missing or incorrect reimbursement amounts
+            
+            COMPLIANCE ISSUES:
+            - Expenses over 90 days old
+            - Personal expenses mixed with business expenses
+            - Missing required approvals for high-value items
+            - Incomplete expense descriptions or business purposes
+            
+            For each issue found, classify severity as:
+            - Critical: Policy violations, fraud indicators
+            - High: Missing receipts over $100, significant overages
+            - Medium: Minor policy violations, missing receipts under $100
+            - Low: Formatting issues, missing minor details
+        """,
+        "analysis_instructions": """
+            Analyze detected expense report issues to understand root causes:
+            
+            EMPLOYEE FACTORS:
+            - Pattern analysis: Does this employee frequently have similar issues?
+            - Training needs: Are errors due to lack of policy understanding?
+            - Behavioral patterns: Rush submissions, procrastination, deliberate violations
+            - Department patterns: Are certain departments more prone to issues?
+            
+            PROCESS FACTORS:
+            - Policy clarity: Are rules clearly communicated and accessible?
+            - System usability: Is the expense reporting system user-friendly?
+            - Approval workflow: Are there bottlenecks or unclear requirements?
+            - Receipt management: Are receipt capture/storage processes adequate?
+            
+            BUSINESS CONTEXT:
+            - Expense reasonableness given employee's role and travel requirements
+            - Impact on company budget and cash flow
+            - Risk of audit findings or compliance violations
+            - Cost-benefit of enforcement vs. administrative overhead
+            
+            Provide specific root cause analysis and risk assessment for each issue.
+        """,
+        "planning_instructions": """
+            Create actionable plans to resolve expense report issues:
+            
+            IMMEDIATE ACTIONS:
+            - Request missing receipts with specific deadlines
+            - Calculate missing amounts (mileage, taxes, totals)
+            - Flag high-risk items for manual manager review
+            - Auto-approve compliant expenses to speed processing
+            - Reject clearly policy-violating expenses with clear explanations
+            
+            COMMUNICATION ACTIONS:
+            - Send personalized notifications explaining specific issues
+            - Provide policy reminders and links to documentation
+            - Schedule training for repeat offenders
+            - Alert managers for expenses requiring approval
+            
+            PROCESS IMPROVEMENTS:
+            - Update expense policies based on common issues
+            - Improve system validation and user guidance
+            - Implement automated receipt OCR and validation
+            - Create targeted training materials for problem areas
+            
+            ESCALATION WORKFLOWS:
+            - Route high-value discrepancies to finance team
+            - Escalate potential fraud to compliance
+            - Involve HR for repeated policy violations
+            - Manager approval for expenses exceeding thresholds
+            
+            Prioritize actions by business impact and ease of implementation.
+        """,
+        "reporting_instructions": """
+            Generate comprehensive expense report processing metrics:
+            
+            PROCESSING METRICS:
+            - Total reports processed, approved, rejected
+            - Average processing time and bottlenecks
+            - Most common issue types and frequencies
+            - Employee compliance scores and trends
+            
+            FINANCIAL METRICS:
+            - Total expense amounts by category
+            - Policy violation amounts and potential savings
+            - Reimbursement processing times and costs
+            - Budget variance analysis by department
+            
+            QUALITY METRICS:
+            - Receipt compliance rates
+            - First-pass approval rates
+            - Error correction rates and types
+            - Manager override frequencies
+            
+            BUSINESS INSIGHTS:
+            - Identify training needs by employee/department
+            - Recommend policy updates based on violation patterns
+            - Highlight process improvement opportunities
+            - Risk assessment for audit readiness
+        """,
+        "learning_instructions": """
+            Extract actionable insights for continuous improvement:
+            
+            PATTERN RECOGNITION:
+            - Identify recurring issues and their frequency trends
+            - Detect seasonal patterns in expense types and violations
+            - Recognize employee behavior patterns and risk indicators
+            - Spot policy gaps or unclear requirements causing confusion
+            
+            PROCESS OPTIMIZATION:
+            - Learn which automated actions are most effective
+            - Identify optimal escalation thresholds and timing
+            - Understand communication effectiveness for different issue types
+            - Recognize when human intervention adds the most value
+            
+            PREDICTIVE INSIGHTS:
+            - Predict which employees are likely to have future issues
+            - Anticipate peak processing periods and resource needs
+            - Forecast compliance improvement from policy changes
+            - Identify early warning signs of potential fraud
+            
+            KNOWLEDGE CAPTURE:
+            - Document successful resolution strategies
+            - Build knowledge base of common issues and solutions
+            - Create best practice templates for similar organizations
+            - Maintain updated risk profiles and mitigation strategies
+            
+            Use insights to automatically improve detection rules and processing workflows.
         """,
         "available_actions": [
             "request_receipt",
@@ -56,9 +196,13 @@ async def main():
     temporal_config = settings.get_temporal_config()
     
     try:
-        # Connect to Temporal
+        # Connect to Temporal with Pydantic v2 data converter
         print(f"\nConnecting to Temporal at {temporal_config.host}...")
-        client = await Client.connect(temporal_config.host, namespace=temporal_config.namespace)
+        client = await Client.connect(
+            temporal_config.host, 
+            namespace=temporal_config.namespace,
+            data_converter=pydantic_data_converter
+        )
         print("✓ Connected to Temporal")
         
         # Create workflow input
@@ -66,7 +210,7 @@ async def main():
             domain="expense-reports",
             data=expense_data,
             config=config,
-            auto_approve=True,  # Auto-approve for demo
+            auto_approve=args.auto_approve,
             metadata={"example": "expense_reports"}
         )
         
@@ -75,7 +219,7 @@ async def main():
         
         print(f"\nStarting DAPERL workflow...")
         print(f"Workflow ID: {workflow_id}")
-        print(f"Auto-approve: True (for demo)")
+        print(f"Auto-approve: {args.auto_approve}")
         
         # Start workflow
         handle = await client.start_workflow(

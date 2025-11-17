@@ -1,7 +1,7 @@
 """Data models for the DAPERL framework."""
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Annotated, Any, Dict, List, Literal, Optional, Union
 from pydantic import BaseModel, Field
 
 from daperl.core.types import AgentPhase, WorkflowStatus, ConfidenceLevel
@@ -13,7 +13,19 @@ class AgentContext(BaseModel):
     workflow_id: str
     domain: str
     data: Dict[str, Any] = Field(default_factory=dict)
-    history: List["AgentResult"] = Field(default_factory=list)
+    history: List[
+        Annotated[
+            Union[
+                "DetectionResult",
+                "AnalysisResult", 
+                "PlanningResult",
+                "ExecutionResult",
+                "ReportingResult",
+                "LearningResult"
+            ],
+            Field(discriminator="phase")
+        ]
+    ] = Field(default_factory=list)
     config: Dict[str, Any] = Field(default_factory=dict)
     metadata: Dict[str, Any] = Field(default_factory=dict)
 
@@ -44,7 +56,7 @@ class Problem(BaseModel):
 class DetectionResult(AgentResult):
     """Result from the detection agent."""
     
-    phase: AgentPhase = AgentPhase.DETECTION
+    phase: Literal[AgentPhase.DETECTION] = AgentPhase.DETECTION
     problems_detected: bool = False
     problems: List[Problem] = Field(default_factory=list)
     summary: str = ""
@@ -53,7 +65,7 @@ class DetectionResult(AgentResult):
 class AnalysisResult(AgentResult):
     """Result from the analysis agent."""
     
-    phase: AgentPhase = AgentPhase.ANALYSIS
+    phase: Literal[AgentPhase.ANALYSIS] = AgentPhase.ANALYSIS
     analyzed_problems: List[Problem] = Field(default_factory=list)
     root_causes: List[str] = Field(default_factory=list)
     recommendations: List[str] = Field(default_factory=list)
@@ -85,7 +97,7 @@ class ExecutionPlan(BaseModel):
 class PlanningResult(AgentResult):
     """Result from the planning agent."""
     
-    phase: AgentPhase = AgentPhase.PLANNING
+    phase: Literal[AgentPhase.PLANNING] = AgentPhase.PLANNING
     plan: Optional[ExecutionPlan] = None
     alternatives: List[ExecutionPlan] = Field(default_factory=list)
     planning_summary: str = ""
@@ -104,7 +116,7 @@ class ActionResult(BaseModel):
 class ExecutionResult(AgentResult):
     """Result from the execution agent."""
     
-    phase: AgentPhase = AgentPhase.EXECUTION
+    phase: Literal[AgentPhase.EXECUTION] = AgentPhase.EXECUTION
     plan_id: str
     actions_executed: List[ActionResult] = Field(default_factory=list)
     success_count: int = 0
@@ -115,7 +127,7 @@ class ExecutionResult(AgentResult):
 class ReportingResult(AgentResult):
     """Result from the reporting agent."""
     
-    phase: AgentPhase = AgentPhase.REPORTING
+    phase: Literal[AgentPhase.REPORTING] = AgentPhase.REPORTING
     report: str
     metrics: Dict[str, Any] = Field(default_factory=dict)
     recommendations: List[str] = Field(default_factory=list)
@@ -150,7 +162,7 @@ class LearningInsight(BaseModel):
 class LearningResult(AgentResult):
     """Result from the learning agent."""
     
-    phase: AgentPhase = AgentPhase.LEARNING
+    phase: Literal[AgentPhase.LEARNING] = AgentPhase.LEARNING
     insights: List[LearningInsight] = Field(default_factory=list)
     patterns_found: int = 0
     recommendations: List[str] = Field(default_factory=list)

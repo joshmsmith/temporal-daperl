@@ -26,8 +26,17 @@ Every company deals with expense report processing. Common issues include:
 # Start from project root
 cd examples/expense_reports
 
-# Run the example
+# Run with manual approval (default)
 poetry run python run_example.py
+
+# Run with auto-approval for demo purposes
+poetry run python run_example.py --auto-approve
+```
+
+### Command Line Options
+
+- `--auto-approve`: Auto-approve actions without human intervention (default: False)
+- `--help`: Show help message and available options
 ```
 
 ## Sample Data
