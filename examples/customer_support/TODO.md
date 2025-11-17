@@ -2,7 +2,7 @@
 
 ### Customer service bot functionality
 
-[ ] Modify tools so they change the data
+[ ] Modify tools so they change the data (next up for Laine)
 
 ### Framework functionality
 
@@ -10,11 +10,15 @@
 
 [ ] Look at adding the stuff in customer_support/ui/backend to the framework
 
+[ ] Run on Temporal Cloud
+
 ### UI changes
 
 [ ] Add sweet sweet 80s synthesizer theme to UI and data
 
-[ ] Change Load Workflow section in the UI header to load a list of workflows (drop down) and then change the Monitor Workflow and Impact Analysis pages accordingly
+[ ] Change Load Workflow section in the UI header to load a list of workflows (drop down, get workflows from namespace) and then change the Monitor Workflow and Impact Analysis pages accordingly
+
+[ ] Add link on Monitor Workflow page to go to workflow history
 
 ### Other
 
