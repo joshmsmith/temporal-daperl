@@ -8,6 +8,7 @@ real-time workflow monitoring and control.
 import asyncio
 import json
 from datetime import datetime
+from pathlib import Path
 from typing import Dict, Any, Optional, List
 from contextlib import asynccontextmanager
 
@@ -19,6 +20,7 @@ from pydantic import BaseModel
 
 from daperl.config.settings import settings
 from daperl.workflows import DAPERLWorkflow
+from daperl.core.models import DAPERLInput
 
 
 # Global Temporal client
@@ -68,6 +70,12 @@ app.add_middleware(
 class ApprovalRequest(BaseModel):
     """Request to approve a workflow plan."""
     approved: bool
+
+
+class StartWorkflowRequest(BaseModel):
+    """Request to start a new workflow."""
+    auto_approve: bool = False
+    workflow_id: Optional[str] = None
 
 
 class WorkflowInfo(BaseModel):
@@ -237,6 +245,134 @@ async def workflow_updates(websocket: WebSocket, workflow_id: str):
         print(f"WebSocket disconnected for workflow {workflow_id}")
     except Exception as e:
         print(f"WebSocket error for workflow {workflow_id}: {e}")
+
+
+@app.get("/api/data")
+async def get_customer_support_data() -> Dict[str, Any]:
+    """Get customer support data from data.json file."""
+    try:
+        # Path to data.json (three levels up from backend directory to get to examples/customer_support/)
+        data_path = Path(__file__).parent.parent.parent / "data.json"
+        
+        if not data_path.exists():
+            raise HTTPException(status_code=404, detail=f"Data file not found at {data_path}")
+        
+        with open(data_path, 'r') as f:
+            data = json.load(f)
+        
+        # Extract the nested customer support data
+        support_data = data.get("customer_support_data", data)
+        
+        return {
+            "data": support_data,
+            "loaded_at": datetime.utcnow().isoformat(),
+            "source": str(data_path)
+        }
+    
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="Data file not found")
+    except json.JSONDecodeError as e:
+        raise HTTPException(status_code=500, detail=f"Invalid JSON in data file: {str(e)}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/api/workflows/start")
+async def start_workflow(request: StartWorkflowRequest) -> Dict[str, Any]:
+    """Start a new DAPERL workflow with customer support data."""
+    try:
+        # Load customer support data
+        data_path = Path(__file__).parent.parent.parent / "data.json"
+        
+        if not data_path.exists():
+            raise HTTPException(status_code=404, detail=f"Data file not found at {data_path}")
+        
+        with open(data_path, 'r') as f:
+            all_data = json.load(f)
+        
+        # Extract the nested customer support data
+        support_data = all_data.get("customer_support_data", all_data)
+        
+        # Add metadata
+        enhanced_data = {
+            **support_data,
+            "workflow_metadata": {
+                "processing_timestamp": datetime.now().isoformat(),
+                "total_tickets": len(support_data.get('tickets', [])),
+                "auto_approve_enabled": request.auto_approve,
+                "started_from_ui": True
+            }
+        }
+        
+        # Configuration for customer support domain (similar to run_example.py)
+        config = {
+            "detection_instructions": "Analyze customer support data and detect critical issues including SLA violations, customer sentiment issues, account health risks, knowledge gaps, and operational issues.",
+            "analysis_instructions": "Conduct deep customer context analysis including customer profile analysis, churn risk assessment, technical complexity evaluation, and organizational impact.",
+            "planning_instructions": "Create intelligent customer support response strategies with appropriate escalation workflows, communication planning, and resource allocation.",
+            "reporting_instructions": "Generate comprehensive customer support performance analytics including SLA performance, customer health metrics, operational efficiency, and quality metrics.",
+            "learning_instructions": "Extract strategic insights for continuous customer support improvement through pattern discovery, predictive intelligence, and process optimization.",
+            "available_actions": [
+                "update_ticket_status",
+                "send_customer_response",
+                "update_customer_account",
+                "search_knowledge_base",
+                "escalate_to_specialist",
+                "notify_account_manager",
+                "create_follow_up_task"
+            ],
+            "domain_specific_config": {
+                "sla_monitoring": True,
+                "sentiment_analysis": True,
+                "churn_prediction": True,
+                "auto_escalation": True,
+                "knowledge_base_integration": True
+            }
+        }
+        
+        # Create workflow input
+        workflow_input = DAPERLInput(
+            domain="customer-support",
+            data=enhanced_data,
+            config=config,
+            auto_approve=request.auto_approve,
+            metadata={
+                "example": "customer_support",
+                "processing_mode": "auto" if request.auto_approve else "manual",
+                "started_from": "ui"
+            }
+        )
+        
+        # Generate workflow ID if not provided
+        if request.workflow_id:
+            workflow_id = request.workflow_id
+        else:
+            workflow_id = f"customer-support-{int(datetime.now().timestamp())}"
+        
+        # Get Temporal configuration
+        temporal_config = settings.get_temporal_config()
+        
+        # Start workflow
+        handle = await temporal_client.start_workflow(
+            DAPERLWorkflow.run,
+            workflow_input,
+            id=workflow_id,
+            task_queue=temporal_config.task_queue,
+        )
+        
+        return {
+            "success": True,
+            "workflow_id": workflow_id,
+            "message": "Workflow started successfully",
+            "auto_approve": request.auto_approve,
+            "started_at": datetime.utcnow().isoformat()
+        }
+    
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="Data file not found")
+    except json.JSONDecodeError as e:
+        raise HTTPException(status_code=500, detail=f"Invalid JSON in data file: {str(e)}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to start workflow: {str(e)}")
 
 
 @app.get("/api/health")

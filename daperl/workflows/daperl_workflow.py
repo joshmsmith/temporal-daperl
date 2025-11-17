@@ -62,13 +62,26 @@ class DAPERLWorkflow:
         )
         
         # Phase 0: Get the data if it isn't sent in to the workflow
-        # TODO
+        workflow_data = input.data
+        if not workflow_data:
+            workflow.logger.info("Phase 0: Data not provided, would load from external source")
+            # In a production system, you would load data here via an activity
+            # For now, we assume data is always provided in the input
+            # Example:
+            # workflow_data = await workflow.execute_activity(
+            #     load_data_activity,
+            #     {"domain": input.domain, "data_source": input.config.get("data_source")},
+            #     start_to_close_timeout=timedelta(minutes=2),
+            #     retry_policy=retry_policy
+            # )
+        else:
+            workflow.logger.info(f"Phase 0: Data provided in input with {len(workflow_data.get('tickets', []))} tickets")
 
         # Create agent context
         context = AgentContext(
             workflow_id=workflow_id,
             domain=input.domain,
-            data=input.data,
+            data=workflow_data,
             history=[],
             config=input.config,
             metadata=input.metadata

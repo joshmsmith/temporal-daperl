@@ -1,17 +1,28 @@
 import { useState } from 'react';
 import './App.css';
 import Dashboard from './components/Dashboard.tsx';
+import DataOverview from './components/DataOverview.tsx';
 
 // Default workflow ID for customer support example
 const DEFAULT_WORKFLOW_ID = 'customer-support-demo';
 
+type View = 'data' | 'workflow';
+
 function App() {
+  const [currentView, setCurrentView] = useState<View>('data');
   const [workflowId, setWorkflowId] = useState(DEFAULT_WORKFLOW_ID);
   const [inputWorkflowId, setInputWorkflowId] = useState(DEFAULT_WORKFLOW_ID);
 
   const handleWorkflowIdSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setWorkflowId(inputWorkflowId);
+    setCurrentView('workflow');
+  };
+
+  const handleWorkflowStarted = (newWorkflowId: string) => {
+    setWorkflowId(newWorkflowId);
+    setInputWorkflowId(newWorkflowId);
+    setCurrentView('workflow');
   };
 
   return (
@@ -38,8 +49,28 @@ function App() {
         </div>
       </header>
 
+      {/* Navigation */}
+      <nav className="view-navigation">
+        <button
+          className={`nav-button ${currentView === 'data' ? 'active' : ''}`}
+          onClick={() => setCurrentView('data')}
+        >
+          📊 View Data & Start Workflow
+        </button>
+        <button
+          className={`nav-button ${currentView === 'workflow' ? 'active' : ''}`}
+          onClick={() => setCurrentView('workflow')}
+        >
+          🔄 Monitor Workflow
+        </button>
+      </nav>
+
       <main className="app-main">
-        <Dashboard workflowId={workflowId} />
+        {currentView === 'data' ? (
+          <DataOverview onWorkflowStarted={handleWorkflowStarted} />
+        ) : (
+          <Dashboard workflowId={workflowId} />
+        )}
       </main>
 
       <footer className="app-footer">

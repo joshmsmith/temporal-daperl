@@ -12,6 +12,8 @@ import os
 from pathlib import Path
 import signal
 import time
+import select
+import threading
 
 
 def print_banner():
@@ -73,11 +75,7 @@ def start_backend():
     backend_process = subprocess.Popen(
         ["python", "main.py"],
         cwd=backend_dir,
-        env=env,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        text=True,
-        bufsize=1
+        env=env
     )
     
     # Wait a bit and check if it started successfully
@@ -97,11 +95,7 @@ def start_frontend():
     
     frontend_process = subprocess.Popen(
         ["npm", "run", "dev"],
-        cwd=frontend_dir,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        text=True,
-        bufsize=1
+        cwd=frontend_dir
     )
     
     # Wait a bit and check if it started successfully
@@ -149,8 +143,12 @@ def main():
     print("  3. Start a workflow: poetry run python examples/customer_support/run_example.py")
     print("  4. Open http://localhost:5173 in your browser")
     
-    print("\n⏹  Press Ctrl+C to stop all servers")
+    print("\n🎮 Controls:")
+    print("  Press 'b' + Enter to restart backend")
+    print("  Press 'f' + Enter to restart frontend")
+    print("  Press 'q' + Enter or Ctrl+C to quit")
     print("="*60)
+    print()
     
     def signal_handler(sig, frame):
         print("\n\n🛑 Shutting down servers...")
@@ -161,9 +159,50 @@ def main():
     
     signal.signal(signal.SIGINT, signal_handler)
     
+    # Input handling thread
+    input_command = {"value": None}
+    
+    def read_input():
+        while True:
+            try:
+                cmd = input().strip().lower()
+                if cmd in ['b', 'f', 'q']:
+                    input_command["value"] = cmd
+            except:
+                break
+    
+    input_thread = threading.Thread(target=read_input, daemon=True)
+    input_thread.start()
+    
     # Keep the script running and monitor processes
     try:
         while True:
+            # Check for input commands
+            if input_command["value"]:
+                cmd = input_command["value"]
+                input_command["value"] = None
+                
+                if cmd == 'q':
+                    signal_handler(None, None)
+                elif cmd == 'b':
+                    print("\n🔄 Restarting backend...")
+                    backend_process.terminate()
+                    backend_process.wait()
+                    backend_process = start_backend()
+                    if not backend_process:
+                        print("\n❌ Failed to restart backend server")
+                        frontend_process.terminate()
+                        sys.exit(1)
+                elif cmd == 'f':
+                    print("\n🔄 Restarting frontend...")
+                    frontend_process.terminate()
+                    frontend_process.wait()
+                    frontend_process = start_frontend()
+                    if not frontend_process:
+                        print("\n❌ Failed to restart frontend server")
+                        backend_process.terminate()
+                        sys.exit(1)
+            
             # Check if processes are still running
             if backend_process.poll() is not None:
                 print("\n⚠️  Backend process died unexpectedly")
@@ -175,7 +214,7 @@ def main():
                 backend_process.terminate()
                 sys.exit(1)
             
-            time.sleep(1)
+            time.sleep(0.1)
     
     except KeyboardInterrupt:
         signal_handler(None, None)
