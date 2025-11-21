@@ -246,6 +246,34 @@ execution_agent = ExecutionAgent(
 )
 ```
 
+### How Tools Are Resolved
+
+1. Planning Agent creates Action objects:
+   Action(
+       action_type="update_ticket_status",
+       parameters={"ticket_id": "T-123", "status": "resolved"}
+   )
+
+2. ExecutionAgent receives actions and action_registry:
+   action_registry = {
+       "update_ticket_status": handler_function
+   }
+
+3. ExecutionAgent looks up handler:
+   handler = self.action_registry[action.action_type]  # ✅ Found!
+
+4. Handler executes tool:
+   tool_instance = UpdateTicketStatusTool(domain="customer-support")
+   result = await tool_instance.execute(action.parameters)  # ✅ Fixed!
+
+5. Tool returns result:
+   {
+       "success": true,
+       "data": {...},
+       "message": "Successfully updated ticket"
+   }
+
+
 ## Project Structure
 
 ```

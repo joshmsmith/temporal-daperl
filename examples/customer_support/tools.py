@@ -3,23 +3,22 @@ Customer Support tools for the DAPER framework.
 Implements tools for ticket management, customer account updates, 
 knowledge base operations, and notifications.
 """
+from temporalio import activity
 
-import sys
 import os
 import json
 from typing import Dict, Any, List, Optional
 from datetime import datetime
 
-# Add src to Python path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
-
-from src.tools import BaseTool, ToolRegistry, ToolInfo
+from daperl.core.tools import BaseTool, ToolRegistry, ToolInfo
 
 
 class UpdateTicketStatusTool(BaseTool):
     """Tool for updating ticket status and adding notes."""
     
     async def execute(self, arguments: Dict[str, Any]) -> Dict[str, Any]:
+        activity.logger.info(f"In UpdateTicketStatusTool.execute with arguments: {arguments}")
+
         """Update ticket status and add internal notes."""
         ticket_id = arguments.get("ticket_id")
         new_status = arguments.get("status")
@@ -33,10 +32,74 @@ class UpdateTicketStatusTool(BaseTool):
                 additional_notes="Missing required parameters"
             )
         
-        # Mock implementation - in real usage, this would update the ticketing system
+        # Read the data.json file
+        data_file_path = os.path.join(os.path.dirname(__file__), "data.json")
+        try:
+            with open(data_file_path, 'r') as f:
+                data = json.load(f)
+        except FileNotFoundError:
+            return self.create_response(
+                success=False,
+                data={"error": "data.json file not found"},
+                additional_notes="Could not load customer support data"
+            )
+        except json.JSONDecodeError:
+            return self.create_response(
+                success=False,
+                data={"error": "Invalid JSON in data.json"},
+                additional_notes="Could not parse customer support data"
+            )
+        
+        # Find the ticket and update it
+        tickets = data.get("customer_support_data", {}).get("tickets", [])
+        ticket_found = False
+        previous_status = None
+        
+        for ticket in tickets:
+            if ticket.get("ticket_id") == ticket_id:
+                ticket_found = True
+                previous_status = ticket.get("status")
+                
+                # Update ticket fields
+                ticket["status"] = new_status
+                ticket["last_updated"] = datetime.utcnow().isoformat()
+                
+                if assigned_to:
+                    ticket["assigned_to"] = assigned_to
+                
+                # Add notes to the ticket if not already present
+                if notes:
+                    if "notes" not in ticket:
+                        ticket["notes"] = []
+                    ticket["notes"].append({
+                        "text": notes,
+                        "added_at": datetime.utcnow().isoformat(),
+                        "added_by": "daper_system"
+                    })
+                
+                break
+        
+        if not ticket_found:
+            return self.create_response(
+                success=False,
+                data={"error": f"Ticket {ticket_id} not found"},
+                additional_notes="Could not find ticket in database"
+            )
+        
+        # Write the updated data back to the file
+        try:
+            with open(data_file_path, 'w') as f:
+                json.dump(data, f, indent=2)
+        except Exception as e:
+            return self.create_response(
+                success=False,
+                data={"error": f"Failed to write data: {str(e)}"},
+                additional_notes="Could not save updated ticket data"
+            )
+        
         update_result = {
             "ticket_id": ticket_id,
-            "previous_status": "open",  # Would be fetched from system
+            "previous_status": previous_status,
             "new_status": new_status,
             "notes_added": notes,
             "assigned_to": assigned_to,
@@ -44,12 +107,12 @@ class UpdateTicketStatusTool(BaseTool):
             "updated_by": "daper_system"
         }
         
-        self.logger.info(f"Updated ticket {ticket_id} to status: {new_status}")
+        activity.logger.info(f"Updated ticket {ticket_id} to status: {new_status}")
         
         return self.create_response(
             success=True,
             data=update_result,
-            additional_notes=f"Successfully updated ticket {ticket_id}"
+            additional_notes=f"Successfully updated ticket {ticket_id} in data.json"
         )
     
     def get_info(self) -> ToolInfo:
@@ -92,7 +155,7 @@ class SendCustomerResponseTool(BaseTool):
             "response_length": len(response_text)
         }
         
-        self.logger.info(f"Sent {response_type} response to customer {customer_id} for ticket {ticket_id}")
+        activity.logger.info(f"Sent {response_type} response to customer {customer_id} for ticket {ticket_id}")
         
         return self.create_response(
             success=True,
@@ -126,31 +189,88 @@ class UpdateCustomerAccountTool(BaseTool):
                 additional_notes="Missing required parameters"
             )
         
-        # Mock implementation - in real usage, this would update the CRM/customer database
+        # Read the data.json file
+        data_file_path = os.path.join(os.path.dirname(__file__), "data.json")
+        try:
+            with open(data_file_path, 'r') as f:
+                data = json.load(f)
+        except FileNotFoundError:
+            return self.create_response(
+                success=False,
+                data={"error": "data.json file not found"},
+                additional_notes="Could not load customer support data"
+            )
+        except json.JSONDecodeError:
+            return self.create_response(
+                success=False,
+                data={"error": "Invalid JSON in data.json"},
+                additional_notes="Could not parse customer support data"
+            )
+        
+        # Find the customer and update it
+        customers = data.get("customer_support_data", {}).get("customers", [])
+        customer_found = False
+        previous_values = {}
+        applied_updates = {}
+        
         valid_fields = [
             "account_type", "plan", "support_tier", "preferred_contact",
             "health_score", "notes"
         ]
         
-        applied_updates = {}
-        for field, value in updates.items():
-            if field in valid_fields:
-                applied_updates[field] = value
+        for customer in customers:
+            if customer.get("customer_id") == customer_id:
+                customer_found = True
+                
+                # Apply updates to valid fields
+                for field, value in updates.items():
+                    if field in valid_fields:
+                        previous_values[field] = customer.get(field)
+                        customer[field] = value
+                        applied_updates[field] = value
+                
+                break
+        
+        if not customer_found:
+            return self.create_response(
+                success=False,
+                data={"error": f"Customer {customer_id} not found"},
+                additional_notes="Could not find customer in database"
+            )
+        
+        if not applied_updates:
+            return self.create_response(
+                success=False,
+                data={"error": "No valid fields to update"},
+                additional_notes=f"Valid fields are: {', '.join(valid_fields)}"
+            )
+        
+        # Write the updated data back to the file
+        try:
+            with open(data_file_path, 'w') as f:
+                json.dump(data, f, indent=2)
+        except Exception as e:
+            return self.create_response(
+                success=False,
+                data={"error": f"Failed to write data: {str(e)}"},
+                additional_notes="Could not save updated customer data"
+            )
         
         update_result = {
             "customer_id": customer_id,
+            "previous_values": previous_values,
             "updates_applied": applied_updates,
             "reason": reason,
             "updated_at": datetime.utcnow().isoformat(),
             "updated_by": "daper_system"
         }
         
-        self.logger.info(f"Updated customer {customer_id} account: {list(applied_updates.keys())}")
+        activity.logger.info(f"Updated customer {customer_id} account: {list(applied_updates.keys())}")
         
         return self.create_response(
             success=True,
             data=update_result,
-            additional_notes=f"Updated {len(applied_updates)} fields for customer {customer_id}"
+            additional_notes=f"Updated {len(applied_updates)} fields for customer {customer_id} in data.json"
         )
     
     def get_info(self) -> ToolInfo:
@@ -179,81 +299,108 @@ class SearchKnowledgeBaseTool(BaseTool):
                 additional_notes="Search query parameter is missing"
             )
         
-        # Mock implementation - in real usage, this would search the actual knowledge base
-        mock_results = self._generate_mock_search_results(query, category, max_results)
+        # Read the data.json file
+        data_file_path = os.path.join(os.path.dirname(__file__), "data.json")
+        try:
+            with open(data_file_path, 'r') as f:
+                data = json.load(f)
+        except FileNotFoundError:
+            return self.create_response(
+                success=False,
+                data={"error": "data.json file not found"},
+                additional_notes="Could not load customer support data"
+            )
+        except json.JSONDecodeError:
+            return self.create_response(
+                success=False,
+                data={"error": "Invalid JSON in data.json"},
+                additional_notes="Could not parse customer support data"
+            )
+        
+        # Search the actual knowledge base
+        knowledge_base = data.get("customer_support_data", {}).get("knowledge_base", [])
+        search_results = self._search_knowledge_base(knowledge_base, query, category, max_results)
         
         search_result = {
             "query": query,
             "category_filter": category,
-            "results_count": len(mock_results),
+            "results_count": len(search_results),
             "max_results": max_results,
-            "articles": mock_results,
+            "articles": search_results,
             "searched_at": datetime.utcnow().isoformat()
         }
         
-        self.logger.info(f"Knowledge base search for '{query}' returned {len(mock_results)} results")
+        activity.logger.info(f"Knowledge base search for '{query}' returned {len(search_results)} results")
         
         return self.create_response(
             success=True,
             data=search_result,
-            additional_notes=f"Found {len(mock_results)} relevant articles"
+            additional_notes=f"Found {len(search_results)} relevant articles"
         )
     
-    def _generate_mock_search_results(self, query: str, category: Optional[str], max_results: int) -> List[Dict[str, Any]]:
-        """Generate mock search results based on query."""
-        # Mock knowledge base articles
-        mock_kb = [
-            {
-                "article_id": "KB-001",
-                "title": "Setting up SAML Single Sign-On (SSO)",
-                "category": "authentication",
-                "relevance_score": 0.95 if "sso" in query.lower() or "saml" in query.lower() else 0.1,
-                "url": "/kb/sso-setup",
-                "summary": "Complete guide for setting up SAML SSO for Enterprise accounts"
-            },
-            {
-                "article_id": "KB-002", 
-                "title": "Understanding API Rate Limits",
-                "category": "development",
-                "relevance_score": 0.98 if "api" in query.lower() or "rate limit" in query.lower() else 0.1,
-                "url": "/kb/api-limits",
-                "summary": "Comprehensive guide to API rate limits across all plans"
-            },
-            {
-                "article_id": "KB-003",
-                "title": "Analytics Addon: Features and Data Update Frequencies", 
-                "category": "analytics",
-                "relevance_score": 0.92 if "analytics" in query.lower() or "real-time" in query.lower() else 0.1,
-                "url": "/kb/analytics-addon",
-                "summary": "Details about Analytics addon features and data refresh rates"
-            },
-            {
-                "article_id": "KB-004",
-                "title": "Account Security: Lockouts and Recovery",
-                "category": "security", 
-                "relevance_score": 0.89 if "lockout" in query.lower() or "security" in query.lower() else 0.1,
-                "url": "/kb/account-security",
-                "summary": "How to recover from account lockouts and security best practices"
-            },
-            {
-                "article_id": "KB-005",
-                "title": "Refund Policy and Process",
-                "category": "billing",
-                "relevance_score": 0.96 if "refund" in query.lower() or "billing" in query.lower() else 0.1,
-                "url": "/kb/refund-policy",
-                "summary": "Complete refund policy and step-by-step process"
-            }
-        ]
+    def _search_knowledge_base(self, knowledge_base: List[Dict[str, Any]], query: str, category: Optional[str], max_results: int) -> List[Dict[str, Any]]:
+        """Search knowledge base articles and calculate relevance scores."""
+        query_lower = query.lower()
+        query_terms = query_lower.split()
         
-        # Filter by category if specified
-        if category:
-            mock_kb = [article for article in mock_kb if article["category"] == category]
+        results = []
         
-        # Sort by relevance and limit results
-        mock_kb.sort(key=lambda x: x["relevance_score"], reverse=True)
-        relevant_articles = [article for article in mock_kb if article["relevance_score"] > 0.5]
+        for article in knowledge_base:
+            # Filter by category if specified
+            if category and article.get("category") != category:
+                continue
+            
+            # Calculate relevance score
+            relevance_score = 0.0
+            
+            # Check title (highest weight)
+            title = article.get("title", "").lower()
+            for term in query_terms:
+                if term in title:
+                    relevance_score += 0.3
+            
+            # Check tags (high weight)
+            tags = [tag.lower() for tag in article.get("tags", [])]
+            for term in query_terms:
+                if term in tags:
+                    relevance_score += 0.25
+            
+            # Check subcategory (medium weight)
+            subcategory = article.get("subcategory", "").lower()
+            for term in query_terms:
+                if term in subcategory:
+                    relevance_score += 0.15
+            
+            # Check content (lower weight, but check for full query and terms)
+            content = article.get("content", "").lower()
+            if query_lower in content:
+                relevance_score += 0.2
+            for term in query_terms:
+                if term in content:
+                    relevance_score += 0.05
+            
+            # Normalize score to 0-1 range (cap at 1.0)
+            relevance_score = min(relevance_score, 1.0)
+            
+            # Only include articles with meaningful relevance
+            if relevance_score > 0.1:
+                results.append({
+                    "article_id": article.get("article_id"),
+                    "title": article.get("title"),
+                    "category": article.get("category"),
+                    "subcategory": article.get("subcategory"),
+                    "relevance_score": round(relevance_score, 2),
+                    "tags": article.get("tags", []),
+                    "helpful_votes": article.get("helpful_votes", 0),
+                    "views": article.get("views", 0),
+                    "summary": article.get("content", "")[:200] + "..." if len(article.get("content", "")) > 200 else article.get("content", "")
+                })
         
-        return relevant_articles[:max_results]
+        # Sort by relevance score (descending)
+        results.sort(key=lambda x: x["relevance_score"], reverse=True)
+        
+        # Return top results
+        return results[:max_results]
     
     def get_info(self) -> ToolInfo:
         return ToolInfo(
@@ -304,7 +451,7 @@ class EscalateToSpecialistTool(BaseTool):
             "expected_response_time": self._get_specialist_response_time(specialist_type, urgency)
         }
         
-        self.logger.info(f"Escalated ticket {ticket_id} to {team_name} with {urgency} urgency")
+        activity.logger.info(f"Escalated ticket {ticket_id} to {team_name} with {urgency} urgency")
         
         return self.create_response(
             success=True,
@@ -370,7 +517,7 @@ class NotifyAccountManagerTool(BaseTool):
             "delivery_method": "slack_and_email"
         }
         
-        self.logger.info(f"Notified account manager about customer {customer_id} issue")
+        activity.logger.info(f"Notified account manager about customer {customer_id} issue")
         
         return self.create_response(
             success=True,
@@ -431,7 +578,7 @@ class CreateFollowUpTaskTool(BaseTool):
             "priority": "normal"
         }
         
-        self.logger.info(f"Created {task_type} task for ticket {ticket_id}")
+        activity.logger.info(f"Created {task_type} task for ticket {ticket_id}")
         
         return self.create_response(
             success=True,

@@ -1,6 +1,7 @@
 """Run a Temporal worker for DAPERL workflows."""
 
 import asyncio
+import logging
 from temporalio.client import Client
 from temporalio.worker import Worker
 from temporalio.contrib.pydantic import pydantic_data_converter
@@ -22,6 +23,9 @@ async def main():
     """Run the DAPERL worker."""
     # Get Temporal configuration
     temporal_config = settings.get_temporal_config()
+
+    # Set up logging
+    logging.basicConfig(level=logging.INFO)
     
     # Connect to Temporal with Pydantic v2 data converter
     client = await Client.connect(

@@ -22,6 +22,11 @@ from daperl.core.agents import (
     BaseReportingAgent,
     BaseLearningAgent,
 )
+from daperl.core.tools import (
+    BaseTool,
+    ToolRegistry,
+    ToolInfo,
+)
 
 __all__ = [
     "AgentPhase",
@@ -43,4 +48,7 @@ __all__ = [
     "BaseExecutionAgent",
     "BaseReportingAgent",
     "BaseLearningAgent",
+    "BaseTool",
+    "ToolRegistry",
+    "ToolInfo",
 ]
