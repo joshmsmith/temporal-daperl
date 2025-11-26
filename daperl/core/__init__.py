@@ -26,6 +26,7 @@ from daperl.core.tools import (
     ToolRegistry,
     ToolInfo,
 )
+from daperl.core.exceptions import ActionExecutionError
 
 __all__ = [
     "AgentPhase",
@@ -49,4 +50,5 @@ __all__ = [
     "BaseTool",
     "ToolRegistry",
     "ToolInfo",
+    "ActionExecutionError",
 ]

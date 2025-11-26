@@ -12,6 +12,7 @@ with workflow.unsafe.imports_passed_through():
         ActionResult,
         Action,
     )
+    from daperl.core.exceptions import ActionExecutionError
     from daperl.activities import execute_action_activity
 
 
@@ -61,7 +62,6 @@ class ExecutionAgentWorkflow:
         
         # Retry policy for action execution activities
         retry_policy = RetryPolicy(
-        #    maximum_attempts=3,
             initial_interval=timedelta(seconds=1),
             maximum_interval=timedelta(seconds=10),
             backoff_coefficient=2.0,
@@ -80,26 +80,32 @@ class ExecutionAgentWorkflow:
                     retry_policy=retry_policy
                 )
                 
-                if action_result.success:
-                    self._success_count += 1
-                    workflow.logger.info(f"Action {action.id} succeeded")
-                else:
-                    self._failure_count += 1
-                    workflow.logger.warning(f"Action {action.id} failed: {action_result.message}")
+                # Note: we won't reach here if action fails, as activity now raises ActionExecutionError
+                self._success_count += 1
+                workflow.logger.info(f"Action {action.id} succeeded")
+                self._actions_executed.append(action_result)
                 
+            except ActionExecutionError as e:
+                # Action execution failed - extract the ActionResult from the exception
+                self._failure_count += 1
+                action_result = e.action_result
+                workflow.logger.warning(
+                    f"Action {action.id} failed: {action_result.message}",
+                    extra={"error": action_result.error}
+                )
                 self._actions_executed.append(action_result)
                 
             except Exception as e:
-                # Activity execution failed
+                # Unexpected exception (not ActionExecutionError)
                 self._failure_count += 1
                 error_message = str(e)
-                workflow.logger.error(f"Action {action.id} execution failed: {error_message}")
+                workflow.logger.error(f"Action {action.id} execution failed with unexpected error: {error_message}")
                 
                 self._actions_executed.append(
                     ActionResult(
                         action_id=action.id,
                         success=False,
-                        message=f"Execution failed: {error_message}",
+                        message=f"Unexpected execution failure: {error_message}",
                         error=error_message
                     )
                 )

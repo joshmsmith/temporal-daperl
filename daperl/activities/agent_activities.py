@@ -16,6 +16,7 @@ from daperl.core.models import (
     Action,
     ActionResult,
 )
+from daperl.core.exceptions import ActionExecutionError
 from daperl.agents import (
     DetectionAgent,
     AnalysisAgent,
@@ -196,7 +197,7 @@ async def execute_action_activity(action: Action, context: AgentContext) -> Acti
         f"Executing action: {action.id} ({action.action_type})",
         extra={"domain": context.domain, "action_type": action.action_type}
     )
-    
+
     # Build action registry from available actions in config
     from daperl.core.tools import ToolRegistry
     
@@ -204,12 +205,13 @@ async def execute_action_activity(action: Action, context: AgentContext) -> Acti
     
     if not available_actions:
         activity.logger.error("No available_actions specified in config")
-        return ActionResult(
+        action_result = ActionResult(
             action_id=action.id,
             success=False,
             message="No available_actions configured",
             error="Configuration missing available_actions"
         )
+        raise ActionExecutionError(action_result)
     
     # Load domain tools
     _load_domain_tools(context)
@@ -240,9 +242,13 @@ async def execute_action_activity(action: Action, context: AgentContext) -> Acti
             )
             
             activity.logger.info(
-                f"Action {action.id} executed successfully",
+                f"Action {action.id} executed",
                 extra={"success": action_result.success}
             )
+            
+            # Raise exception if action failed
+            if not action_result.success:
+                raise ActionExecutionError(action_result)
             
             return action_result
         else:
@@ -251,24 +257,29 @@ async def execute_action_activity(action: Action, context: AgentContext) -> Acti
                 f"No handler registered for action type: {action.action_type}",
                 extra={"action_type": action.action_type, "available": list(action_registry.keys())}
             )
-            return ActionResult(
+            action_result = ActionResult(
                 action_id=action.id,
                 success=False,
                 message=f"No handler registered for action type: {action.action_type}",
                 error=f"Action type '{action.action_type}' requires a registered handler in action_registry"
             )
+            raise ActionExecutionError(action_result)
     
+    except ActionExecutionError:
+        # Re-raise ActionExecutionError as-is (already contains ActionResult)
+        raise
     except Exception as e:
         activity.logger.error(
             f"Action execution failed: {str(e)}",
             extra={"action_id": action.id, "action_type": action.action_type}
         )
-        return ActionResult(
+        action_result = ActionResult(
             action_id=action.id,
             success=False,
             message=f"Execution failed: {str(e)}",
             error=str(e)
         )
+        raise ActionExecutionError(action_result)
 
 
 @activity.defn
