@@ -2,13 +2,15 @@
 
 ### Customer service bot functionality
 
-[ ] Modify tools so they change the data (next up for Laine)
+[x] Modify tools so they change the data (next up for Laine)
   [ ] EscalateToSpecialistTool: make this a real tool functionality? Would need to add people to data.json
   [ ] CreateFollowUpTaskTool: create a new KB article? this would be neat
 
 ### Framework functionality
 
-[ ] Figure out why a failing activity ends the workflow - easiest way to test this is to remove a registered action/tool, it will fail on run_execution_agent
+[ ] Add queries to child workflow to see execution statuses of tools
+
+[ ] Make child workflow activity fail, but catch and complete workflow okay
 
 [ ] Clean up README because this is complex, yo
 

@@ -375,6 +375,29 @@ async def start_workflow(request: StartWorkflowRequest) -> Dict[str, Any]:
         raise HTTPException(status_code=500, detail=f"Failed to start workflow: {str(e)}")
 
 
+@app.get("/api/config")
+async def get_config():
+    """Get configuration for the frontend."""
+    temporal_config = settings.get_temporal_config()
+    
+    # Construct Temporal UI URL based on host
+    temporal_host = temporal_config.host
+    # Extract just the hostname (remove port if present)
+    host_parts = temporal_host.split(':')
+    temporal_ui_host = host_parts[0]
+    
+    # Default to port 8233 for Temporal UI
+    temporal_ui_url = f"http://{temporal_ui_host}:8233"
+    
+    return {
+        "temporal": {
+            "ui_url": temporal_ui_url,
+            "namespace": temporal_config.namespace,
+            "host": temporal_config.host
+        }
+    }
+
+
 @app.get("/api/health")
 async def health_check():
     """Health check endpoint."""
