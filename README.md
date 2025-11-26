@@ -69,7 +69,7 @@ cd temporal-daperl
 poetry install
 ```
 
-2. **Configure Environment**:
+2. **Configure Environment - .env file will need to exist at the same level where you run your worker**:
 ```bash
 cp .env.example .env
 # Edit .env with your configuration

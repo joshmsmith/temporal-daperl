@@ -1,6 +1,6 @@
 """Main DAPERL workflow implementation."""
 
-from datetime import datetime, timedelta
+from datetime import timedelta
 from temporalio import workflow
 from temporalio.common import RetryPolicy
 
@@ -16,10 +16,10 @@ with workflow.unsafe.imports_passed_through():
         run_detection_agent,
         run_analysis_agent,
         run_planning_agent,
-        run_execution_agent,
         run_reporting_agent,
         run_learning_agent,
     )
+    from daperl.workflows.execution_workflow import ExecutionAgentWorkflow
 
 
 @workflow.defn
@@ -89,7 +89,7 @@ class DAPERLWorkflow:
         
         # Retry policy for activities
         retry_policy = RetryPolicy(
-            maximum_attempts=3,
+        #    maximum_attempts=3,
             initial_interval=timedelta(seconds=1),
             maximum_interval=timedelta(seconds=10),
             backoff_coefficient=2.0,
@@ -177,15 +177,16 @@ class DAPERLWorkflow:
                 self._plan_approved = True
                 workflow.logger.info("Auto-approval enabled or no plan, skipping approval")
             
-            # Phase 5: Execution
+            # Phase 5: Execution (using child workflow)
             self._status = WorkflowStatus.EXECUTING
             workflow.logger.info("Phase 4: Execution")
             
-            self._execution_result = await workflow.execute_activity(
-                run_execution_agent,
+            # Execute actions via child workflow for better visibility
+            self._execution_result = await workflow.execute_child_workflow(
+                ExecutionAgentWorkflow.run,
                 context,
-                start_to_close_timeout=timedelta(minutes=15),
-                retry_policy=retry_policy
+                id=f"{workflow_id}-execution",
+                retry_policy=retry_policy,
             )
             
             context.history.append(self._execution_result)

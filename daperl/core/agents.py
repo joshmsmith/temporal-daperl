@@ -129,23 +129,6 @@ class BasePlanningAgent(BaseAgent):
         pass
 
 
-class BaseExecutionAgent(BaseAgent):
-    """Base class for execution agents."""
-    
-    @abstractmethod
-    async def execute(self, context: AgentContext) -> ExecutionResult:
-        """
-        Execute the planned actions.
-        
-        Args:
-            context: The agent context with execution plan
-            
-        Returns:
-            Execution result with action outcomes
-        """
-        pass
-
-
 class BaseReportingAgent(BaseAgent):
     """Base class for reporting agents."""
     

@@ -8,12 +8,12 @@ from temporalio.contrib.pydantic import pydantic_data_converter
 from temporalio.worker.workflow_sandbox import SandboxedWorkflowRunner, SandboxRestrictions
 
 from daperl.config.settings import settings
-from daperl.workflows import DAPERLWorkflow
+from daperl.workflows import DAPERLWorkflow, ExecutionAgentWorkflow
 from daperl.activities import (
     run_detection_agent,
     run_analysis_agent,
     run_planning_agent,
-    run_execution_agent,
+    execute_action_activity,
     run_reporting_agent,
     run_learning_agent,
 )
@@ -38,24 +38,32 @@ async def main():
     print(f"Namespace: {temporal_config.namespace}")
     print(f"Task Queue: {temporal_config.task_queue}")
     
-    # Configure workflow sandbox to allow Pydantic imports
+    # Configure workflow sandbox to allow Pydantic and DAPERL imports
     restrictions = SandboxRestrictions.default
     restrictions = restrictions.with_passthrough_modules(
         "pydantic",
         "pydantic_core",
         "pydantic_core._pydantic_core",
+        "pydantic_settings",
+        "daperl",
+        "daperl.core",
+        "daperl.core.models",
+        "daperl.core.types",
+        "daperl.config",
+        "daperl.config.settings",
+        "daperl.activities",
     )
     
     # Create and run worker
     worker = Worker(
         client,
         task_queue=temporal_config.task_queue,
-        workflows=[DAPERLWorkflow],
+        workflows=[DAPERLWorkflow, ExecutionAgentWorkflow],
         activities=[
             run_detection_agent,
             run_analysis_agent,
             run_planning_agent,
-            run_execution_agent,
+            execute_action_activity,
             run_reporting_agent,
             run_learning_agent,
         ],

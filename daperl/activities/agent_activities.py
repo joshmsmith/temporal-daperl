@@ -13,12 +13,13 @@ from daperl.core.models import (
     ExecutionResult,
     ReportingResult,
     LearningResult,
+    Action,
+    ActionResult,
 )
 from daperl.agents import (
     DetectionAgent,
     AnalysisAgent,
     PlanningAgent,
-    ExecutionAgent,
     ReportingAgent,
     LearningAgent,
 )
@@ -177,71 +178,97 @@ async def run_planning_agent(context: AgentContext) -> PlanningResult:
 
 
 @activity.defn
-async def run_execution_agent(context: AgentContext) -> ExecutionResult:
+async def execute_action_activity(action: Action, context: AgentContext) -> ActionResult:
     """
-    Run the execution agent as a Temporal activity.
+    Execute a single action as a Temporal activity.
+    
+    This activity is called by the ExecutionAgentWorkflow for each action
+    in the execution plan, providing better visibility and tracing.
     
     Args:
+        action: The action to execute
         context: Agent context
         
     Returns:
-        Execution result
+        Action result
     """
-    activity.logger.info("Starting execution agent", extra={"domain": context.domain})
-    
-    # Get configuration
-    daperl_config = settings.get_daperl_config()
+    activity.logger.info(
+        f"Executing action: {action.id} ({action.action_type})",
+        extra={"domain": context.domain, "action_type": action.action_type}
+    )
     
     # Build action registry from available actions in config
     from daperl.core.tools import ToolRegistry
     
     available_actions = context.config.get("available_actions", [])
-    action_registry = {}
     
-    if available_actions:
-        # Load domain tools (reuses helper function)
-        _load_domain_tools(context)
-        
-        # Build action registry from registered tools
-        activity.logger.info(
-            f"Building action registry for {len(available_actions)} actions",
-            extra={"actions": available_actions, "domain": context.domain}
+    if not available_actions:
+        activity.logger.error("No available_actions specified in config")
+        return ActionResult(
+            action_id=action.id,
+            success=False,
+            message="No available_actions configured",
+            error="Configuration missing available_actions"
         )
-        action_registry = ToolRegistry.create_action_registry(
-            available_actions=available_actions,
-            domain=context.domain
-        )
-        activity.logger.info(
-            f"Action registry created with {len(action_registry)} handlers: {list(action_registry.keys())}"
-        )
-        
-        if len(action_registry) == 0:
-            activity.logger.error(
-                f"No tools registered for actions: {available_actions}",
-                extra={"domain": context.domain}
-            )
-    else:
-        activity.logger.warning("No available_actions specified in config")
     
-    # Create and run agent with action registry
-    agent = ExecutionAgent(
-        llm_config=daperl_config.execution_llm,
-        action_registry=action_registry
+    # Load domain tools
+    _load_domain_tools(context)
+    
+    # Build action registry from registered tools
+    action_registry = ToolRegistry.create_action_registry(
+        available_actions=available_actions,
+        domain=context.domain
     )
-
-    result = await agent.execute(context)
     
     activity.logger.info(
-        f"Execution complete, success: {result.success_count}, failures: {result.failure_count}"
+        f"Action registry created with {len(action_registry)} handlers",
+        extra={"handlers": list(action_registry.keys())}
     )
     
-    # If failure_count > 0, return exception
-    if result.failure_count > 0:
-        raise Exception(
-            f"Execution completed with failures: {result.failure_count} actions failed."
+    try:
+        # Check if we have a handler for this action type
+        if action.action_type in action_registry:
+            # Execute using registered handler
+            handler = action_registry[action.action_type]
+            result = await handler(action, context)
+            
+            action_result = ActionResult(
+                action_id=action.id,
+                success=result.get("success", True),
+                message=result.get("message", f"Executed {action.action_type}"),
+                data=result.get("data", {})
+            )
+            
+            activity.logger.info(
+                f"Action {action.id} executed successfully",
+                extra={"success": action_result.success}
+            )
+            
+            return action_result
+        else:
+            # No handler registered - fail the action
+            activity.logger.error(
+                f"No handler registered for action type: {action.action_type}",
+                extra={"action_type": action.action_type, "available": list(action_registry.keys())}
+            )
+            return ActionResult(
+                action_id=action.id,
+                success=False,
+                message=f"No handler registered for action type: {action.action_type}",
+                error=f"Action type '{action.action_type}' requires a registered handler in action_registry"
+            )
+    
+    except Exception as e:
+        activity.logger.error(
+            f"Action execution failed: {str(e)}",
+            extra={"action_id": action.id, "action_type": action.action_type}
         )
-    else:
-        return result
+        return ActionResult(
+            action_id=action.id,
+            success=False,
+            message=f"Execution failed: {str(e)}",
+            error=str(e)
+        )
 
 
 @activity.defn

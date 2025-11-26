@@ -98,18 +98,23 @@ The domain is designed to integrate with:
 This example uses Poetry for Python package management. Install dependencies:
 
 ```bash
-# From the customer_support directory
+# From the main daperl directory
 cd examples/customer_support
 poetry install
 ```
 
 This will install all required dependencies including:
-- The main `temporal-daperl` framework (from the parent directory)
+- The `temporal-daperl` framework (from the parent directory)
 - FastAPI and Uvicorn for the UI backend
 - WebSockets support
 - Pydantic for data validation
 
 ## Running the Example
+
+**Copy the example .env file into this folder and modify as necessary**
+```bash
+cp ../../.env.example .env
+```
 
 **Start the Worker in the daperl folder**:
 ```bash

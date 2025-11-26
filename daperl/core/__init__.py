@@ -18,7 +18,6 @@ from daperl.core.agents import (
     BaseDetectionAgent,
     BaseAnalysisAgent,
     BasePlanningAgent,
-    BaseExecutionAgent,
     BaseReportingAgent,
     BaseLearningAgent,
 )
@@ -45,7 +44,6 @@ __all__ = [
     "BaseDetectionAgent",
     "BaseAnalysisAgent",
     "BasePlanningAgent",
-    "BaseExecutionAgent",
     "BaseReportingAgent",
     "BaseLearningAgent",
     "BaseTool",
