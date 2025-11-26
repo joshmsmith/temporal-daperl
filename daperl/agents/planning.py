@@ -201,9 +201,34 @@ Context Data:
 
 Create a detailed execution plan to address these problems."""
         
-        # Include any available tools/actions from config
+        # Include any available tools/actions from config with their parameters
         if "available_actions" in context.config:
-            message += f"\n\nAvailable Actions:\n{json.dumps(context.config['available_actions'], indent=2)}"
+            from daperl.core.tools import ToolRegistry
+            
+            available_actions = context.config['available_actions']
+            
+            # Get detailed tool information including parameters
+            tool_details = []
+            for action_name in available_actions:
+                # Get tool info from registry
+                tools_for_domain = ToolRegistry.get_tools_for_domain(context.domain)
+                tool_info = next((t for t in tools_for_domain if t['name'] == action_name), None)
+                
+                if tool_info:
+                    tool_details.append({
+                        "action_type": tool_info['name'],
+                        "description": tool_info['description'],
+                        "required_parameters": tool_info['parameters']
+                    })
+                else:
+                    # Fallback if tool not registered yet
+                    tool_details.append({
+                        "action_type": action_name,
+                        "description": f"Action: {action_name}",
+                        "required_parameters": []
+                    })
+            
+            message += f"\n\nAvailable Actions (use these action_type values and include all required_parameters):\n{json.dumps(tool_details, indent=2)}"
         
         # Include any domain-specific instructions from config
         if "planning_instructions" in context.config:

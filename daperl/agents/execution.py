@@ -1,6 +1,6 @@
 """Execution agent implementation."""
 
-import json
+from temporalio import activity
 from typing import Any, Dict, Callable
 
 from daperl.core.agents import BaseExecutionAgent
@@ -42,6 +42,9 @@ class ExecutionAgent(BaseExecutionAgent):
         Returns:
             Execution result with action outcomes
         """
+        
+        activity.logger.info(f"In Execution agent, action_registry keys: {list(self.action_registry.keys())}")
+
         # Get planning results from history
         planning_result = self._get_planning_result(context)
         if not planning_result or not planning_result.plan:
@@ -75,8 +78,14 @@ class ExecutionAgent(BaseExecutionAgent):
                         data=result.get("data", {})
                     )
                 else:
-                    # Use LLM to simulate/describe execution
-                    action_result = await self._simulate_execution(action, context)
+                    # No handler registered - fail the action
+                    activity.logger.error(f"No handler registered for action type: {action.action_type}")
+                    action_result = ActionResult(
+                        action_id=action.id,
+                        success=False,
+                        message=f"No handler registered for action type: {action.action_type}",
+                        error=f"Action type '{action.action_type}' requires a registered handler in action_registry"
+                    )
                 
                 if action_result.success:
                     success_count += 1
@@ -110,54 +119,7 @@ class ExecutionAgent(BaseExecutionAgent):
             failure_count=failure_count,
             execution_summary=f"Executed {len(actions_executed)} actions with {success_count} successes"
         )
-    
-    async def _simulate_execution(self, action, context: AgentContext) -> ActionResult:
-        """
-        Simulate action execution using LLM when no handler is registered.
-        
-        This is useful for testing or when domain-specific handlers aren't provided.
-        """
-        if not self.llm_client:
-            return ActionResult(
-                action_id=action.id,
-                success=True,
-                message=f"Simulated execution of {action.action_type} (no LLM configured)",
-                data={"simulated": True}
-            )
-        
-        system_prompt = f"""You are an execution simulation agent for the {context.domain} domain.
 
-Describe what would happen if this action were executed. Provide a realistic outcome.
-
-Respond with JSON:
-{{
-    "success": true/false,
-    "message": "description of what happened",
-    "data": {{}} // any relevant data from the execution
-}}"""
-        
-        user_message = f"""Action to execute:
-Type: {action.action_type}
-Description: {action.description}
-Target: {action.target}
-Parameters: {json.dumps(action.parameters, indent=2)}
-
-Simulate the execution and describe the outcome."""
-        
-        messages = [LLMMessage(role="user", content=user_message)]
-        
-        response = await self.llm_client.complete_with_json(
-            messages=messages,
-            system_prompt=system_prompt
-        )
-        
-        return ActionResult(
-            action_id=action.id,
-            success=response.get("success", True),
-            message=response.get("message", "Action simulated"),
-            data=response.get("data", {"simulated": True})
-        )
-    
     def validate_output(self, output: Any) -> bool:
         """
         Validate the execution output.

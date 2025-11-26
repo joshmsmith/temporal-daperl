@@ -1,6 +1,9 @@
 """Activity wrappers for DAPERL agents."""
 
 from temporalio import activity
+import importlib
+import sys
+from pathlib import Path
 
 from daperl.core.models import (
     AgentContext,
@@ -21,6 +24,59 @@ from daperl.agents import (
 )
 from daperl.config.settings import settings
 from daperl.storage.json_storage import JSONLearningStorage
+
+
+def _load_domain_tools(context: AgentContext) -> None:
+    """
+    Load and register domain-specific tools.
+    
+    This function dynamically imports and registers tools for the given domain.
+    Convention: examples/{domain}/tools.py should have register_{domain}_tools() function.
+    
+    Args:
+        context: Agent context containing domain information
+    """
+    try:
+        # Convert domain to module-friendly format (e.g., "customer-support" -> "customer_support")
+        domain_module = context.domain.replace("-", "_")
+        
+        # Add examples directory to path if not already there
+        project_root = Path(__file__).parent.parent.parent
+        examples_path = project_root / "examples"
+        if str(examples_path) not in sys.path:
+            sys.path.insert(0, str(examples_path))
+        
+        activity.logger.info(
+            f"Added examples path to sys.path: {examples_path}",
+            extra={"exists": examples_path.exists()}
+        )
+        
+        # Import the domain's tools module
+        tools_module_name = f"{domain_module}.tools"
+        activity.logger.info(f"Attempting to load tools module: {tools_module_name}")
+        tools_module = importlib.import_module(tools_module_name)
+        
+        # Look for register function
+        register_func_name = f"register_{domain_module}_tools"
+        if hasattr(tools_module, register_func_name):
+            register_func = getattr(tools_module, register_func_name)
+            register_func(domain=context.domain)
+            activity.logger.info(f"Registered tools for domain: {context.domain}")
+        else:
+            activity.logger.warning(
+                f"Tools module found but no {register_func_name} function",
+                extra={"module": tools_module_name}
+            )
+    except ImportError as e:
+        activity.logger.warning(
+            f"Could not import tools module for domain {context.domain}: {e}",
+            extra={"domain": context.domain}
+        )
+    except Exception as e:
+        activity.logger.warning(
+            f"Error loading tools for domain {context.domain}: {e}",
+            extra={"domain": context.domain}
+        )
 
 
 @activity.defn
@@ -98,6 +154,10 @@ async def run_planning_agent(context: AgentContext) -> PlanningResult:
     """
     activity.logger.info("Starting planning agent", extra={"domain": context.domain})
     
+    # Load domain tools so Planning agent can access tool parameter information
+    if context.config.get("available_actions"):
+        _load_domain_tools(context)
+    
     # Get configuration
     daperl_config = settings.get_daperl_config()
     
@@ -132,21 +192,56 @@ async def run_execution_agent(context: AgentContext) -> ExecutionResult:
     # Get configuration
     daperl_config = settings.get_daperl_config()
     
-    # Create and run agent
-    # Note: Action registry should be provided via context.config if needed
-    agent = ExecutionAgent(llm_config=daperl_config.execution_llm)
+    # Build action registry from available actions in config
+    from daperl.core.tools import ToolRegistry
+    
+    available_actions = context.config.get("available_actions", [])
+    action_registry = {}
+    
+    if available_actions:
+        # Load domain tools (reuses helper function)
+        _load_domain_tools(context)
+        
+        # Build action registry from registered tools
+        activity.logger.info(
+            f"Building action registry for {len(available_actions)} actions",
+            extra={"actions": available_actions, "domain": context.domain}
+        )
+        action_registry = ToolRegistry.create_action_registry(
+            available_actions=available_actions,
+            domain=context.domain
+        )
+        activity.logger.info(
+            f"Action registry created with {len(action_registry)} handlers: {list(action_registry.keys())}"
+        )
+        
+        if len(action_registry) == 0:
+            activity.logger.error(
+                f"No tools registered for actions: {available_actions}",
+                extra={"domain": context.domain}
+            )
+    else:
+        activity.logger.warning("No available_actions specified in config")
+    
+    # Create and run agent with action registry
+    agent = ExecutionAgent(
+        llm_config=daperl_config.execution_llm,
+        action_registry=action_registry
+    )
+
     result = await agent.execute(context)
     
     activity.logger.info(
-        "Execution complete",
-        extra={
-            "success_count": result.success_count,
-            "failure_count": result.failure_count,
-            "confidence": result.confidence
-        }
+        f"Execution complete, success: {result.success_count}, failures: {result.failure_count}"
     )
     
-    return result
+    # If failure_count > 0, return exception
+    if result.failure_count > 0:
+        raise Exception(
+            f"Execution completed with failures: {result.failure_count} actions failed."
+        )
+    else:
+        return result
 
 
 @activity.defn
