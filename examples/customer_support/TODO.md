@@ -3,27 +3,27 @@
 ### Customer service bot functionality
 
 [x] Modify tools so they change the data (next up for Laine)
-  [ ] EscalateToSpecialistTool: make this a real tool functionality? Would need to add people to data.json
-  [ ] CreateFollowUpTaskTool: create a new KB article? this would be neat
+  [later] EscalateToSpecialistTool: make this a real tool functionality? Would need to add people to data.json
+  [later] CreateFollowUpTaskTool: create a new KB article? this would be neat
 
 ### Framework functionality
 
+[ ] Add proactive monitoring agent
+
+[ ] Run on Temporal Cloud
+
 [ ] Add queries to child workflow to see execution statuses of tools
 
-[ ] Make child workflow activity fail, but catch and complete workflow okay
+[x] Make child workflow activity fail, but catch and complete workflow okay
 
 [ ] Clean up README because this is complex, yo
 
-[ ] Add proactive monitoring agent
-
-[ ] Look at adding the stuff in customer_support/ui/backend to the framework
-
-[ ] Run on Temporal Cloud
+[later] Look at adding the stuff in customer_support/ui/backend to the framework
 
 [ ] MCP? 
   [ ] Query learning
 
-[ ] Add ability to approve/deny specific solutions?
+[later] Add ability to approve/deny specific solutions?
 
 ### UI changes
 
@@ -31,7 +31,7 @@
 
 [ ] Change Load Workflow section in the UI header to load a list of workflows (drop down, get workflows from namespace) and then change the Monitor Workflow and Impact Analysis pages accordingly
 
-[ ] Add link on Monitor Workflow page to go to workflow history
+[x] Add link on Monitor Workflow page to go to workflow history
 
 ### Other
 
