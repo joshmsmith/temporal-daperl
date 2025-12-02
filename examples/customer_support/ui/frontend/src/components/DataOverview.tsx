@@ -248,6 +248,15 @@ const DataOverview = ({ onWorkflowStarted }: DataOverviewProps) => {
     return cleanTier || 'n/a';
   };
 
+  const isTicketModifiedByDAPERL = (ticket: any) => {
+    // Check if ticket has been modified by DAPERL workflow
+    // DAPERL adds notes with "added_by": "daper_system"
+    if (ticket.notes && Array.isArray(ticket.notes)) {
+      return ticket.notes.some((note: any) => note.added_by === "daper_system");
+    }
+    return false;
+  };
+
   if (loading) {
     return (
       <div className="dashboard-loading">
@@ -353,7 +362,12 @@ const DataOverview = ({ onWorkflowStarted }: DataOverviewProps) => {
                       className="clickable-row"
                       onClick={() => toggleTicketExpansion(ticket.ticket_id)}
                     >
-                      <td className="ticket-id">{ticket.ticket_id}</td>
+                      <td className="ticket-id">
+                        {ticket.ticket_id}
+                        {isTicketModifiedByDAPERL(ticket) && (
+                          <span className="daperl-indicator" title="Modified by DAPERL workflow"> 🤖</span>
+                        )}
+                      </td>
                       <td className="ticket-subject">
                         <span className="expand-icon">{isExpanded ? '▼' : '▶'}</span>
                         {ticket.subject}

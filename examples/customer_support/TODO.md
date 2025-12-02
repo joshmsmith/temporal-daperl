@@ -14,10 +14,6 @@
 
 [ ] Add queries to child workflow to see execution statuses of tools
 
-[x] Make child workflow activity fail, but catch and complete workflow okay
-
-[ ] Clean up README because this is complex, yo
-
 [later] Look at adding the stuff in customer_support/ui/backend to the framework
 
 [ ] MCP? 
@@ -28,10 +24,6 @@
 ### UI changes
 
 [ ] Add sweet sweet 80s synthesizer theme to UI and data
-
-[ ] Change Load Workflow section in the UI header to load a list of workflows (drop down, get workflows from namespace) and then change the Monitor Workflow and Impact Analysis pages accordingly
-
-[x] Add link on Monitor Workflow page to go to workflow history
 
 ### Other
 

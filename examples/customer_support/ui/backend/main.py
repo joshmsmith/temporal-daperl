@@ -101,13 +101,20 @@ async def root():
 async def list_workflows() -> List[WorkflowInfo]:
     """List all customer support workflows."""
     try:
-        # Query Temporal for workflows
-        # Note: This is a simplified version. In production, you'd want to
-        # use Temporal's list_workflows API with proper filtering
         workflows = []
         
-        # For now, we'll return an empty list as Temporal's list API
-        # requires more setup. The UI can work with individual workflow IDs.
+        # Query Temporal for workflows using list_workflows API
+        async for workflow in temporal_client.list_workflows(
+            query="WorkflowType='DAPERLWorkflow'"
+        ):
+            # Get workflow execution info
+            workflow_info = WorkflowInfo(
+                workflow_id=workflow.id,
+                status=workflow.status.name,
+                started_at=workflow.start_time.isoformat() if workflow.start_time else None
+            )
+            workflows.append(workflow_info)
+        
         return workflows
     
     except Exception as e:

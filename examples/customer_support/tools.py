@@ -439,6 +439,44 @@ class EscalateToSpecialistTool(BaseTool):
         }
         
         team_name = specialist_mapping.get(specialist_type, "General Support")
+        escalation_id = f"ESC-{datetime.now().strftime('%Y%m%d%H%M%S')}"
+        expected_response_time = self._get_specialist_response_time(specialist_type, urgency)
+        
+        # Read the data.json file and update the ticket
+        data_file_path = os.path.join(os.path.dirname(__file__), "data.json")
+        try:
+            with open(data_file_path, 'r') as f:
+                data = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError) as e:
+            # Continue even if we can't update the file, return the escalation result
+            activity.logger.warning(f"Could not update ticket file: {str(e)}")
+        else:
+            # Find the ticket and update it
+            tickets = data.get("customer_support_data", {}).get("tickets", [])
+            for ticket in tickets:
+                if ticket.get("ticket_id") == ticket_id:
+                    # Update ticket status to escalated
+                    ticket["status"] = "escalated"
+                    ticket["last_updated"] = datetime.utcnow().isoformat()
+                    
+                    # Add escalation note
+                    if "notes" not in ticket:
+                        ticket["notes"] = []
+                    ticket["notes"].append({
+                        "text": f"Escalated to {team_name} ({specialist_type}) with {urgency} urgency. {context}",
+                        "added_at": datetime.utcnow().isoformat(),
+                        "added_by": "daper_system",
+                        "escalation_id": escalation_id
+                    })
+                    
+                    # Write the updated data back to the file
+                    try:
+                        with open(data_file_path, 'w') as f:
+                            json.dump(data, f, indent=2)
+                    except Exception as e:
+                        activity.logger.warning(f"Could not save updated ticket: {str(e)}")
+                    
+                    break
         
         escalation_result = {
             "ticket_id": ticket_id,
@@ -447,8 +485,8 @@ class EscalateToSpecialistTool(BaseTool):
             "urgency": urgency,
             "context_provided": context,
             "escalated_at": datetime.utcnow().isoformat(),
-            "escalation_id": f"ESC-{datetime.now().strftime('%Y%m%d%H%M%S')}",
-            "expected_response_time": self._get_specialist_response_time(specialist_type, urgency)
+            "escalation_id": escalation_id,
+            "expected_response_time": expected_response_time
         }
         
         activity.logger.info(f"Escalated ticket {ticket_id} to {team_name} with {urgency} urgency")

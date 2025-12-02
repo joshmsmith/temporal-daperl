@@ -970,6 +970,18 @@ body {
   color: #667eea;
 }
 
+.daperl-indicator {
+  margin-left: 0.5rem;
+  font-size: 1rem;
+  opacity: 0.8;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.daperl-indicator:hover {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
 .ticket-subject {
   font-weight: 500;
   max-width: 300px;
