@@ -30,6 +30,8 @@ class ExecutionAgentWorkflow:
         self._actions_executed = []
         self._success_count = 0
         self._failure_count = 0
+        self._planning_result = None
+        self._total_actions = 0
     
     @workflow.run
     async def run(self, context: AgentContext) -> ExecutionResult:
@@ -57,8 +59,11 @@ class ExecutionAgentWorkflow:
                 execution_summary="No plan found, no execution needed"
             )
         
+        # Store planning result and total actions for queries
+        self._planning_result = planning_result
         plan = planning_result.plan
-        workflow.logger.info(f"Executing plan with {len(plan.actions)} actions")
+        self._total_actions = len(plan.actions)
+        workflow.logger.info(f"Executing plan with {self._total_actions} actions")
         
         # Retry policy for action execution activities
         retry_policy = RetryPolicy(
@@ -149,3 +154,51 @@ class ExecutionAgentWorkflow:
             return "low"
         else:
             return "very_low"
+    
+    @workflow.query
+    def get_execution_status(self) -> dict:
+        """
+        Query to get overall execution status and progress.
+        
+        Returns:
+            Dictionary with execution progress metrics including:
+            - total: Total number of actions in the plan
+            - completed: Number of actions completed so far
+            - success_count: Number of successful actions
+            - failure_count: Number of failed actions
+            - status: Current workflow status ('executing' or 'completed')
+        """
+        return {
+            "total": self._total_actions,
+            "completed": len(self._actions_executed),
+            "success_count": self._success_count,
+            "failure_count": self._failure_count,
+            "status": "completed" if len(self._actions_executed) == self._total_actions and self._total_actions > 0 else "executing"
+        }
+    
+    @workflow.query
+    def get_executed_actions(self) -> list:
+        """
+        Query to get detailed results for all executed actions.
+        
+        Returns:
+            List of action results with details about each executed action.
+        """
+        return [action.model_dump() for action in self._actions_executed]
+    
+    @workflow.query
+    def get_execution_summary(self) -> dict:
+        """
+        Query to get a quick summary of execution results.
+        
+        Returns:
+            Dictionary with basic execution counts:
+            - success_count: Number of successful actions
+            - failure_count: Number of failed actions
+            - total_executed: Total actions executed
+        """
+        return {
+            "success_count": self._success_count,
+            "failure_count": self._failure_count,
+            "total_executed": len(self._actions_executed)
+        }

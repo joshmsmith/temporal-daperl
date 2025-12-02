@@ -89,7 +89,6 @@ class DAPERLWorkflow:
         
         # Retry policy for activities
         retry_policy = RetryPolicy(
-        #    maximum_attempts=3,
             initial_interval=timedelta(seconds=1),
             maximum_interval=timedelta(seconds=10),
             backoff_coefficient=2.0,
