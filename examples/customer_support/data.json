@@ -11,7 +11,7 @@
         "category": "technical",
         "subcategory": "file_compatibility",
         "created_at": "2024-11-07T09:15:00Z",
-        "last_updated": "2025-12-02T21:14:41.970051",
+        "last_updated": "2024-11-07T09:15:00Z",
         "assigned_to": null,
         "tags": [
           "dx7",
@@ -21,28 +21,20 @@
         ],
         "customer_sentiment": "frustrated",
         "response_time_sla": "4 hours",
-        "resolution_time_sla": "24 hours",
-        "notes": [
-          {
-            "text": "Escalated to General Support (file_compatibility_specialist) with medium urgency. Customer unable to load Keytar Klassics Pack into Yamaha DX7. Potential SysEx transfer issue.",
-            "added_at": "2025-12-02T21:14:41.970062",
-            "added_by": "daper_system",
-            "escalation_id": "ESC-20251202161441"
-          }
-        ]
+        "resolution_time_sla": "24 hours"
       },
       {
         "ticket_id": "CS-2024-002",
         "customer_id": "CUST-67890",
         "subject": "Saxophone samples are way too tubular, dude",
         "description": "The Saxophone Serenades Collection sounds are coming through with like, way too much reverb or something. They sound totally tubular but I need them more dry and punchy for our new wave tracks. The demo files sounded perfect but the actual downloads are different. This is blocking our studio session.",
-        "status": "escalated",
+        "status": "in_progress",
         "priority": "critical",
         "category": "technical",
         "subcategory": "sound_quality",
         "created_at": "2024-11-07T07:30:00Z",
-        "last_updated": "2025-12-02T21:14:41.939714",
-        "assigned_to": "escalation_team",
+        "last_updated": "2024-11-07T08:45:00Z",
+        "assigned_to": "agent_rad_rick",
         "tags": [
           "saxophone",
           "reverb",
@@ -51,20 +43,7 @@
         ],
         "customer_sentiment": "concerned",
         "response_time_sla": "1 hour",
-        "resolution_time_sla": "4 hours",
-        "notes": [
-          {
-            "text": "SLA violation - critical priority ticket not addressed within 1 hour. Escalating to ensure immediate resolution.",
-            "added_at": "2025-12-02T21:14:41.929554",
-            "added_by": "daper_system"
-          },
-          {
-            "text": "Escalated to General Support (sound_quality_specialist) with critical urgency. Customer reports sound quality mismatch impacting studio session.",
-            "added_at": "2025-12-02T21:14:41.939725",
-            "added_by": "daper_system",
-            "escalation_id": "ESC-20251202161441"
-          }
-        ]
+        "resolution_time_sla": "4 hours"
       },
       {
         "ticket_id": "CS-2024-003",
@@ -115,12 +94,12 @@
         "customer_id": "CUST-33333",
         "subject": "Can't download Neon Nights Bass Pack after purchase",
         "description": "My payment went through for the Neon Nights Bass Pack but the download link keeps giving me an error. I've tried three different browsers and cleared my cache. Got a big demo session in 2 hours and really need these bass sounds ASAP!",
-        "status": "in_progress",
+        "status": "open",
         "priority": "high",
         "category": "technical",
         "subcategory": "download_issues",
         "created_at": "2024-11-07T11:30:00Z",
-        "last_updated": "2025-12-02T21:14:41.960931",
+        "last_updated": "2024-11-07T11:30:00Z",
         "assigned_to": "tech_support",
         "tags": [
           "download_error",
@@ -130,14 +109,7 @@
         ],
         "customer_sentiment": "anxious",
         "response_time_sla": "2 hours",
-        "resolution_time_sla": "8 hours",
-        "notes": [
-          {
-            "text": "Customer unable to download despite successful payment. Assigning to tech support for immediate resolution.",
-            "added_at": "2025-12-02T21:14:41.960943",
-            "added_by": "daper_system"
-          }
-        ]
+        "resolution_time_sla": "8 hours"
       }
     ],
     "customers": [
