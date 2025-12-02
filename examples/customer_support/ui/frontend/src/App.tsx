@@ -109,19 +109,19 @@ function App() {
           className={`nav-button ${currentView === 'data' ? 'active' : ''}`}
           onClick={() => setCurrentView('data')}
         >
-          📊 View Data & Start Workflow
+          📊 Peep the Data & Boot the Workflow
         </button>
         <button
           className={`nav-button ${currentView === 'workflow' ? 'active' : ''}`}
           onClick={() => setCurrentView('workflow')}
         >
-          🔄 Monitor Workflow
+          🔄 Workflow - On the Air
         </button>
         <button
           className={`nav-button ${currentView === 'impact' ? 'active' : ''}`}
           onClick={() => setCurrentView('impact')}
         >
-          📍 Impact Analysis
+          📍 Dude, what happened?
         </button>
       </nav>
 

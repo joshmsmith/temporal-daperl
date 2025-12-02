@@ -12,8 +12,6 @@
 
 [ ] Run on Temporal Cloud
 
-[ ] Add queries to child workflow to see execution statuses of tools
-
 [later] Look at adding the stuff in customer_support/ui/backend to the framework
 
 [ ] MCP? 
@@ -23,7 +21,7 @@
 
 ### UI changes
 
-[ ] Add sweet sweet 80s synthesizer theme to UI and data
+[x] Add sweet sweet 80s synthesizer theme to UI and data
 
 ### Other
 

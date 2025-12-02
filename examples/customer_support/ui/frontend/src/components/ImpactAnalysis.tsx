@@ -289,7 +289,7 @@ const ImpactAnalysis = ({ workflowId }: ImpactAnalysisProps) => {
   return (
     <div className="impact-analysis">
       <div className="impact-header">
-        <h2>📍 Impact Analysis</h2>
+        <h2>📍 Dude, what happened?</h2>
         <p className="subtitle">Visual mapping of detected problems and applied resolutions</p>
       </div>
 
@@ -322,7 +322,7 @@ const ImpactAnalysis = ({ workflowId }: ImpactAnalysisProps) => {
 
       {/* Problems Section */}
       <div className="impact-section">
-        <h3>🔍 Detected Problems & Affected Data</h3>
+        <h3>🔍 Glitches Detected </h3>
         {!hasProblems ? (
           <div className="no-data">
             <p>✅ No problems detected in this workflow</p>
@@ -402,7 +402,7 @@ const ImpactAnalysis = ({ workflowId }: ImpactAnalysisProps) => {
       {/* Resolutions Section */}
       {executionComplete && (
         <div className="impact-section">
-          <h3>⚙️ Applied Resolutions</h3>
+          <h3>⚙️ Totally Crushed It</h3>
           {!hasResolutions ? (
             <div className="no-data">
               <p>No resolutions applied yet</p>

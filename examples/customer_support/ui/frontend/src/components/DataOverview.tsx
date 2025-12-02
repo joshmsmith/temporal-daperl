@@ -283,8 +283,7 @@ const DataOverview = ({ onWorkflowStarted }: DataOverviewProps) => {
   return (
     <div className="data-overview">
       <div className="overview-header">
-        <h2>📊 Customer Support Data Overview</h2>
-        <p className="subtitle">Review the data before starting the DAPERL workflow</p>
+        <h2>📊 Peep the Data</h2>
       </div>
 
       {/* Quick Stats */}
@@ -542,12 +541,15 @@ const DataOverview = ({ onWorkflowStarted }: DataOverviewProps) => {
               <div key={product.product_id} className="product-card">
                 <h4>{product.name}</h4>
                 <p className="product-description">{product.description}</p>
-                {product.price_monthly && (
+                {(product.price_monthly || product.price_one_time) && (
                   <div className="product-price">
-                    ${product.price_monthly}/mo
+                    {product.price_monthly 
+                      ? `$${product.price_monthly}/mo`
+                      : `$${product.price_one_time}`
+                    }
                   </div>
                 )}
-                {product.features && (
+                {product.features && Array.isArray(product.features) && (
                   <ul className="product-features">
                     {product.features.slice(0, 3).map((feature: string, idx: number) => (
                       <li key={idx}>✓ {feature}</li>
@@ -566,8 +568,8 @@ const DataOverview = ({ onWorkflowStarted }: DataOverviewProps) => {
       {/* Workflow Launcher */}
       <div className="workflow-launcher">
         <div className="launcher-content">
-          <h3>🚀 Start DAPERL Workflow</h3>
-          <p>Analyze this data through the DAPERL framework: Detection, Analysis, Planning, Execution, Reporting, and Learning</p>
+          <h3>🚀 Boot That DAPERL Workflow</h3>
+          <p>Let the totally rad robots look at this sweet data through the DAPERL framework: Detection, Analysis, Planning, Execution, Reporting, and Learning</p>
           
           <div className="launcher-options">
             <label className="checkbox-label">
