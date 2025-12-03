@@ -2,7 +2,7 @@
 name = "customer-support-example"
 version = "0.1.0"
 description = "Customer Support Domain Example using DAPERL framework"
-authors = ["Your Name <your.email@example.com>"]
+authors = ["Joshua Smith and Laine Smith"]
 readme = "README.md"
 package-mode = false
 

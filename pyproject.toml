@@ -2,7 +2,7 @@
 name = "temporal-daperl"
 version = "0.1.0"
 description = "A multi-agent Temporal framework implementing the DAPERL pattern (Detection, Analysis, Planning, Execution, Reporting, Learning)"
-authors = ["Your Name <your.email@example.com>"]
+authors = ["Joshua Smith and Laine Smith"]
 readme = "README.md"
 packages = [{include = "daperl"}]
 
