@@ -23,20 +23,23 @@ Every company deals with expense report processing. Common issues include:
 ## Running the Example
 
 ```bash
-# Start from project root
+# Starting from the project root, create or copy a .env file into the expense_reports folder
+cp .env examples/expense_reports/.
+
+# Move to the expense_reports directory
 cd examples/expense_reports
 
-# Run with manual approval (default)
+# Install the Python dependencies
+poetry install
+
+# Start the worker
+poetry run python ../../scripts/run_worker.py
+
+# Run with manual approval (default, send a signal to approve via the Temporal UI)
 poetry run python run_example.py
 
-# Run with auto-approval for demo purposes
+# Run with auto-approval
 poetry run python run_example.py --auto-approve
-```
-
-### Command Line Options
-
-- `--auto-approve`: Auto-approve actions without human intervention (default: False)
-- `--help`: Show help message and available options
 ```
 
 ## Sample Data

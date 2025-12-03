@@ -63,107 +63,7 @@ PLANNING_LLM_MODEL=claude-3-5-sonnet-20241022
 
 ### Setup
 
-1. **Clone and Install**:
-```bash
-cd temporal-daperl
-poetry install
-```
-
-2. **Configure Environment - .env file will need to exist at the same level where you run your worker**:
-```bash
-cp .env.example .env
-# Edit .env with your configuration
-```
-
-3. **Start Temporal** (if running locally):
-```bash
-temporal server start-dev
-```
-
-4. **Start Worker**:
-```bash
-poetry run python scripts/run_worker.py
-```
-
-## Quick Start
-
-### Run the Example
-
-The easiest way to see DAPERL in action is with the expense report example:
-
-```bash
-# 1. Start Temporal (in a separate terminal)
-temporal server start-dev
-
-# 2. Start the worker (in another terminal)
-poetry run python scripts/run_worker.py
-
-# 3. Run the expense report example
-poetry run python examples/expense_reports/run_example.py
-```
-
-This will process 5 expense reports, detecting issues like missing receipts, policy violations, and duplicate submissions, then automatically fix them!
-
-## Usage
-
-### Basic Example
-
-```bash
-# Start a workflow
-poetry run python scripts/start_workflow.py \
-  --domain "my-domain" \
-  --data '{"items": ["item1", "item2"]}' \
-  --auto-approve
-
-# Query status
-poetry run python scripts/query_workflow.py \
-  --workflow-id daperl-my-domain-123456
-
-# Approve plan (if not auto-approved)
-poetry run python scripts/approve_workflow.py \
-  --workflow-id daperl-my-domain-123456
-```
-
-### Python API
-
-```python
-from temporalio.client import Client
-from daperl.workflows import DAPERLWorkflow
-from daperl.core.models import DAPERLInput
-
-# Connect to Temporal
-client = await Client.connect("localhost:7233")
-
-# Create workflow input
-workflow_input = DAPERLInput(
-    domain="my-domain",
-    data={"key": "value"},
-    config={
-        "detection_instructions": "Look for X, Y, Z",
-        "available_actions": ["action1", "action2"]
-    },
-    auto_approve=False
-)
-
-# Start workflow
-handle = await client.start_workflow(
-    DAPERLWorkflow.run,
-    workflow_input,
-    id="my-workflow-id",
-    task_queue="daperl-task-queue",
-)
-
-# Query status
-status = await handle.query(DAPERLWorkflow.get_status)
-print(f"Status: {status['status']}")
-
-# Approve plan
-await handle.signal(DAPERLWorkflow.approve_plan)
-
-# Wait for result
-result = await handle.result()
-print(f"Result: {result.summary}")
-```
+The easiest way to see DAPERL in action is with the [expense report example](/examples/expense_reports/README.md) (simple, no UI) or the [customer support example](/examples/customer_support/README.md) (more complex, with an API layer and a UI).
 
 ## Configuration
 
@@ -199,6 +99,7 @@ PLANNING_LLM_MAX_TOKENS=8000
 ```
 
 ## Extending the Framework
+(NEEDS MORE DETAIL)
 
 ### Creating a Domain-Specific Implementation
 
@@ -220,58 +121,9 @@ class MyDetectionAgent(BaseDetectionAgent):
         return await super().execute(context)
 ```
 
-### Providing Execution Actions
-
-```python
-from daperl.agents import ExecutionAgent
-
-# Define action handlers
-async def handle_send_email(action, context):
-    # Send email logic
-    return {"success": True, "message": "Email sent"}
-
-async def handle_update_database(action, context):
-    # Update database logic
-    return {"success": True, "message": "Database updated"}
-
-# Create agent with action registry
-action_registry = {
-    "send_email": handle_send_email,
-    "update_database": handle_update_database,
-}
-
-execution_agent = ExecutionAgent(
-    action_registry=action_registry,
-    llm_config=config.execution_llm
-)
-```
-
 ### How Tools Are Resolved
 
-1. Planning Agent creates Action objects:
-   Action(
-       action_type="update_ticket_status",
-       parameters={"ticket_id": "T-123", "status": "resolved"}
-   )
-
-2. ExecutionAgent receives actions and action_registry:
-   action_registry = {
-       "update_ticket_status": handler_function
-   }
-
-3. ExecutionAgent looks up handler:
-   handler = self.action_registry[action.action_type]  # ✅ Found!
-
-4. Handler executes tool:
-   tool_instance = UpdateTicketStatusTool(domain="customer-support")
-   result = await tool_instance.execute(action.parameters)  # ✅ Fixed!
-
-5. Tool returns result:
-   {
-       "success": true,
-       "data": {...},
-       "message": "Successfully updated ticket"
-   }
+[Details re: How Tool Resolution Works](/daperl/HowToolsWork.MD)
 
 
 ## Project Structure
@@ -282,34 +134,42 @@ temporal-daperl/
 │   ├── core/                    # Base abstractions
 │   │   ├── agents.py            # Base agent classes
 │   │   ├── models.py            # Data models
-│   │   └── types.py             # Type definitions
+│   │   ├── types.py             # Type definitions
+│   │   ├── tools.py             # Tool execution system
+│   │   └── exceptions.py        # Custom exceptions
 │   ├── agents/                  # DAPERL agent implementations
-│   │   ├── detection.py
-│   │   ├── analysis.py
-│   │   ├── planning.py
-│   │   ├── execution.py
-│   │   ├── reporting.py
-│   │   └── learning.py          # NEW: Learning agent
+│   │   ├── detection.py         # Detection agent
+│   │   ├── analysis.py          # Analysis agent
+│   │   ├── planning.py          # Planning agent
+│   │   ├── reporting.py         # Reporting agent
+│   │   └── learning.py          # Learning agent
 │   ├── workflows/               # Temporal workflows
-│   │   └── daperl_workflow.py
+│   │   ├── daperl_workflow.py   # Main DAPERL workflow
+│   │   └── execution_workflow.py # Execution workflow
 │   ├── activities/              # Temporal activities
-│   │   └── agent_activities.py
+│   │   └── agent_activities.py  # Agent activity wrappers
 │   ├── llm/                     # LLM provider abstraction
-│   │   ├── base.py
-│   │   ├── factory.py
+│   │   ├── base.py              # Base LLM interface
+│   │   ├── factory.py           # LLM factory
 │   │   └── providers/
+│   │       └── litellm_provider.py # LiteLLM implementation
 │   ├── storage/                 # Learning data storage
-│   │   ├── base.py
-│   │   └── json_storage.py
-│   └── config/                  # Configuration
-│       └── settings.py
+│   │   ├── base.py              # Storage interface
+│   │   └── json_storage.py      # JSON storage implementation
+│   ├── config/                  # Configuration
+│   │   └── settings.py          # Settings management
 ├── scripts/                     # Utility scripts
-│   ├── run_worker.py
-│   ├── start_workflow.py
-│   ├── query_workflow.py
-│   └── approve_workflow.py
+│   ├── run_worker.py            # Start Temporal worker
+│   ├── start_workflow.py        # Start a new workflow
+│   ├── query_workflow.py        # Query workflow state
+│   ├── query_execution_workflow.py # Query execution workflow
+│   └── approve_workflow.py      # Approve execution plan
 ├── examples/                    # Example implementations
-└── tests/                       # Tests
+│   ├── expense_reports/         # Simple expense report example
+│   └── customer_support/        # Advanced customer support example
+├── data/                        # Runtime data directory
+├── .env.example                 # Environment variables template
+└── pyproject.toml               # Python project configuration
 ```
 
 ## DAPERL Agents
