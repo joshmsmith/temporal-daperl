@@ -161,16 +161,13 @@ The customer support domain follows DAPER best practices:
 ## Future Enhancements
 
 Potential extensions include:
-- Machine learning integration for predictive analytics
-- Advanced NLP for better sentiment analysis and intent detection
-- Real-time dashboard integration for live monitoring
-- A/B testing framework for response strategy optimization
-- Integration with workforce management systems
+- EscalateToSpecialistTool: make this "real" tool functionality that pulls from the data file
+- CreateFollowUpTaskTool: change this to create and persist a new KB article 
+- Add tests
 
 ## Technical Requirements
 
 - Python 3.8+
 - DAPER framework core components
-- Optional: Integration with specific platforms (Zendesk SDK, Salesforce API, etc.)
 
 This example serves as a comprehensive template for building sophisticated customer support automation systems that scale with business needs while maintaining high service quality.

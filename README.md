@@ -20,19 +20,19 @@ DAPERL is a generic, extensible framework for building intelligent automation sy
 ## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                   DAPERL Workflow                        │
-├─────────────────────────────────────────────────────────┤
-│  1. Detection  →  2. Analysis  →  3. Planning           │
-│       ↓               ↓               ↓                  │
-│  Find Problems   Root Causes    Create Plan             │
-│                                      ↓                   │
-│                              4. Await Approval           │
-│                                      ↓                   │
-│  5. Execution  →  6. Reporting  →  7. Learning          │
-│       ↓               ↓               ↓                  │
-│  Execute Plan    Generate Report   Extract Insights     │
-└─────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────┐
+│                   DAPERL Workflow                     │
+├───────────────────────────────────────────────────────┤
+│  1. Detection  →  2. Analysis  →  3. Planning         │
+│       ↓               ↓               ↓               │
+│  Find Problems   Root Causes    Create Plan           │
+│                       ↓                               │
+│               4. Await Approval                       │
+│                       ↓                               │
+│  5. Execution  →  6. Reporting  →  7. Learning        │
+│       ↓               ↓               ↓               │
+│  Execute Plan    Generate Report   Extract Insights   │
+└───────────────────────────────────────────────────────┘
 ```
 
 ### Per-Agent LLM Configuration
@@ -450,6 +450,12 @@ A simple, relatable example in `examples/expense_reports/`:
 
 Run it: `poetry run python examples/expense_reports/run_example.py`
 
+## Potential Future Enhancements
+- Add proactive monitoring agent
+- Look at adding stuff in customer_support/ui/backend to the framework (API layer for UI)
+- Add MCP server
+- Add ability to approve/deny specific proposed solutions OR the whole set (currently it's the whole set)
+f
 ## References
 
 - [Temporal Documentation](https://docs.temporal.io/)
