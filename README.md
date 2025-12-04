@@ -35,24 +35,6 @@ DAPERL is a generic, extensible framework for building intelligent automation sy
 └───────────────────────────────────────────────────────┘
 ```
 
-### Per-Agent LLM Configuration
-
-Each agent can be configured with its own LLM:
-
-```python
-# Detection: Fast, cheap model
-DETECTION_LLM_MODEL=gpt-3.5-turbo
-
-# Analysis: More powerful model
-ANALYSIS_LLM_MODEL=gpt-4o
-
-# Planning: Different provider
-PLANNING_LLM_PROVIDER=anthropic
-PLANNING_LLM_MODEL=claude-3-5-sonnet-20241022
-
-# And so on for Execution, Reporting, Learning...
-```
-
 ## Installation
 
 ### Prerequisites
@@ -60,10 +42,6 @@ PLANNING_LLM_MODEL=claude-3-5-sonnet-20241022
 - Python 3.10+
 - Temporal Server (local or cloud)
 - API keys for LLM providers (OpenAI, Anthropic, etc.)
-
-### Setup
-
-The easiest way to see DAPERL in action is with the [expense report example](/examples/expense_reports/README.md) (simple, no UI) or the [customer support example](/examples/customer_support/README.md) (more complex, with an API layer and a UI).
 
 ## Configuration
 
@@ -77,6 +55,8 @@ See `.env.example` for all configuration options:
 - **Learning Storage**: `LEARNING_STORAGE_TYPE`, `LEARNING_STORAGE_PATH`
 
 ### Per-Agent LLM Configuration Example
+
+Each agent can be configured with its own LLM:
 
 ```env
 # Detection Agent - Fast & Cheap
@@ -98,17 +78,20 @@ PLANNING_LLM_TEMPERATURE=0.7
 PLANNING_LLM_MAX_TOKENS=8000
 ```
 
-## Extending the Framework
-(NEEDS MORE DETAIL)
+## Run it!
 
-### Creating a Domain-Specific Implementation
+The easiest way to see DAPERL in action is with the [expense report example](/examples/expense_reports/README.md) (simple, no UI) or the [customer support example](/examples/customer_support/README.md) (more complex, with an API layer and a UI).
 
-1. **Define your domain data structure**
-2. **Optionally extend agents** with domain-specific logic
-3. **Provide action handlers** for the execution agent
-4. **Configure domain-specific prompts**
+## Create Your Own (Domain-Specific) Implementation!
 
-Example:
+The framework is highly extensible - you can use the building blocks to create your own DAPERLWorkflow or ExecutionAgentWorkflow implementation, or you can create a customized agent implementation, or you can use everything as-is and simply define your domain and create the tools you might want the AI to execute. The instructions below are for this last option:
+
+1. Define your domain data structure
+2. Figure out how the data will get into the [DAPERLWorkflow](/daperl/workflows/daperl_workflow.py), potentially adding an activity for data loading (see the note re: Phase 0)
+3. Configure domain-specific prompts for each agent, which are passed in from the client as part of the workflow starting data ([expense_reports example](/examples/expense_reports/run_example.py), see the setup of the config)
+4. Provide action handlers for the tool execution/for the [execution agent](/daperl/workflows/execution_workflow.py) to use ([Details re: How Tool Resolution Works](/daperl/HowToolsWork.MD))
+
+This is an example of creating your own DetectionAgent using the BaseDetectionAgent: 
 
 ```python
 from daperl.core.agents import BaseDetectionAgent
@@ -121,10 +104,7 @@ class MyDetectionAgent(BaseDetectionAgent):
         return await super().execute(context)
 ```
 
-### How Tools Are Resolved
-
-[Details re: How Tool Resolution Works](/daperl/HowToolsWork.MD)
-
+### Remember, it's all just code. This is one of the reasons that Temporal is code-first, because then you can combine the benefits of Temporal with things like inheritance and object-orientation.
 
 ## Project Structure
 
@@ -226,41 +206,6 @@ Example insights:
 - "Action Y has 95% success rate for problem type Z"
 - "Executions with root cause A typically require 3 specific actions"
 
-## Best Practices
-
-### Temporal Best Practices
-- Activities are idempotent and can safely retry
-- Workflows are deterministic
-- Clear separation between orchestration and execution
-- Proper error handling and retry policies
-
-### Python Best Practices
-- Full type hints with Pydantic models
-- Dependency injection for flexibility
-- Modular, reusable components
-- Comprehensive docstrings
-
-### LLM Best Practices
-- Use faster/cheaper models for simple tasks (detection, reporting)
-- Use powerful models for complex tasks (analysis, planning)
-- Validate LLM outputs
-- Retry on invalid responses
-
-## Monitoring
-
-Use Temporal UI to monitor workflows:
-
-```bash
-# Access Temporal UI
-open http://localhost:8233
-```
-
-Features:
-- View workflow execution history
-- Inspect activity logs
-- Query workflow state
-- Send signals to workflows
-
 ## Troubleshooting
 
 ### Common Issues
@@ -292,30 +237,12 @@ Contributions welcome! Please:
 3. Add tests for new functionality
 4. Submit a pull request
 
-## Examples
-
-### Expense Report Processing
-
-A simple, relatable example in `examples/expense_reports/`:
-
-**The Problem**: Expense reports with missing receipts, policy violations, duplicate submissions
-
-**How DAPERL Solves It**:
-- **Detection**: Finds 4-5 problems (missing receipts, over limits, duplicates, etc.)
-- **Analysis**: Determines root causes (employee error, unclear policy)
-- **Planning**: Creates actions (request receipt, calculate mileage, flag for review)
-- **Execution**: Simulates sending notifications and updating statuses
-- **Reporting**: Generates summary of processed reports
-- **Learning**: Identifies patterns (which employees need training, common errors)
-
-Run it: `poetry run python examples/expense_reports/run_example.py`
-
 ## Potential Future Enhancements
 - Add proactive monitoring agent
 - Look at adding stuff in customer_support/ui/backend to the framework (API layer for UI)
 - Add MCP server
 - Add ability to approve/deny specific proposed solutions OR the whole set (currently it's the whole set)
-f
+
 ## References
 
 - [Temporal Documentation](https://docs.temporal.io/)
