@@ -4,50 +4,65 @@
       {
         "ticket_id": "CS-2024-001",
         "customer_id": "CUST-12345",
-        "subject": "Unable to access premium features after upgrade",
-        "description": "I upgraded to the Pro plan yesterday but I still can't access any of the premium features. The billing shows the charge went through but my account still shows Basic plan. Very frustrated as I need these features for a client presentation tomorrow.",
-        "status": "open",
+        "subject": "Downloaded keytar sounds but they won't load in my DX7",
+        "description": "I bought the Keytar Klassics Pack yesterday and the files won't load into my Yamaha DX7. I can see the .syx files on my computer but when I try to send them via MIDI, nothing happens. Really need these sounds for a gig tomorrow night at the Stardust Lounge!",
+        "status": "escalated",
         "priority": "high",
-        "category": "billing",
-        "subcategory": "account_upgrade",
+        "category": "technical",
+        "subcategory": "file_compatibility",
         "created_at": "2024-11-07T09:15:00Z",
         "last_updated": "2024-11-07T09:15:00Z",
         "assigned_to": null,
-        "tags": ["billing", "upgrade", "premium", "urgent"],
+        "tags": [
+          "dx7",
+          "sysex",
+          "keytar",
+          "urgent"
+        ],
         "customer_sentiment": "frustrated",
         "response_time_sla": "4 hours",
         "resolution_time_sla": "24 hours"
       },
       {
-        "ticket_id": "CS-2024-002", 
+        "ticket_id": "CS-2024-002",
         "customer_id": "CUST-67890",
-        "subject": "API rate limit errors after plan change",
-        "description": "Since we changed from Enterprise to Business plan, we're getting rate limit errors on our API calls. The documentation says Business plan should have 10k calls/hour but we're hitting limits at 5k. This is blocking our production deployment.",
+        "subject": "Saxophone samples are way too tubular, dude",
+        "description": "The Saxophone Serenades Collection sounds are coming through with like, way too much reverb or something. They sound totally tubular but I need them more dry and punchy for our new wave tracks. The demo files sounded perfect but the actual downloads are different. This is blocking our studio session.",
         "status": "in_progress",
         "priority": "critical",
         "category": "technical",
-        "subcategory": "api_limits",
+        "subcategory": "sound_quality",
         "created_at": "2024-11-07T07:30:00Z",
         "last_updated": "2024-11-07T08:45:00Z",
-        "assigned_to": "agent_sarah_tech",
-        "tags": ["api", "rate_limit", "plan_change", "production"],
+        "assigned_to": "agent_rad_rick",
+        "tags": [
+          "saxophone",
+          "reverb",
+          "sound_quality",
+          "production"
+        ],
         "customer_sentiment": "concerned",
-        "response_time_sla": "1 hour", 
+        "response_time_sla": "1 hour",
         "resolution_time_sla": "4 hours"
       },
       {
         "ticket_id": "CS-2024-003",
-        "customer_id": "CUST-11111", 
-        "subject": "How to set up single sign-on?",
-        "description": "We're a new Enterprise customer and need to set up SSO for our team. I've read the documentation but it's not clear which SAML endpoints to use. Can someone provide step-by-step guidance?",
+        "customer_id": "CUST-11111",
+        "subject": "Need help installing the Power Ballad expansion",
+        "description": "Just picked up the Power Ballad Piano Bundle for our Korg M1 and I'm not sure how to get these patches loaded. The manual mentions something about cartridge slots vs. internal memory but it's gnarly confusing. Can someone walk me through this step-by-step?",
         "status": "open",
         "priority": "medium",
         "category": "technical",
-        "subcategory": "sso_setup",
+        "subcategory": "installation",
         "created_at": "2024-11-07T10:00:00Z",
-        "last_updated": "2024-11-07T10:00:00Z", 
+        "last_updated": "2024-11-07T10:00:00Z",
         "assigned_to": null,
-        "tags": ["sso", "enterprise", "setup", "saml"],
+        "tags": [
+          "korg_m1",
+          "installation",
+          "power_ballad",
+          "setup"
+        ],
         "customer_sentiment": "neutral",
         "response_time_sla": "8 hours",
         "resolution_time_sla": "48 hours"
@@ -55,16 +70,21 @@
       {
         "ticket_id": "CS-2024-004",
         "customer_id": "CUST-22222",
-        "subject": "Refund request - service not as described",
-        "description": "I purchased the Analytics addon last week expecting real-time dashboards based on your marketing materials, but the data only updates once per day. This doesn't meet our needs and I'd like a full refund.",
+        "subject": "Refund request - drum sounds not as described",
+        "description": "Bought the Synth Drums '85 Edition expecting authentic Linn Drum and Simmons samples based on the product description, but these sound more like generic 808 clones. Not what I was looking for and doesn't match the demo tracks. Would like a full refund.",
         "status": "escalated",
-        "priority": "medium", 
+        "priority": "medium",
         "category": "billing",
         "subcategory": "refund_request",
         "created_at": "2024-11-06T14:20:00Z",
         "last_updated": "2024-11-07T09:30:00Z",
-        "assigned_to": "agent_mike_billing",
-        "tags": ["refund", "analytics", "expectations", "marketing"],
+        "assigned_to": "agent_maxxx_money",
+        "tags": [
+          "refund",
+          "drums",
+          "expectations",
+          "samples"
+        ],
         "customer_sentiment": "disappointed",
         "response_time_sla": "8 hours",
         "resolution_time_sla": "72 hours"
@@ -72,16 +92,21 @@
       {
         "ticket_id": "CS-2024-005",
         "customer_id": "CUST-33333",
-        "subject": "Account locked after failed login attempts",
-        "description": "My account got locked after someone tried to log in with wrong password multiple times. I can't reset it through the normal flow. Please unlock my account urgently as I have a demo scheduled in 2 hours.",
+        "subject": "Can't download Neon Nights Bass Pack after purchase",
+        "description": "My payment went through for the Neon Nights Bass Pack but the download link keeps giving me an error. I've tried three different browsers and cleared my cache. Got a big demo session in 2 hours and really need these bass sounds ASAP!",
         "status": "open",
         "priority": "high",
-        "category": "account",
-        "subcategory": "security_lockout", 
+        "category": "technical",
+        "subcategory": "download_issues",
         "created_at": "2024-11-07T11:30:00Z",
         "last_updated": "2024-11-07T11:30:00Z",
-        "assigned_to": null,
-        "tags": ["account_locked", "security", "demo", "urgent"],
+        "assigned_to": "tech_support",
+        "tags": [
+          "download_error",
+          "bass",
+          "demo",
+          "urgent"
+        ],
         "customer_sentiment": "anxious",
         "response_time_sla": "2 hours",
         "resolution_time_sla": "8 hours"
@@ -90,152 +115,157 @@
     "customers": [
       {
         "customer_id": "CUST-12345",
-        "name": "Jennifer Chen",
-        "email": "jennifer.chen@techstartup.io", 
-        "company": "TechStartup Inc",
-        "account_type": "pro",
-        "plan": "Pro",
+        "name": "Roxy Starlight",
+        "email": "roxy@radwavestudios.com",
+        "company": "RadWave Studios",
+        "account_type": "pro_synth",
+        "plan": "Pro Synthwave Collection",
         "plan_start_date": "2024-11-06T00:00:00Z",
-        "previous_plan": "Basic",
+        "previous_plan": "Bedroom Producer Basics",
         "account_value": 2400.0,
         "support_tier": "3 - standard",
         "preferred_contact": "email",
         "timezone": "America/Los_Angeles",
-        "industry": "technology",
+        "industry": "music_production",
         "company_size": "11-50",
         "signup_date": "2024-09-15T00:00:00Z",
         "last_login": "2024-11-07T08:30:00Z",
         "total_tickets": 3,
         "satisfaction_score": 4.2,
         "health_score": "green",
-        "notes": "Frequent upgrader, price-sensitive but values features"
+        "notes": "Frequent buyer, loves retro sounds, price-sensitive but values quality patches"
       },
       {
         "customer_id": "CUST-67890",
-        "name": "Marcus Rodriguez", 
-        "email": "marcus@dataflow.com",
-        "company": "DataFlow Analytics",
+        "name": "Blade Synthington",
+        "email": "blade@synthesiaproductions.net",
+        "company": "Synthesia Productions",
         "account_type": "business",
-        "plan": "Business",
-        "plan_start_date": "2024-11-05T00:00:00Z", 
-        "previous_plan": "Enterprise",
+        "plan": "Studio Professional Suite",
+        "plan_start_date": "2024-11-05T00:00:00Z",
+        "previous_plan": "Mega Studio Unlimited",
         "account_value": 18000.0,
         "support_tier": "2 - priority",
         "preferred_contact": "phone",
         "timezone": "America/New_York",
-        "industry": "data_analytics",
+        "industry": "commercial_production",
         "company_size": "51-200",
-        "signup_date": "2023-08-20T00:00:00Z",
+        "signup_date": "2023-03-10T00:00:00Z",
         "last_login": "2024-11-07T07:15:00Z",
         "total_tickets": 12,
         "satisfaction_score": 4.8,
         "health_score": "yellow",
-        "notes": "High-value customer, recently downgraded, technical team"
+        "notes": "High-volume user, does commercial jingles and movie soundtracks, recently downgraded but needs quick turnaround"
       },
       {
         "customer_id": "CUST-11111",
-        "name": "Sarah Thompson",
-        "email": "sarah.thompson@globalcorp.com",
-        "company": "Global Corp",
-        "account_type": "enterprise", 
-        "plan": "Enterprise",
-        "plan_start_date": "2024-10-01T00:00:00Z",
+        "name": "Crystal Moonbeam",
+        "email": "crystal@neondreamsmusic.io",
+        "company": "Neon Dreams Music",
+        "account_type": "enterprise",
+        "plan": "Mega Studio Unlimited",
+        "plan_start_date": "2024-08-20T00:00:00Z",
         "previous_plan": null,
-        "account_value": 50000.0,
+        "account_value": 48000.0,
         "support_tier": "1 - premium",
-        "preferred_contact": "dedicated_channel",
-        "timezone": "Europe/London",
-        "industry": "finance",
-        "company_size": "1000+",
-        "signup_date": "2024-10-01T00:00:00Z",
+        "preferred_contact": "slack",
+        "timezone": "America/Chicago",
+        "industry": "music_production",
+        "company_size": "201-500",
+        "signup_date": "2024-08-20T00:00:00Z",
         "last_login": "2024-11-07T09:45:00Z",
-        "total_tickets": 1,
-        "satisfaction_score": null,
+        "total_tickets": 2,
+        "satisfaction_score": 5.0,
         "health_score": "green",
-        "notes": "New enterprise customer, setting up infrastructure"
+        "notes": "New wave revival label, massive library needs, dedicated account rep assigned"
       },
       {
-        "customer_id": "CUST-22222", 
-        "name": "Alex Kim",
-        "email": "alex@marketingpro.net",
-        "company": "Marketing Pro",
-        "account_type": "pro",
-        "plan": "Pro + Analytics",
-        "plan_start_date": "2024-10-30T00:00:00Z",
-        "previous_plan": "Pro",
-        "account_value": 3600.0,
+        "customer_id": "CUST-22222",
+        "name": "Turbo Rodriguez",
+        "email": "turbo@electricdreamsaudio.com",
+        "company": "Electric Dreams Audio",
+        "account_type": "pro_synth",
+        "plan": "Pro Synthwave Collection",
+        "plan_start_date": "2024-10-15T00:00:00Z",
+        "previous_plan": "Bedroom Producer Basics",
+        "account_value": 2400.0,
         "support_tier": "3 - standard",
         "preferred_contact": "email",
-        "timezone": "America/Chicago", 
-        "industry": "marketing",
-        "company_size": "11-50",
-        "signup_date": "2024-07-12T00:00:00Z",
-        "last_login": "2024-11-06T16:20:00Z",
+        "timezone": "America/Denver",
+        "industry": "music_production",
+        "company_size": "1-10",
+        "signup_date": "2024-10-15T00:00:00Z",
+        "last_login": "2024-11-06T14:10:00Z",
         "total_tickets": 5,
         "satisfaction_score": 3.1,
         "health_score": "red",
-        "notes": "Recently unhappy with addon purchase, considering churn"
+        "notes": "Solo producer, very particular about authentic 80s sounds, recent disappointment with purchase"
       },
       {
         "customer_id": "CUST-33333",
-        "name": "David Park",
-        "email": "david@consultingfirm.biz", 
-        "company": "Strategic Consulting",
-        "account_type": "basic",
-        "plan": "Basic",
-        "plan_start_date": "2024-06-01T00:00:00Z",
-        "previous_plan": null,
-        "account_value": 600.0,
-        "support_tier": "4 - community",
-        "preferred_contact": "email",
+        "name": "Laser Wolf",
+        "email": "wolf@chromevisions.tv",
+        "company": "Chrome Visions",
+        "account_type": "business",
+        "plan": "Studio Professional Suite",
+        "plan_start_date": "2024-05-01T00:00:00Z",
+        "previous_plan": "Pro Synthwave Collection",
+        "account_value": 12000.0,
+        "support_tier": "2 - priority",
+        "preferred_contact": "phone",
         "timezone": "America/Los_Angeles",
-        "industry": "consulting",
-        "company_size": "1-10",
-        "signup_date": "2024-06-01T00:00:00Z",
-        "last_login": "2024-11-07T11:15:00Z",
-        "total_tickets": 2,
-        "satisfaction_score": 4.0,
+        "industry": "video_production",
+        "company_size": "11-50",
+        "signup_date": "2024-02-01T00:00:00Z",
+        "last_login": "2024-11-07T11:20:00Z",
+        "total_tickets": 5,
+        "satisfaction_score": 4.5,
         "health_score": "green",
-        "notes": "Long-time basic user, occasional security issues"
+        "notes": "Creates 80s-style commercials and music videos, reliable customer, occasional urgent needs"
       }
     ],
     "community_forums": [
       {
         "post_id": "FORUM-001",
-        "title": "SSO Setup Issues - SAML Configuration Help",
-        "author": "sarah_globalcorp",
+        "title": "DX7 SysEx Transfer - Getting Checksum Errors",
+        "author": "crystal_neon",
         "customer_id": "CUST-11111",
         "category": "technical_help",
-        "content": "Hi everyone, I'm trying to set up SAML SSO for our Enterprise account. I've followed the documentation but getting 'Invalid SAML Response' errors. Has anyone encountered this? The error happens right after the identity provider redirect.",
+        "content": "Hey synth fam! Trying to load the Keytar Klassics Pack into my DX7 but I keep getting checksum errors during SysEx transfer. Using MIDI-OX on Windows. The transfer starts fine but fails about halfway through. Anyone else run into this?",
         "status": "active",
         "replies": 3,
         "views": 45,
         "upvotes": 2,
         "created_at": "2024-11-06T15:30:00Z",
         "last_activity": "2024-11-07T09:20:00Z",
-        "tags": ["sso", "saml", "enterprise", "error"],
+        "tags": [
+          "dx7",
+          "sysex",
+          "checksum",
+          "midi_ox"
+        ],
         "replies_data": [
           {
             "reply_id": "REPLY-001-1",
-            "author": "mike_support",
+            "author": "rad_rick_support",
             "is_staff": true,
-            "content": "Hi Sarah! This usually happens when the SAML assertion timestamps don't match. Check that your IdP clock is synchronized and the NotBefore/NotOnOrAfter values are correct.",
+            "content": "Hey Crystal! This usually happens when the transfer speed is too fast for vintage gear. Try setting MIDI-OX to 'Slow' transmission mode. Also make sure your MIDI cables are good quality - cheap ones can cause data corruption on long transfers!",
             "created_at": "2024-11-06T16:15:00Z",
             "upvotes": 3
           },
           {
-            "reply_id": "REPLY-001-2", 
-            "author": "tech_user_123",
+            "reply_id": "REPLY-001-2",
+            "author": "synth_wizard_808",
             "is_staff": false,
-            "content": "I had similar issue with Okta. Make sure the NameID format matches what's configured in your settings. Also check the certificate validation.",
+            "content": "I had the same gnarly issue with my DX7II. Slowing down the transfer rate totally fixed it. Also try turning off 'Running Status' in the MIDI-OX settings - that helped me.",
             "created_at": "2024-11-06T17:22:00Z",
             "upvotes": 1
           },
           {
             "reply_id": "REPLY-001-3",
-            "author": "sarah_globalcorp", 
+            "author": "crystal_neon",
             "is_staff": false,
-            "content": "Thanks both! The timestamp sync was indeed the issue. Working now!",
+            "content": "You guys rock! Slow mode did the trick. Got all 128 patches loaded and they sound absolutely bodacious!",
             "created_at": "2024-11-07T09:20:00Z",
             "upvotes": 0
           }
@@ -243,317 +273,673 @@
       },
       {
         "post_id": "FORUM-002",
-        "title": "Analytics Addon - Real-time vs Daily Updates?",
-        "author": "alex_marketing",
+        "title": "Are the sax samples supposed to be this wet?",
+        "author": "turbo_sounds",
         "customer_id": "CUST-22222",
         "category": "product_feedback",
-        "content": "I'm confused about the Analytics addon capabilities. The marketing page mentions 'real-time insights' but my data only updates once daily. Is this expected behavior or is there a setting I'm missing?",
+        "content": "Just downloaded the Saxophone Serenades Collection and these samples have a ton of reverb on them. Like, way more than the demos showed. Is this normal? I need dry samples for my new wave production. Anyone know if there's a dry version?",
         "status": "answered",
         "replies": 5,
         "views": 78,
         "upvotes": 8,
         "created_at": "2024-11-05T10:15:00Z",
-        "last_activity": "2024-11-06T14:30:00Z", 
-        "tags": ["analytics", "real-time", "confusion", "addon"],
+        "last_activity": "2024-11-06T14:30:00Z",
+        "tags": [
+          "saxophone",
+          "reverb",
+          "samples",
+          "dry_wet"
+        ],
         "replies_data": [
           {
             "reply_id": "REPLY-002-1",
-            "author": "jenny_support",
+            "author": "rad_rick_support",
             "is_staff": true,
-            "content": "Great question! The Analytics addon has different update frequencies based on data type: - User activity: Real-time - Usage metrics: Hourly - Revenue data: Daily for accuracy. Which specific metrics are you looking at?",
+            "content": "Great question! The samples themselves are actually dry - what you might be hearing is the natural room ambience from the recording session. Our demos add studio reverb for presentation. Check out KB-003 in our knowledge base for tips on making your downloads sound like the demos (or vice versa)!",
             "created_at": "2024-11-05T11:30:00Z",
             "upvotes": 4
           },
           {
             "reply_id": "REPLY-002-2",
-            "author": "alex_marketing",
-            "is_staff": false, 
-            "content": "I'm mainly interested in user engagement metrics for campaigns. That should be real-time then?",
+            "author": "turbo_sounds",
+            "is_staff": false,
+            "content": "Hmm, but they definitely sound more ambient than I expected. Is there any processing I can do to dry them out more?",
             "created_at": "2024-11-05T12:45:00Z",
             "upvotes": 1
           },
           {
             "reply_id": "REPLY-002-3",
-            "author": "jenny_support",
+            "author": "rad_rick_support",
             "is_staff": true,
-            "content": "Yes, user engagement should be real-time. If you're not seeing that, please check the dashboard refresh settings or contact support for troubleshooting.",
+            "content": "You could try using a gate or early reflection suppressor, but honestly the samples are already pretty dry. If you want super-close-mic'd sounds, you might want to check out our upcoming 'Totally Dry' collection coming next month!",
             "created_at": "2024-11-05T13:00:00Z",
             "upvotes": 2
           },
           {
             "reply_id": "REPLY-002-4",
-            "author": "data_guru_99",
+            "author": "laser_synth_99",
             "is_staff": false,
-            "content": "I've noticed some delays during high-traffic periods. Usually resolves within 15 minutes.",
-            "created_at": "2024-11-06T09:15:00Z", 
+            "content": "I use these in my productions and they sit in the mix great. Maybe try EQing out some of the 2-4kHz range if they feel too roomy?",
+            "created_at": "2024-11-06T09:15:00Z",
             "upvotes": 1
           },
           {
             "reply_id": "REPLY-002-5",
-            "author": "alex_marketing",
+            "author": "turbo_sounds",
             "is_staff": false,
-            "content": "Thanks everyone. I'll contact support since mine definitely isn't updating in real-time.",
+            "content": "Thanks everyone. I'll experiment with some processing. Still feels different from the demos though.",
             "created_at": "2024-11-06T14:30:00Z",
             "upvotes": 0
           }
         ]
       },
       {
-        "post_id": "FORUM-003", 
-        "title": "API Rate Limits - Business vs Enterprise Plans",
-        "author": "marcus_dataflow",
+        "post_id": "FORUM-003",
+        "title": "Korg M1 vs DX7 file compatibility?",
+        "author": "blade_synth",
         "customer_id": "CUST-67890",
         "category": "technical_help",
-        "content": "We recently moved from Enterprise to Business plan and are hitting API rate limits earlier than expected. Documentation says 10k/hour for Business but we're getting throttled at ~5k. Anyone else experienced this?",
+        "content": "Quick question - I bought the Power Ballad Piano Bundle which lists M1 compatibility, but I'm trying to load it into my DX7. Files won't transfer. Are these formats interchangeable or do I need to buy a DX7-specific version?",
         "status": "active",
         "replies": 2,
         "views": 32,
         "upvotes": 3,
         "created_at": "2024-11-07T08:00:00Z",
         "last_activity": "2024-11-07T08:50:00Z",
-        "tags": ["api", "rate_limits", "business_plan", "throttling"],
+        "tags": [
+          "m1",
+          "dx7",
+          "compatibility",
+          "file_formats"
+        ],
         "replies_data": [
           {
             "reply_id": "REPLY-003-1",
-            "author": "api_expert_42",
+            "author": "synth_guru_fm",
             "is_staff": false,
-            "content": "Rate limits are calculated per endpoint, not total. Check if you're hitting a specific endpoint limit rather than the overall quota.",
+            "content": "Dude, the M1 and DX7 use completely different synthesis engines! M1 is sample-based (PCM) while DX7 is FM synthesis. The SysEx formats are totally different and not interchangeable. You'd need to buy the Keytar Klassics Pack which has DX7 patches.",
             "created_at": "2024-11-07T08:30:00Z",
             "upvotes": 2
           },
           {
             "reply_id": "REPLY-003-2",
-            "author": "marcus_dataflow",
+            "author": "blade_synth",
             "is_staff": false,
-            "content": "Good point! I'll check the per-endpoint limits. Though this seems like something that should be clearer in the plan comparison.",
+            "content": "Ah man, that makes sense but is totally not obvious from the product page! Would be rad if they listed 'NOT compatible with' as well as compatible synths. Thanks for the help!",
             "created_at": "2024-11-07T08:50:00Z",
             "upvotes": 1
+          }
+        ]
+      },
+      {
+        "post_id": "FORUM-004",
+        "title": "Best patches for that Stranger Things vibe?",
+        "author": "roxy_radwave",
+        "customer_id": "CUST-12345",
+        "category": "creative_discussion",
+        "content": "Working on a soundtrack that needs that dark, moody synth sound like Stranger Things. Which packs would you guys recommend? I've got a DX7, Jupiter-8, and Prophet-5 at my disposal. Looking for bass, leads, and atmospheric pads.",
+        "status": "active",
+        "replies": 7,
+        "views": 156,
+        "upvotes": 12,
+        "created_at": "2024-11-04T14:20:00Z",
+        "last_activity": "2024-11-07T10:15:00Z",
+        "tags": [
+          "stranger_things",
+          "soundtrack",
+          "recommendations",
+          "atmosphere"
+        ],
+        "replies_data": [
+          {
+            "reply_id": "REPLY-004-1",
+            "author": "chrome_dreamer",
+            "is_staff": false,
+            "content": "For that vibe you definitely want the Neon Nights Bass Pack for your Prophet-5. The sub bass patches are killer. Also check out the upcoming 'Analog Darkness' expansion coming this month!",
+            "created_at": "2024-11-04T15:45:00Z",
+            "upvotes": 5
+          },
+          {
+            "reply_id": "REPLY-004-2",
+            "author": "laser_wolf_audio",
+            "is_staff": false,
+            "content": "Jupiter-8 is perfect for those huge pad sounds. The Keytar Klassics Pack has some darker pad patches that would work great. Layer them with your DX7 for extra texture.",
+            "created_at": "2024-11-04T16:30:00Z",
+            "upvotes": 3
+          },
+          {
+            "reply_id": "REPLY-004-3",
+            "author": "maxxx_vintage",
+            "is_staff": false,
+            "content": "Don't sleep on the DX7 for those metallic, bell-like tones. Keytar Klassics has some great starting points you can tweak darker.",
+            "created_at": "2024-11-05T09:10:00Z",
+            "upvotes": 2
+          },
+          {
+            "reply_id": "REPLY-004-4",
+            "author": "rad_rick_support",
+            "is_staff": true,
+            "content": "Great suggestions everyone! Also worth mentioning our Vintage Reverbs Addon if you want that authentic 80s space. The Lexicon 224 emulation is chef's kiss for dark atmospheres.",
+            "created_at": "2024-11-05T11:20:00Z",
+            "upvotes": 4
+          },
+          {
+            "reply_id": "REPLY-004-5",
+            "author": "analog_obsessed",
+            "is_staff": false,
+            "content": "Pro tip: run everything through the Tape Warmth addon to get that slight degradation and wow/flutter. Really sells the vintage vibe.",
+            "created_at": "2024-11-06T13:45:00Z",
+            "upvotes": 6
+          },
+          {
+            "reply_id": "REPLY-004-6",
+            "author": "roxy_radwave",
+            "is_staff": false,
+            "content": "This is all so helpful! Going to grab the Neon Nights pack and the Vintage Reverbs addon. Thanks crew!",
+            "created_at": "2024-11-06T18:30:00Z",
+            "upvotes": 1
+          },
+          {
+            "reply_id": "REPLY-004-7",
+            "author": "synth_archivist",
+            "is_staff": false,
+            "content": "Post clips when you're done! Would love to hear what you come up with. This community needs more soundtrack work showcased!",
+            "created_at": "2024-11-07T10:15:00Z",
+            "upvotes": 2
+          }
+        ]
+      },
+      {
+        "post_id": "FORUM-005",
+        "title": "Sample rate conversion for Akai S900?",
+        "author": "electro_eddie",
+        "customer_id": "CUST-44444",
+        "category": "technical_help",
+        "content": "Picked up some rad drum samples but they're 48kHz and my S900 only handles 44.1kHz. What's the best way to convert these without losing that punchy quality? Any free tools recommended?",
+        "status": "answered",
+        "replies": 4,
+        "views": 67,
+        "upvotes": 5,
+        "created_at": "2024-11-03T16:45:00Z",
+        "last_activity": "2024-11-05T14:20:00Z",
+        "tags": [
+          "akai_s900",
+          "sample_rate",
+          "conversion",
+          "drums"
+        ],
+        "replies_data": [
+          {
+            "reply_id": "REPLY-005-1",
+            "author": "vintage_sampler_pro",
+            "is_staff": false,
+            "content": "Audacity is free and does great sample rate conversion. Just import, then export at 44.1k. Use 'Best Quality' in the settings for cleanest results.",
+            "created_at": "2024-11-03T17:30:00Z",
+            "upvotes": 3
+          },
+          {
+            "reply_id": "REPLY-005-2",
+            "author": "rad_rick_support",
+            "is_staff": true,
+            "content": "Great suggestion! Also, if you order from us and need a different sample rate, just mention it in the order notes. We can usually provide alternate versions for vintage gear compatibility.",
+            "created_at": "2024-11-04T09:15:00Z",
+            "upvotes": 4
+          },
+          {
+            "reply_id": "REPLY-005-3",
+            "author": "s900_fanatic",
+            "is_staff": false,
+            "content": "Pro tip: The S900 actually sounds gnarlier with slightly lower sample rates. That's part of its charm! Don't worry too much about 'losing quality' - the character is what makes it special.",
+            "created_at": "2024-11-04T20:10:00Z",
+            "upvotes": 2
+          },
+          {
+            "reply_id": "REPLY-005-4",
+            "author": "electro_eddie",
+            "is_staff": false,
+            "content": "Thanks everyone! Audacity worked perfectly. And good to know about ordering in specific formats - that's totally rad customer service!",
+            "created_at": "2024-11-05T14:20:00Z",
+            "upvotes": 0
           }
         ]
       }
     ],
     "product_data": [
       {
-        "product_id": "PLAN-BASIC",
-        "name": "Basic Plan",
-        "description": "Perfect for individuals and small teams getting started",
-        "price_monthly": 29.00,
-        "price_annual": 290.00,
-        "features": [
-          "Up to 5 team members",
-          "5GB storage", 
-          "Basic analytics",
-          "Email support",
-          "Community forum access",
-          "Standard API (1k calls/hour)"
+        "product_id": "PACK-KEYTAR",
+        "name": "Keytar Klassics Pack",
+        "description": "The most bodacious keytar sounds from the golden age of shoulder synths",
+        "price_one_time": 49.99,
+        "category": "sound_pack",
+        "release_date": "2024-10-15T00:00:00Z",
+        "file_formats": [
+          "syx",
+          "mid",
+          "fxp"
         ],
-        "limits": {
-          "team_members": 5,
-          "storage_gb": 5,
-          "api_calls_hour": 1000,
-          "projects": 3,
-          "integrations": 2
+        "compatible_synths": [
+          "Yamaha DX7",
+          "Roland D-50",
+          "Korg M1",
+          "Yamaha DX100"
+        ],
+        "features": {
+          "patch_count": 128,
+          "multitimbrals": true,
+          "velocity_layers": 4,
+          "stereo_samples": true
+        },
+        "sound_categories": [
+          "Lead Keytar",
+          "Power Chord Stabs",
+          "Synth Brass",
+          "80s Solo Leads",
+          "Vocoder Patches"
+        ],
+        "file_size_mb": 245,
+        "demo_url": "https://synthfiles.example.com/demos/keytar-klassics"
+      },
+      {
+        "product_id": "PACK-SAX",
+        "name": "Saxophone Serenades Collection",
+        "description": "Smooth and sultry sax samples that'll make your tracks totally rad",
+        "price_one_time": 39.99,
+        "category": "sound_pack",
+        "release_date": "2024-09-20T00:00:00Z",
+        "file_formats": [
+          "wav",
+          "aiff",
+          "sfz"
+        ],
+        "compatible_synths": [
+          "Akai S900",
+          "E-mu Emulator II",
+          "Ensoniq Mirage",
+          "Kurzweil K2000"
+        ],
+        "features": {
+          "patch_count": 64,
+          "multitimbrals": false,
+          "velocity_layers": 6,
+          "stereo_samples": true
+        },
+        "sound_categories": [
+          "Alto Sax Smooth",
+          "Tenor Sax Breathy",
+          "Soprano Sax Bright",
+          "Baritone Sax Deep",
+          "Sax Section Ensemble"
+        ],
+        "file_size_mb": 512,
+        "demo_url": "https://synthfiles.example.com/demos/sax-serenades"
+      },
+      {
+        "product_id": "PACK-BALLAD",
+        "name": "Power Ballad Piano Bundle",
+        "description": "Epic piano sounds for those hair-raising ballad moments",
+        "price_one_time": 59.99,
+        "category": "expansion",
+        "release_date": "2024-08-10T00:00:00Z",
+        "file_formats": [
+          "syx",
+          "pcg",
+          "mid"
+        ],
+        "compatible_synths": [
+          "Korg M1",
+          "Roland JV-1080",
+          "Yamaha SY77",
+          "Ensoniq VFX"
+        ],
+        "features": {
+          "patch_count": 96,
+          "multitimbrals": true,
+          "velocity_layers": 8,
+          "stereo_samples": true
+        },
+        "sound_categories": [
+          "Grand Piano Lush",
+          "Electric Piano Sparkle",
+          "Pad Piano Layers",
+          "Ballad Piano Combo",
+          "Strings + Piano"
+        ],
+        "file_size_mb": 378,
+        "demo_url": "https://synthfiles.example.com/demos/power-ballad-piano"
+      },
+      {
+        "product_id": "PACK-DRUMS85",
+        "name": "Synth Drums '85 Edition",
+        "description": "Authentic drum machine sounds from the year Miami Vice ruled the airwaves",
+        "price_one_time": 44.99,
+        "category": "sound_pack",
+        "release_date": "2024-11-01T00:00:00Z",
+        "file_formats": [
+          "wav",
+          "rex",
+          "aiff"
+        ],
+        "compatible_synths": [
+          "Roland TR-808",
+          "Roland TR-909",
+          "Linn LM-1",
+          "Simmons SDS-V",
+          "Oberheim DMX"
+        ],
+        "features": {
+          "patch_count": 200,
+          "multitimbrals": false,
+          "velocity_layers": 3,
+          "stereo_samples": true
+        },
+        "sound_categories": [
+          "Linn Drum Classics",
+          "Simmons Electronic",
+          "808 Boom",
+          "909 Punch",
+          "DMX Crunch"
+        ],
+        "file_size_mb": 425,
+        "demo_url": "https://synthfiles.example.com/demos/synth-drums-85"
+      },
+      {
+        "product_id": "PACK-NEONBASS",
+        "name": "Neon Nights Bass Pack",
+        "description": "Deep, funky, and totally gnarly bass sounds for your midnight cruising tracks",
+        "price_one_time": 34.99,
+        "category": "sound_pack",
+        "release_date": "2024-10-28T00:00:00Z",
+        "file_formats": [
+          "syx",
+          "fxp",
+          "nks"
+        ],
+        "compatible_synths": [
+          "Moog Minimoog",
+          "Roland Jupiter-8",
+          "Yamaha DX7",
+          "Sequential Prophet-5"
+        ],
+        "features": {
+          "patch_count": 80,
+          "multitimbrals": false,
+          "velocity_layers": 5,
+          "stereo_samples": true
+        },
+        "sound_categories": [
+          "Slap Bass Funk",
+          "Sub Bass Thunder",
+          "Synth Bass Squelch",
+          "Pick Bass Bright",
+          "Fretless Smooth"
+        ],
+        "file_size_mb": 298,
+        "demo_url": "https://synthfiles.example.com/demos/neon-bass"
+      },
+      {
+        "product_id": "PLAN-BEDROOM",
+        "name": "Bedroom Producer Basics",
+        "description": "Get started with essential 80s sounds",
+        "price_monthly": 9.99,
+        "price_annual": 99.0,
+        "features": {
+          "monthly_downloads": 5,
+          "total_storage_gb": 10,
+          "file_formats": [
+            "syx",
+            "mid"
+          ],
+          "exclusive_packs": false,
+          "early_access": false,
+          "commercial_license": false
         },
         "support_tier": "community"
       },
       {
         "product_id": "PLAN-PRO",
-        "name": "Pro Plan", 
-        "description": "Advanced features for growing businesses",
-        "price_monthly": 99.00,
-        "price_annual": 990.00,
-        "features": [
-          "Up to 25 team members",
-          "50GB storage",
-          "Advanced analytics",
-          "Priority email support",
-          "Phone support (business hours)",
-          "Enhanced API (5k calls/hour)",
-          "Custom integrations",
-          "Advanced reporting"
-        ],
-        "limits": {
-          "team_members": 25,
-          "storage_gb": 50,
-          "api_calls_hour": 5000,
-          "projects": 15,
-          "integrations": 10
+        "name": "Pro Synthwave Collection",
+        "description": "Serious sounds for serious synth heads",
+        "price_monthly": 29.99,
+        "price_annual": 299.0,
+        "features": {
+          "monthly_downloads": 20,
+          "total_storage_gb": 50,
+          "file_formats": [
+            "syx",
+            "mid",
+            "wav",
+            "aiff",
+            "fxp"
+          ],
+          "exclusive_packs": true,
+          "early_access": true,
+          "commercial_license": true
         },
         "support_tier": "standard"
       },
       {
-        "product_id": "PLAN-BUSINESS",
-        "name": "Business Plan",
-        "description": "Comprehensive solution for established businesses", 
-        "price_monthly": 299.00,
-        "price_annual": 2990.00,
-        "features": [
-          "Up to 100 team members",
-          "200GB storage",
-          "Real-time analytics",
-          "24/7 priority support",
-          "Dedicated phone line",
-          "Premium API (10k calls/hour)",
-          "Unlimited integrations",
-          "Custom reporting",
-          "Advanced security features",
-          "SLA guarantees"
-        ],
-        "limits": {
-          "team_members": 100,
-          "storage_gb": 200,
-          "api_calls_hour": 10000,
-          "projects": 50, 
-          "integrations": "unlimited"
+        "product_id": "PLAN-STUDIO",
+        "name": "Studio Professional Suite",
+        "description": "Everything you need to create authentic 80s productions",
+        "price_monthly": 79.99,
+        "price_annual": 799.0,
+        "features": {
+          "monthly_downloads": 100,
+          "total_storage_gb": 250,
+          "file_formats": [
+            "all_formats"
+          ],
+          "exclusive_packs": true,
+          "early_access": true,
+          "commercial_license": true,
+          "custom_patches": true,
+          "api_access": true
         },
         "support_tier": "priority"
       },
       {
-        "product_id": "PLAN-ENTERPRISE",
-        "name": "Enterprise Plan",
-        "description": "Full-scale solution for large organizations",
-        "price_monthly": 999.00,
-        "price_annual": 9990.00,
-        "features": [
-          "Unlimited team members",
-          "1TB+ storage",
-          "Real-time analytics & insights",
-          "24/7 dedicated support",
-          "Dedicated account manager",
-          "Enterprise API (50k calls/hour)",
-          "White-label options",
-          "Custom development",
-          "SSO/SAML integration",
-          "Advanced compliance",
-          "On-premise deployment options"
-        ],
-        "limits": {
-          "team_members": "unlimited",
-          "storage_gb": 1000,
-          "api_calls_hour": 50000,
-          "projects": "unlimited",
-          "integrations": "unlimited"
+        "product_id": "PLAN-MEGA",
+        "name": "Mega Studio Unlimited",
+        "description": "For major studios and production houses - unlimited radical sounds",
+        "price_monthly": 199.99,
+        "price_annual": 1999.0,
+        "features": {
+          "monthly_downloads": "unlimited",
+          "total_storage_gb": "unlimited",
+          "file_formats": [
+            "all_formats"
+          ],
+          "exclusive_packs": true,
+          "early_access": true,
+          "commercial_license": true,
+          "custom_patches": true,
+          "api_access": true,
+          "dedicated_support": true,
+          "white_label": true
         },
         "support_tier": "premium"
       },
       {
-        "product_id": "ADDON-ANALYTICS",
-        "name": "Analytics Addon",
-        "description": "Enhanced analytics and reporting capabilities",
-        "price_monthly": 49.00,
-        "compatible_plans": ["PLAN-PRO", "PLAN-BUSINESS", "PLAN-ENTERPRISE"],
-        "features": [
-          "Real-time user engagement metrics",
-          "Hourly usage analytics", 
-          "Daily revenue reporting",
-          "Custom dashboard builder",
-          "Data export capabilities",
-          "Advanced filtering",
-          "Predictive insights"
+        "product_id": "ADDON-VINTAGE-VERBS",
+        "name": "Vintage Reverbs Addon",
+        "description": "Authentic 80s reverb and delay algorithms from classic hardware units",
+        "price_monthly": 14.99,
+        "compatible_plans": [
+          "PLAN-PRO",
+          "PLAN-STUDIO",
+          "PLAN-MEGA"
         ],
-        "update_frequencies": {
-          "user_engagement": "real-time",
-          "usage_metrics": "hourly", 
-          "revenue_data": "daily",
-          "custom_reports": "configurable"
-        }
+        "features": [
+          "Lexicon 224XL emulation",
+          "AMS RMX16 algorithms",
+          "Yamaha REV7 presets",
+          "TC Electronic 2290 delays",
+          "Plate reverb simulations",
+          "Gated reverb templates"
+        ],
+        "file_formats": [
+          "vst",
+          "au",
+          "aax"
+        ]
       },
       {
-        "product_id": "ADDON-SECURITY",
-        "name": "Advanced Security Addon",
-        "description": "Enhanced security features for sensitive data",
-        "price_monthly": 79.00,
-        "compatible_plans": ["PLAN-BUSINESS", "PLAN-ENTERPRISE"],
+        "product_id": "ADDON-TAPE-WARMTH",
+        "name": "Tape Warmth Processing Addon",
+        "description": "Add that warm analog tape saturation to your digital synth sounds",
+        "price_monthly": 19.99,
+        "compatible_plans": [
+          "PLAN-STUDIO",
+          "PLAN-MEGA"
+        ],
         "features": [
-          "Advanced threat detection",
-          "Audit logging",
-          "Compliance reporting",
-          "Data encryption at rest",
-          "Advanced access controls",
-          "Security monitoring dashboard"
+          "Ampex tape machine emulation",
+          "Studer A800 warmth",
+          "Variable tape speed effects",
+          "Wow and flutter controls",
+          "Saturation and compression",
+          "Noise floor adjustment"
+        ],
+        "file_formats": [
+          "vst",
+          "au",
+          "aax"
         ]
       }
     ],
     "knowledge_base": [
       {
         "article_id": "KB-001",
-        "title": "Setting up SAML Single Sign-On (SSO)",
-        "category": "authentication",
-        "subcategory": "sso_setup", 
-        "content": "This guide walks you through setting up SAML-based Single Sign-On for Enterprise accounts.\n\nPrerequisites:\n- Enterprise plan subscription\n- Admin access to your identity provider\n- Basic understanding of SAML protocol\n\nStep 1: Configure your Identity Provider\n1. Log into your IdP admin panel (Okta, Azure AD, etc.)\n2. Create a new SAML application\n3. Set the ACS URL to: https://app.example.com/auth/saml/callback\n4. Set the Entity ID to: https://app.example.com/auth/saml\n5. Configure NameID format as 'emailAddress'\n\nStep 2: Configure Application Settings\n1. Navigate to Settings > Authentication > SSO\n2. Upload your IdP certificate\n3. Enter your IdP's SSO URL\n4. Set the NameID attribute mapping\n5. Test the connection\n\nTroubleshooting:\n- Invalid SAML Response: Check clock synchronization between systems\n- Certificate errors: Ensure certificate is properly formatted and not expired\n- NameID issues: Verify the attribute mapping matches your IdP configuration\n\nFor additional help, contact our Enterprise support team.",
-        "tags": ["sso", "saml", "enterprise", "authentication", "setup"],
+        "title": "Loading SysEx Files into Your Vintage Synth",
+        "category": "installation",
+        "subcategory": "sysex_transfer",
+        "content": "This guide walks you through loading System Exclusive (SysEx) patches into your classic synthesizers.\n\nWhat You'll Need:\n- Your synthesizer (DX7, D-50, M1, etc.)\n- MIDI interface (USB to MIDI or traditional MIDI)\n- SysEx transfer software (MIDI-OX for Windows, SysEx Librarian for Mac)\n- Your downloaded patch files (.syx format)\n\nStep 1: Connect Your Synth\n1. Connect MIDI interface to your computer via USB\n2. Connect MIDI OUT from interface to MIDI IN on your synth\n3. Power on your synthesizer\n4. Set synth to receive SysEx data (check your manual, usually in MIDI settings)\n\nStep 2: Configure Transfer Software\n1. Open your SysEx transfer application\n2. Select correct MIDI output port (your interface)\n3. Set transmission speed to 'Fast' for modern synths, 'Slow' for vintage units\n4. Ensure 'Running Status' is disabled for best compatibility\n\nStep 3: Send the Patches\n1. Open your .syx file in the transfer software\n2. Click 'Send' or 'Transmit'\n3. Watch for confirmation on synth display\n4. Wait for transfer to complete (usually 10-30 seconds)\n\nTroubleshooting:\n- No data received: Check MIDI cable connections and directions\n- Garbled sounds: Try slower transmission speed\n- Partial transfer: Ensure synth has enough memory available\n- Checksum errors: Re-download the patch file\n\nSynth-Specific Tips:\n- DX7: Press 'Function' > 'MIDI' > set 'SYS INFO AVAIL' to 'ON'\n- Roland D-50: Set 'MIDI' > 'Exclusive' to 'ON'\n- Korg M1: Enter 'Global' mode, set 'MIDI Filter' to include SysEx\n\nFor additional help, contact our totally rad support team!",
+        "tags": [
+          "sysex",
+          "midi",
+          "installation",
+          "dx7",
+          "patches"
+        ],
         "created_at": "2024-10-15T00:00:00Z",
         "updated_at": "2024-11-01T00:00:00Z",
         "views": 1247,
         "helpful_votes": 89,
         "not_helpful_votes": 3,
-        "related_articles": ["KB-002", "KB-015", "KB-023"]
+        "related_articles": [
+          "KB-002",
+          "KB-015",
+          "KB-023"
+        ]
       },
       {
         "article_id": "KB-002",
-        "title": "Understanding API Rate Limits",
-        "category": "development", 
-        "subcategory": "api_limits",
-        "content": "Our API implements rate limiting to ensure fair usage and system stability.\n\nRate Limits by Plan:\n- Basic: 1,000 requests/hour\n- Pro: 5,000 requests/hour  \n- Business: 10,000 requests/hour\n- Enterprise: 50,000 requests/hour\n\nPer-Endpoint Limits:\nSome endpoints have additional per-endpoint limits:\n- /api/users: 100 requests/minute\n- /api/data/export: 10 requests/hour\n- /api/analytics: 500 requests/hour\n\nRate Limit Headers:\nAll API responses include rate limit headers:\n- X-RateLimit-Limit: Your rate limit\n- X-RateLimit-Remaining: Requests remaining in current window\n- X-RateLimit-Reset: Time when rate limit resets (Unix timestamp)\n\nHandling Rate Limits:\n1. Implement exponential backoff for 429 responses\n2. Monitor rate limit headers to prevent hitting limits\n3. Consider caching responses when possible\n4. Contact support if you need higher limits\n\nBest Practices:\n- Use webhooks instead of polling where available\n- Implement efficient pagination\n- Cache frequently accessed data\n- Consider upgrading your plan for higher limits",
-        "tags": ["api", "rate_limits", "development", "best_practices"],
-        "created_at": "2024-09-20T00:00:00Z", 
+        "title": "Understanding File Formats: WAV vs AIFF vs SYX",
+        "category": "technical",
+        "subcategory": "file_formats",
+        "content": "Different synths and samplers use different file formats. Here's the lowdown on what works where.\n\nSystem Exclusive (SysEx) - .syx files:\n- Used for: Patch data, synthesizer settings, MIDI parameters\n- Compatible with: Hardware synths (DX7, D-50, M1, Prophet-5, etc.)\n- Transfer method: MIDI cables or USB-MIDI interface\n- Contains: Synthesizer programming, not audio samples\n- File sizes: Very small (1-50 KB typically)\n\nWAV Files - .wav:\n- Used for: Audio samples, drum hits, instrument recordings\n- Compatible with: Samplers (Akai S900, E-mu Emulator, software DAWs)\n- Transfer method: Floppy disk, SCSI, or modern USB adapters\n- Contains: Actual audio waveforms\n- File sizes: Large (1-50 MB per sound)\n- Standard: Windows/PC standard, universally compatible\n\nAIFF Files - .aiff:\n- Used for: Audio samples (Mac/Apple format)\n- Compatible with: Same as WAV, Mac-based samplers\n- Transfer method: Same as WAV\n- Contains: Audio waveforms (identical quality to WAV)\n- File sizes: Large (1-50 MB per sound)\n- Standard: Apple/Mac standard, widely supported\n\nFXP/FXB Files - .fxp, .fxb:\n- Used for: VST plugin presets\n- Compatible with: Software synthesizers and effects\n- Transfer method: Direct file copy\n- Contains: Plugin parameters and settings\n- File sizes: Small (1-100 KB)\n\nWhich Format for Your Gear:\n\n1. Hardware Synths (Yamaha, Roland, Korg):\n   \u2192 Use SysEx (.syx) files\n   \n2. Hardware Samplers (Akai, E-mu, Ensoniq):\n   \u2192 Use WAV or AIFF files\n   \n3. Software Plugins:\n   \u2192 Use FXP files\n   \n4. DAWs (Pro Tools, Logic, Cubase):\n   \u2192 Use WAV or AIFF files\n\nConversion Tips:\n- WAV \u2194 AIFF: Use Audacity (free) or any DAW\n- You cannot convert SysEx to WAV (different data types)\n- Some synths can export SysEx from front panel\n- Modern interfaces like Expert Sleepers can help transfer\n\nStorage Requirements by Plan:\n- Bedroom Producer: 10GB (about 200-300 WAV samples)\n- Pro Synthwave: 50GB (about 1,000-1,500 samples)\n- Studio Professional: 250GB (about 5,000-7,500 samples)\n- Mega Studio: Unlimited\n\nBest Practices:\n- Keep SysEx files organized by synth model\n- Name WAV files descriptively (kick_808_hard.wav)\n- Back up your patches regularly\n- Test files before gigs",
+        "tags": [
+          "file_formats",
+          "sysex",
+          "wav",
+          "aiff",
+          "compatibility"
+        ],
+        "created_at": "2024-09-20T00:00:00Z",
         "updated_at": "2024-10-28T00:00:00Z",
         "views": 2156,
         "helpful_votes": 145,
         "not_helpful_votes": 8,
-        "related_articles": ["KB-003", "KB-012", "KB-018"]
+        "related_articles": [
+          "KB-003",
+          "KB-012",
+          "KB-018"
+        ]
       },
       {
         "article_id": "KB-003",
-        "title": "Analytics Addon: Features and Data Update Frequencies",
-        "category": "analytics",
-        "subcategory": "addon_features",
-        "content": "The Analytics Addon provides enhanced reporting and insights for your account.\n\nFeatures Included:\n- Real-time user engagement tracking\n- Advanced funnel analysis\n- Custom dashboard creation\n- Data export capabilities\n- Predictive insights\n- Advanced filtering and segmentation\n\nData Update Frequencies:\n\nReal-time Data (updates within seconds):\n- User page views and interactions\n- Active user counts\n- Live event tracking\n- Session data\n\nHourly Data (updates every hour at :00):\n- Aggregated usage statistics\n- Feature adoption metrics\n- Performance indicators\n- System health metrics\n\nDaily Data (updates at midnight UTC):\n- Revenue and billing analytics\n- Daily active user counts\n- Retention cohort analysis\n- Subscription metrics\n\nCustom Reports:\n- Update frequency is configurable\n- Can be set to real-time, hourly, or daily\n- Depends on data sources used\n\nData Delays:\nDuring high-traffic periods, real-time data may have delays up to 15 minutes. This is normal and helps maintain system stability.\n\nTroubleshooting Slow Updates:\n1. Check dashboard refresh settings\n2. Clear browser cache\n3. Verify your data filters aren't too restrictive\n4. Contact support if delays exceed 15 minutes for real-time data",
-        "tags": ["analytics", "addon", "real-time", "data_updates", "features"],
+        "title": "Demo Files vs Full Downloads: What's the Difference?",
+        "category": "products",
+        "subcategory": "demos_vs_full",
+        "content": "We want you to know exactly what you're getting when you purchase our sound packs.\n\nDemo Files:\n- Purpose: Preview the sounds before purchase\n- Format: Compressed MP3 or streaming audio\n- Processing: Mastered with reverb, EQ, and effects for presentation\n- Context: Often played in musical context with other instruments\n- Quality: Lossy compression (128-320 kbps MP3)\n- Use: Evaluation only, not suitable for production\n\nFull Download Files:\n- Purpose: Professional production use\n- Format: Original format (SysEx, WAV, AIFF as appropriate)\n- Processing: Clean, dry, unprocessed sounds (unless specified)\n- Context: Individual sounds, ready for your own processing\n- Quality: Lossless, original bit depth and sample rate\n- Use: Full commercial license included\n\nWhy Do They Sound Different?\n\nOur demo files are produced to sound awesome on web browsers and streaming platforms. We add:\n- Studio-quality reverb (Lexicon 224XL emulation)\n- Mastering EQ and compression\n- Stereo enhancement\n- Context with drums, bass, or other instruments\n\nYour downloaded patches are:\n- Raw and unprocessed\n- Ready for YOUR creative processing\n- Clean slate for your production style\n- Maximum flexibility\n\nCommon Scenarios:\n\n\"The demo saxophone sounds huge, but my download sounds thin!\"\n\u2192 The demo has reverb, compression, and is mixed with other instruments. Your raw samples are dry and ready for you to add your own effects.\n\n\"The keytar patches in the demo are so bright, but mine sound dull!\"\n\u2192 Demos are mastered with presence EQ. Your patches are neutral, giving you full control over the tone.\n\n\"The drums in the demo punch hard, but my samples are quieter!\"\n\u2192 Demo is mastered with limiting and compression. Your samples have full dynamic range for mixing.\n\nMaking Your Downloads Sound Like the Demos:\n\n1. Add Reverb:\n   - Try our Vintage Reverbs Addon\n   - Use plate or hall reverb\n   - Start with 2.5-3.5 second decay times\n\n2. Apply EQ:\n   - Boost presence around 3-5 kHz\n   - Add air around 10-12 kHz\n   - Roll off below 40 Hz unless bass/kick\n\n3. Compress:\n   - Use gentle ratio (2:1 to 4:1)\n   - Slow attack to preserve transients\n   - Medium release\n\n4. Context:\n   - Layer with drums and bass\n   - Pan instruments for width\n   - Use the mix to make individual parts shine\n\nStill Not Right?\n\nIf you believe there's a technical issue with your downloads:\n1. Check you're using the correct file format for your gear\n2. Verify the patches loaded correctly (re-send SysEx)\n3. Compare with factory presets on your synth\n4. Contact support with specific details\n\nRemember: Having dry, unprocessed sounds is actually RADICAL because you have total control!",
+        "tags": [
+          "demos",
+          "downloads",
+          "sound_quality",
+          "processing",
+          "expectations"
+        ],
         "created_at": "2024-10-01T00:00:00Z",
         "updated_at": "2024-11-05T00:00:00Z",
         "views": 856,
         "helpful_votes": 67,
         "not_helpful_votes": 12,
-        "related_articles": ["KB-004", "KB-009", "KB-016"]
+        "related_articles": [
+          "KB-004",
+          "KB-009",
+          "KB-016"
+        ]
       },
       {
-        "article_id": "KB-004", 
-        "title": "Account Security: Lockouts and Recovery",
-        "category": "security",
-        "subcategory": "account_recovery",
-        "content": "Account security is paramount. Here's how our lockout system works and how to recover access.\n\nLockout Triggers:\n- 5 failed login attempts within 15 minutes\n- Suspicious activity detected\n- Multiple simultaneous login attempts from different locations\n- Manual lockout by administrator\n\nAutomatic Recovery:\n- Basic accounts: 30 minutes\n- Pro accounts: 15 minutes  \n- Business/Enterprise: 5 minutes\n\nManual Recovery Options:\n\n1. Password Reset:\n   - Use 'Forgot Password' on login page\n   - Check email (including spam folder)\n   - Follow reset link within 1 hour\n\n2. Contact Support:\n   - Submit ticket with account verification\n   - Provide account details for identity verification\n   - Support can unlock immediately after verification\n\n3. Emergency Access (Enterprise only):\n   - Use emergency access codes provided during setup\n   - Contact your dedicated account manager\n   - Use backup admin credentials\n\nPrevention Tips:\n- Use strong, unique passwords\n- Enable two-factor authentication\n- Avoid sharing login credentials\n- Log out from shared computers\n- Monitor account activity regularly\n\nIf you suspect unauthorized access:\n1. Change password immediately\n2. Review recent account activity\n3. Enable 2FA if not already active\n4. Contact support for security review",
-        "tags": ["security", "account_lockout", "recovery", "2fa", "password"],
+        "article_id": "KB-004",
+        "title": "Download Issues: Troubleshooting Failed Downloads",
+        "category": "technical",
+        "subcategory": "downloads",
+        "content": "Having trouble downloading your righteous synth sounds? Here's how to fix it.\n\nCommon Download Issues:\n\n1. \"Download link doesn't work\"\nCauses:\n- Link expired (downloads valid for 72 hours after purchase)\n- Browser blocking download\n- Cookie/cache issues\n- Ad blocker interference\n\nSolutions:\n- Check your purchase email for fresh download link\n- Try incognito/private browsing mode\n- Disable ad blockers temporarily\n- Try different browser (Chrome, Firefox, Safari)\n- Clear browser cache and cookies\n\n2. \"Download starts but fails partway\"\nCauses:\n- Unstable internet connection\n- Insufficient disk space\n- Firewall/antivirus blocking\n- Large file size timing out\n\nSolutions:\n- Use download manager (Free Download Manager, JDownloader)\n- Ensure you have 2x the file size in free space\n- Temporarily disable firewall (carefully!)\n- Download during off-peak hours\n- Split large packs into smaller chunks (contact support)\n\n3. \"File is corrupted after download\"\nCauses:\n- Incomplete download\n- Transmission errors\n- Archive extraction issues\n\nSolutions:\n- Verify file size matches listed size\n- Re-download with download manager\n- Use different extraction tool (7-Zip recommended)\n- Check MD5 checksum (we provide these)\n\n4. \"Can't find my download\"\nCauses:\n- Downloaded to unexpected location\n- Browser's default download folder\n- Cloud sync moving files\n\nSolutions:\n- Check browser's download history\n- Search computer for .zip or .syx files\n- Check default Downloads folder\n- Re-download to known location\n\nDownload Best Practices:\n\n1. Before Downloading:\n- Ensure stable internet connection\n- Check available disk space (need 2x file size)\n- Disable VPN if experiencing issues\n- Use desktop computer, not mobile for large files\n- Note the download location\n\n2. During Download:\n- Don't close browser or computer\n- Don't navigate away from download page\n- Keep computer awake (disable sleep mode)\n- Monitor progress\n\n3. After Download:\n- Verify file size\n- Extract archives before use\n- Back up files to external drive\n- Test a few files before deleting download\n\nPriority Support:\n- Pro plans: Replacement downloads within 8 hours\n- Studio plans: Immediate replacement links\n- Mega plans: Direct file transfer via secure FTP\n\nEmergency Downloads:\n\nIf you have an urgent session and can't download:\n1. Contact support immediately\n2. Provide order number and file needed\n3. Priority users: Request emergency Dropbox link\n4. We can provide individual patches via email (up to 50MB)\n\nPrevention:\n- Download immediately after purchase\n- Save to cloud storage (Dropbox, Google Drive)\n- Keep local backup on external drive\n- Download during good internet conditions\n\nStill stuck? Our support team is here to help - we've never met a download issue we couldn't solve!",
+        "tags": [
+          "downloads",
+          "technical",
+          "troubleshooting",
+          "files",
+          "support"
+        ],
         "created_at": "2024-09-10T00:00:00Z",
-        "updated_at": "2024-10-20T00:00:00Z", 
+        "updated_at": "2024-10-20T00:00:00Z",
         "views": 1834,
         "helpful_votes": 156,
         "not_helpful_votes": 7,
-        "related_articles": ["KB-005", "KB-011", "KB-020"]
+        "related_articles": [
+          "KB-005",
+          "KB-011",
+          "KB-020"
+        ]
       },
       {
         "article_id": "KB-005",
-        "title": "Refund Policy and Process",
+        "title": "Refund Policy for Sound Packs",
         "category": "billing",
-        "subcategory": "refunds", 
-        "content": "We want you to be satisfied with your purchase. Here's our refund policy.\n\nRefund Eligibility:\n\nFull Refunds (within 30 days):\n- Unused subscriptions\n- Technical issues preventing service use\n- Service not as described in clear, documented ways\n- Billing errors\n\nPartial Refunds:\n- Pro-rated for remaining unused time\n- Downgrade situations\n- Service disruptions beyond our SLA\n\nNo Refunds:\n- After 30 days of active use\n- Change of business needs\n- User error or misunderstanding (with adequate documentation available)\n- Services already consumed (data exports, API calls, etc.)\n\nRefund Process:\n\n1. Submit Request:\n   - Create support ticket with category 'Billing > Refund Request'\n   - Provide reason for refund\n   - Include relevant details (dates, issues encountered, etc.)\n\n2. Review Process:\n   - Support team reviews within 2 business days\n   - May request additional information\n   - Technical review if service-related issue\n\n3. Resolution:\n   - Approved refunds processed within 5 business days\n   - Refund to original payment method\n   - Account access adjusted accordingly\n\nAlternatives to Refunds:\n- Plan downgrades with credit\n- Service extensions for outages\n- Additional training or support\n- Custom solutions for Enterprise clients\n\nContact our billing team for questions about specific situations.",
-        "tags": ["billing", "refunds", "policy", "process", "subscription"],
+        "subcategory": "refunds",
+        "content": "We want you to be totally stoked with your synth sound purchases. Here's our refund policy.\n\nRefund Eligibility:\n\nFull Refunds (within 14 days):\n- Technical issues preventing file use\n- Files don't match description\n- Compatibility issues with listed synths\n- Duplicate accidental purchases\n- Download failures we can't resolve\n\nNo Refunds:\n- After 14 days\n- \"Changed my mind\" or \"don't like the sound\"\n- Already used sounds in released productions\n- Files work but don't match demo exactly (see KB-003)\n- User error in loading patches\n- Compatibility issues with unlisted gear\n\nWhy We Have This Policy:\n\nDigital downloads are instantly accessible and can be copied, so we need to balance customer satisfaction with protecting our business from abuse. That's why we provide:\n- Detailed product descriptions\n- Demo files for every product\n- Compatibility lists\n- User reviews and ratings\n\nRefund Process:\n\n1. Contact Support (within 14 days):\n   - Create support ticket: Billing > Refund Request\n   - Provide order number and reason\n   - Include details about the issue\n   - Screenshots if technical problem\n\n2. Our Review:\n   - Technical team investigates within 2 business days\n   - May request additional information\n   - May offer technical support first\n   - May offer alternative products\n\n3. Resolution:\n   - Approved refunds processed within 5 business days\n   - Refund to original payment method\n   - Download links deactivated\n   - Access removed from account\n\nAlternatives to Refunds:\n\nWe often can solve issues without refunds:\n\n- Technical Problems:\n  \u2192 Step-by-step support to get files working\n  \u2192 Alternative file formats\n  \u2192 Replacement files if corrupted\n\n- Wrong Product:\n  \u2192 Exchange for different pack (one time)\n  \u2192 Credit toward other products\n\n- Doesn't Sound Right:\n  \u2192 Processing tips to match demos (see KB-003)\n  \u2192 Our Vintage Reverbs or Tape Warmth addons\n  \u2192 Free tutorial video\n\n- Compatibility Issues:\n  \u2192 Conversion to compatible format\n  \u2192 Alternative patches for your specific gear\n\nSpecial Cases:\n\nSubscription Plans:\n- Cancel anytime, no refund for current month\n- Pro-rated refund if we fail to provide service\n- Annual plans: pro-rated refund before 60 days\n\nBundles/Mega Packs:\n- Must return entire bundle\n- Can't refund individual items from bundle\n- Better value = stricter refund terms\n\nCustom Orders:\n- Generally not refundable\n- Evaluated case-by-case\n- May offer revisions instead\n\nHow to Avoid Needing Refunds:\n\n1. Listen to ALL demo tracks\n2. Read the full product description\n3. Check compatibility with your gear\n4. Read user reviews\n5. Start with smaller packs before big bundles\n6. Ask pre-sale questions (we're happy to help!)\n\nFair Use Policy:\n\nWe track refund patterns. Customers with excessive refund requests may:\n- Lose refund privileges\n- Have accounts flagged\n- Be restricted from future purchases\n\nWe're totally cool with legitimate issues, but serial refunders harsh our mellow.\n\nOur Commitment:\n\nIf there's a genuine problem with our products, we'll make it right. We've been in the music business since the 80s (well, themed since the 80s) and we stand behind our sounds!\n\nQuestions? Hit up our support team - we're here to help!",
+        "tags": [
+          "billing",
+          "refunds",
+          "policy",
+          "returns",
+          "purchases"
+        ],
         "created_at": "2024-08-15T00:00:00Z",
         "updated_at": "2024-10-30T00:00:00Z",
         "views": 2341,
         "helpful_votes": 178,
         "not_helpful_votes": 23,
-        "related_articles": ["KB-006", "KB-013", "KB-019"]
+        "related_articles": [
+          "KB-006",
+          "KB-013",
+          "KB-019"
+        ]
       }
     ],
     "metadata": {
       "data_collected_at": "2024-11-07T12:00:00Z",
-      "data_source": "customer_support_system",
+      "data_source": "totally_rad_synth_files_support",
       "version": "1.0",
       "total_active_tickets": 3,
       "total_customers": 5,
       "avg_response_time_hours": 3.2,
-      "customer_satisfaction_avg": 4.0
+      "customer_satisfaction_avg": 4.0,
+      "most_popular_pack": "Keytar Klassics Pack",
+      "total_patches_distributed": 45672,
+      "supported_vintage_synths": 47
     }
   }
 }

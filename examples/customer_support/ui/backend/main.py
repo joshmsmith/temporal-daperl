@@ -101,13 +101,20 @@ async def root():
 async def list_workflows() -> List[WorkflowInfo]:
     """List all customer support workflows."""
     try:
-        # Query Temporal for workflows
-        # Note: This is a simplified version. In production, you'd want to
-        # use Temporal's list_workflows API with proper filtering
         workflows = []
         
-        # For now, we'll return an empty list as Temporal's list API
-        # requires more setup. The UI can work with individual workflow IDs.
+        # Query Temporal for workflows using list_workflows API
+        async for workflow in temporal_client.list_workflows(
+            query="WorkflowType='DAPERLWorkflow'"
+        ):
+            # Get workflow execution info
+            workflow_info = WorkflowInfo(
+                workflow_id=workflow.id,
+                status=workflow.status.name,
+                started_at=workflow.start_time.isoformat() if workflow.start_time else None
+            )
+            workflows.append(workflow_info)
+        
         return workflows
     
     except Exception as e:
@@ -373,6 +380,29 @@ async def start_workflow(request: StartWorkflowRequest) -> Dict[str, Any]:
         raise HTTPException(status_code=500, detail=f"Invalid JSON in data file: {str(e)}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to start workflow: {str(e)}")
+
+
+@app.get("/api/config")
+async def get_config():
+    """Get configuration for the frontend."""
+    temporal_config = settings.get_temporal_config()
+    
+    # Construct Temporal UI URL based on host
+    temporal_host = temporal_config.host
+    # Extract just the hostname (remove port if present)
+    host_parts = temporal_host.split(':')
+    temporal_ui_host = host_parts[0]
+    
+    # Default to port 8233 for Temporal UI
+    temporal_ui_url = f"http://{temporal_ui_host}:8233"
+    
+    return {
+        "temporal": {
+            "ui_url": temporal_ui_url,
+            "namespace": temporal_config.namespace,
+            "host": temporal_config.host
+        }
+    }
 
 
 @app.get("/api/health")

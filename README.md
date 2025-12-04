@@ -20,37 +20,19 @@ DAPERL is a generic, extensible framework for building intelligent automation sy
 ## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                   DAPERL Workflow                        │
-├─────────────────────────────────────────────────────────┤
-│  1. Detection  →  2. Analysis  →  3. Planning           │
-│       ↓               ↓               ↓                  │
-│  Find Problems   Root Causes    Create Plan             │
-│                                      ↓                   │
-│                              4. Await Approval           │
-│                                      ↓                   │
-│  5. Execution  →  6. Reporting  →  7. Learning          │
-│       ↓               ↓               ↓                  │
-│  Execute Plan    Generate Report   Extract Insights     │
-└─────────────────────────────────────────────────────────┘
-```
-
-### Per-Agent LLM Configuration
-
-Each agent can be configured with its own LLM:
-
-```python
-# Detection: Fast, cheap model
-DETECTION_LLM_MODEL=gpt-3.5-turbo
-
-# Analysis: More powerful model
-ANALYSIS_LLM_MODEL=gpt-4o
-
-# Planning: Different provider
-PLANNING_LLM_PROVIDER=anthropic
-PLANNING_LLM_MODEL=claude-3-5-sonnet-20241022
-
-# And so on for Execution, Reporting, Learning...
+┌───────────────────────────────────────────────────────┐
+│                   DAPERL Workflow                     │
+├───────────────────────────────────────────────────────┤
+│  1. Detection  →  2. Analysis  →  3. Planning         │
+│       ↓               ↓               ↓               │
+│  Find Problems   Root Causes    Create Plan           │
+│                       ↓                               │
+│               4. Await Approval                       │
+│                       ↓                               │
+│  5. Execution  →  6. Reporting  →  7. Learning        │
+│       ↓               ↓               ↓               │
+│  Execute Plan    Generate Report   Extract Insights   │
+└───────────────────────────────────────────────────────┘
 ```
 
 ## Installation
@@ -60,110 +42,6 @@ PLANNING_LLM_MODEL=claude-3-5-sonnet-20241022
 - Python 3.10+
 - Temporal Server (local or cloud)
 - API keys for LLM providers (OpenAI, Anthropic, etc.)
-
-### Setup
-
-1. **Clone and Install**:
-```bash
-cd temporal-daperl
-poetry install
-```
-
-2. **Configure Environment**:
-```bash
-cp .env.example .env
-# Edit .env with your configuration
-```
-
-3. **Start Temporal** (if running locally):
-```bash
-temporal server start-dev
-```
-
-4. **Start Worker**:
-```bash
-poetry run python scripts/run_worker.py
-```
-
-## Quick Start
-
-### Run the Example
-
-The easiest way to see DAPERL in action is with the expense report example:
-
-```bash
-# 1. Start Temporal (in a separate terminal)
-temporal server start-dev
-
-# 2. Start the worker (in another terminal)
-poetry run python scripts/run_worker.py
-
-# 3. Run the expense report example
-poetry run python examples/expense_reports/run_example.py
-```
-
-This will process 5 expense reports, detecting issues like missing receipts, policy violations, and duplicate submissions, then automatically fix them!
-
-## Usage
-
-### Basic Example
-
-```bash
-# Start a workflow
-poetry run python scripts/start_workflow.py \
-  --domain "my-domain" \
-  --data '{"items": ["item1", "item2"]}' \
-  --auto-approve
-
-# Query status
-poetry run python scripts/query_workflow.py \
-  --workflow-id daperl-my-domain-123456
-
-# Approve plan (if not auto-approved)
-poetry run python scripts/approve_workflow.py \
-  --workflow-id daperl-my-domain-123456
-```
-
-### Python API
-
-```python
-from temporalio.client import Client
-from daperl.workflows import DAPERLWorkflow
-from daperl.core.models import DAPERLInput
-
-# Connect to Temporal
-client = await Client.connect("localhost:7233")
-
-# Create workflow input
-workflow_input = DAPERLInput(
-    domain="my-domain",
-    data={"key": "value"},
-    config={
-        "detection_instructions": "Look for X, Y, Z",
-        "available_actions": ["action1", "action2"]
-    },
-    auto_approve=False
-)
-
-# Start workflow
-handle = await client.start_workflow(
-    DAPERLWorkflow.run,
-    workflow_input,
-    id="my-workflow-id",
-    task_queue="daperl-task-queue",
-)
-
-# Query status
-status = await handle.query(DAPERLWorkflow.get_status)
-print(f"Status: {status['status']}")
-
-# Approve plan
-await handle.signal(DAPERLWorkflow.approve_plan)
-
-# Wait for result
-result = await handle.result()
-print(f"Result: {result.summary}")
-```
 
 ## Configuration
 
@@ -177,6 +55,8 @@ See `.env.example` for all configuration options:
 - **Learning Storage**: `LEARNING_STORAGE_TYPE`, `LEARNING_STORAGE_PATH`
 
 ### Per-Agent LLM Configuration Example
+
+Each agent can be configured with its own LLM:
 
 ```env
 # Detection Agent - Fast & Cheap
@@ -198,16 +78,20 @@ PLANNING_LLM_TEMPERATURE=0.7
 PLANNING_LLM_MAX_TOKENS=8000
 ```
 
-## Extending the Framework
+## Run it!
 
-### Creating a Domain-Specific Implementation
+The easiest way to see DAPERL in action is with the [expense report example](/examples/expense_reports/README.md) (simple, no UI) or the [customer support example](/examples/customer_support/README.md) (more complex, with an API layer and a UI).
 
-1. **Define your domain data structure**
-2. **Optionally extend agents** with domain-specific logic
-3. **Provide action handlers** for the execution agent
-4. **Configure domain-specific prompts**
+## Create Your Own (Domain-Specific) Implementation!
 
-Example:
+The framework is highly extensible - you can use the building blocks to create your own DAPERLWorkflow or ExecutionAgentWorkflow implementation, or you can create a customized agent implementation, or you can use everything as-is and simply define your domain and create the tools you might want the AI to execute. The instructions below are for this last option:
+
+1. Define your domain data structure
+2. Figure out how the data will get into the [DAPERLWorkflow](/daperl/workflows/daperl_workflow.py), potentially adding an activity for data loading (see the note re: Phase 0)
+3. Configure domain-specific prompts for each agent, which are passed in from the client as part of the workflow starting data ([expense_reports example](/examples/expense_reports/run_example.py), see the setup of the config)
+4. Provide action handlers for the tool execution/for the [execution agent](/daperl/workflows/execution_workflow.py) to use ([Details re: How Tool Resolution Works](/daperl/HowToolsWork.MD))
+
+This is an example of creating your own DetectionAgent using the BaseDetectionAgent: 
 
 ```python
 from daperl.core.agents import BaseDetectionAgent
@@ -220,59 +104,7 @@ class MyDetectionAgent(BaseDetectionAgent):
         return await super().execute(context)
 ```
 
-### Providing Execution Actions
-
-```python
-from daperl.agents import ExecutionAgent
-
-# Define action handlers
-async def handle_send_email(action, context):
-    # Send email logic
-    return {"success": True, "message": "Email sent"}
-
-async def handle_update_database(action, context):
-    # Update database logic
-    return {"success": True, "message": "Database updated"}
-
-# Create agent with action registry
-action_registry = {
-    "send_email": handle_send_email,
-    "update_database": handle_update_database,
-}
-
-execution_agent = ExecutionAgent(
-    action_registry=action_registry,
-    llm_config=config.execution_llm
-)
-```
-
-### How Tools Are Resolved
-
-1. Planning Agent creates Action objects:
-   Action(
-       action_type="update_ticket_status",
-       parameters={"ticket_id": "T-123", "status": "resolved"}
-   )
-
-2. ExecutionAgent receives actions and action_registry:
-   action_registry = {
-       "update_ticket_status": handler_function
-   }
-
-3. ExecutionAgent looks up handler:
-   handler = self.action_registry[action.action_type]  # ✅ Found!
-
-4. Handler executes tool:
-   tool_instance = UpdateTicketStatusTool(domain="customer-support")
-   result = await tool_instance.execute(action.parameters)  # ✅ Fixed!
-
-5. Tool returns result:
-   {
-       "success": true,
-       "data": {...},
-       "message": "Successfully updated ticket"
-   }
-
+### Remember, it's all just code. This is one of the reasons that Temporal is code-first, because then you can combine the benefits of Temporal with things like inheritance and object-orientation.
 
 ## Project Structure
 
@@ -282,34 +114,42 @@ temporal-daperl/
 │   ├── core/                    # Base abstractions
 │   │   ├── agents.py            # Base agent classes
 │   │   ├── models.py            # Data models
-│   │   └── types.py             # Type definitions
+│   │   ├── types.py             # Type definitions
+│   │   ├── tools.py             # Tool execution system
+│   │   └── exceptions.py        # Custom exceptions
 │   ├── agents/                  # DAPERL agent implementations
-│   │   ├── detection.py
-│   │   ├── analysis.py
-│   │   ├── planning.py
-│   │   ├── execution.py
-│   │   ├── reporting.py
-│   │   └── learning.py          # NEW: Learning agent
+│   │   ├── detection.py         # Detection agent
+│   │   ├── analysis.py          # Analysis agent
+│   │   ├── planning.py          # Planning agent
+│   │   ├── reporting.py         # Reporting agent
+│   │   └── learning.py          # Learning agent
 │   ├── workflows/               # Temporal workflows
-│   │   └── daperl_workflow.py
+│   │   ├── daperl_workflow.py   # Main DAPERL workflow
+│   │   └── execution_workflow.py # Execution workflow
 │   ├── activities/              # Temporal activities
-│   │   └── agent_activities.py
+│   │   └── agent_activities.py  # Agent activity wrappers
 │   ├── llm/                     # LLM provider abstraction
-│   │   ├── base.py
-│   │   ├── factory.py
+│   │   ├── base.py              # Base LLM interface
+│   │   ├── factory.py           # LLM factory
 │   │   └── providers/
+│   │       └── litellm_provider.py # LiteLLM implementation
 │   ├── storage/                 # Learning data storage
-│   │   ├── base.py
-│   │   └── json_storage.py
-│   └── config/                  # Configuration
-│       └── settings.py
+│   │   ├── base.py              # Storage interface
+│   │   └── json_storage.py      # JSON storage implementation
+│   ├── config/                  # Configuration
+│   │   └── settings.py          # Settings management
 ├── scripts/                     # Utility scripts
-│   ├── run_worker.py
-│   ├── start_workflow.py
-│   ├── query_workflow.py
-│   └── approve_workflow.py
+│   ├── run_worker.py            # Start Temporal worker
+│   ├── start_workflow.py        # Start a new workflow
+│   ├── query_workflow.py        # Query workflow state
+│   ├── query_execution_workflow.py # Query execution workflow
+│   └── approve_workflow.py      # Approve execution plan
 ├── examples/                    # Example implementations
-└── tests/                       # Tests
+│   ├── expense_reports/         # Simple expense report example
+│   └── customer_support/        # Advanced customer support example
+├── data/                        # Runtime data directory
+├── .env.example                 # Environment variables template
+└── pyproject.toml               # Python project configuration
 ```
 
 ## DAPERL Agents
@@ -366,41 +206,6 @@ Example insights:
 - "Action Y has 95% success rate for problem type Z"
 - "Executions with root cause A typically require 3 specific actions"
 
-## Best Practices
-
-### Temporal Best Practices
-- Activities are idempotent and can safely retry
-- Workflows are deterministic
-- Clear separation between orchestration and execution
-- Proper error handling and retry policies
-
-### Python Best Practices
-- Full type hints with Pydantic models
-- Dependency injection for flexibility
-- Modular, reusable components
-- Comprehensive docstrings
-
-### LLM Best Practices
-- Use faster/cheaper models for simple tasks (detection, reporting)
-- Use powerful models for complex tasks (analysis, planning)
-- Validate LLM outputs
-- Retry on invalid responses
-
-## Monitoring
-
-Use Temporal UI to monitor workflows:
-
-```bash
-# Access Temporal UI
-open http://localhost:8233
-```
-
-Features:
-- View workflow execution history
-- Inspect activity logs
-- Query workflow state
-- Send signals to workflows
-
 ## Troubleshooting
 
 ### Common Issues
@@ -432,23 +237,11 @@ Contributions welcome! Please:
 3. Add tests for new functionality
 4. Submit a pull request
 
-## Examples
-
-### Expense Report Processing
-
-A simple, relatable example in `examples/expense_reports/`:
-
-**The Problem**: Expense reports with missing receipts, policy violations, duplicate submissions
-
-**How DAPERL Solves It**:
-- **Detection**: Finds 4-5 problems (missing receipts, over limits, duplicates, etc.)
-- **Analysis**: Determines root causes (employee error, unclear policy)
-- **Planning**: Creates actions (request receipt, calculate mileage, flag for review)
-- **Execution**: Simulates sending notifications and updating statuses
-- **Reporting**: Generates summary of processed reports
-- **Learning**: Identifies patterns (which employees need training, common errors)
-
-Run it: `poetry run python examples/expense_reports/run_example.py`
+## Potential Future Enhancements
+- Add proactive monitoring agent
+- Look at adding stuff in customer_support/ui/backend to the framework (API layer for UI)
+- Add MCP server
+- Add ability to approve/deny specific proposed solutions OR the whole set (currently it's the whole set)
 
 ## References
 

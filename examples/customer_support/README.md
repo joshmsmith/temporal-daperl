@@ -1,6 +1,6 @@
 # Customer Support Domain Example
 
-This example demonstrates how to use the DAPER framework for intelligent customer support automation. It showcases sophisticated detection, analysis, and planning capabilities for real-world customer service scenarios.
+This example demonstrates how to use the DAPERL framework for intelligent customer support automation. It showcases sophisticated detection, analysis, and planning capabilities for real-world customer service scenarios.
 
 ## Overview
 
@@ -8,18 +8,25 @@ The customer support domain implements a comprehensive automation system that:
 - Detects support issues, SLA violations, and customer sentiment patterns
 - Analyzes customer context, churn risk, and expertise requirements
 - Plans intelligent response strategies and escalation workflows
-- Integrates with ticketing systems, CRM platforms, and knowledge bases
+- Could integrate with ticketing systems, CRM platforms, and knowledge bases (current implementation updates in-repo data.json file)
 
 ## Files Structure
 
 ```
 customer_support/
 ├── README.md              # This documentation file
-├── run_example.py         # Main example runner and demonstration
-├── domain.py             # Core DAPER activities (Detect, Analyze, Plan)
-├── tools.py              # Customer support tools and integrations
-├── data_loaders.py       # Data loaders for various support systems
-└── data.json             # Comprehensive sample dataset
+├── run_ui.py              # UI server launcher
+├── tools.py               # Customer support tools and integrations
+├── data.json              # Comprehensive sample dataset
+├── data/                  # Runtime data directory
+│   ├── insights.json      # Generated insights data
+│   └── metrics.json       # Generated metrics data
+└── ui/                    # User interface components
+    ├── backend/           # FastAPI backend server
+    │   └── main.py        # API endpoints and WebSocket handlers
+    └── frontend/          # React/TypeScript frontend
+        └── src/           # Frontend source code
+            └── components/ # React components for workflow visualization
 ```
 
 ## Key Features
@@ -75,7 +82,7 @@ This implementation demonstrates how DAPER can deliver:
 
 ## Real-World Integration
 
-The domain is designed to integrate with:
+The implementation of DAPERL could integrate with:
 
 ### Ticketing Systems
 - Zendesk, Salesforce Service Cloud, Jira Service Management
@@ -93,79 +100,35 @@ The domain is designed to integrate with:
 - Confluence, Notion, GitBook
 - Internal documentation systems, wikis
 
-## Installation
+## Running the Example
 
 This example uses Poetry for Python package management. Install dependencies:
 
 ```bash
-# From the customer_support directory
+# Start the Temporal server (if connecting locally)
+temporal server start-dev
+
+# In another terminal, starting from the project root, create or copy a .env file into the expense_reports folder
+cp .env examples/customer_support/.
+
+# Move to the expense_reports directory
 cd examples/customer_support
+
+# Install the Python dependencies
 poetry install
-```
 
-This will install all required dependencies including:
-- The main `temporal-daperl` framework (from the parent directory)
-- FastAPI and Uvicorn for the UI backend
-- WebSockets support
-- Pydantic for data validation
-
-## Running the Example
-
-**Start the Worker in the daperl folder**:
-```bash
+# Start the worker
 poetry run python ../../scripts/run_worker.py
-```
 
-**Start the front end (API layer and UI)**:
-```bash
+# In a third terminal, run the API layer and UI
 poetry run python run_ui.py
 ```
-
-**Start the Workflow**:
-
-```bash
-# Run with manual approval (default)
-poetry run python run_example.py
-
-# Run with auto-approval for demo purposes
-poetry run python run_example.py --auto-approve
-```
-
-### Command Line Options
-
-- `--auto-approve`: Auto-approve actions without human intervention (default: False)
-- `--help`: Show help message and available options
-
-This will:
-1. Load the sample customer support data
-2. Run the complete DAPER workflow (Detect → Analyze → Plan → Execute → Report → Learn)
-3. Demonstrate key capabilities and business value
-4. Show detailed workflow results and next steps
-5. Execute actions based on auto-approve setting
-
-## Architecture Notes
-
-The customer support domain follows DAPER best practices:
-
-- **Modular Design**: Separate concerns for detection, analysis, and planning
-- **Extensible Tools**: Plugin architecture for easy integration additions
-- **Flexible Data Loading**: Support for multiple data source types
-- **Comprehensive Testing**: End-to-end workflow validation
-- **Production Ready**: Enterprise-grade error handling and logging
 
 ## Future Enhancements
 
 Potential extensions include:
-- Machine learning integration for predictive analytics
-- Advanced NLP for better sentiment analysis and intent detection
-- Real-time dashboard integration for live monitoring
-- A/B testing framework for response strategy optimization
-- Integration with workforce management systems
-
-## Technical Requirements
-
-- Python 3.8+
-- DAPER framework core components
-- Optional: Integration with specific platforms (Zendesk SDK, Salesforce API, etc.)
+- EscalateToSpecialistTool: make this "real" tool functionality that pulls from the data file
+- CreateFollowUpTaskTool: change this to create and persist a new KB article 
+- Add tests
 
 This example serves as a comprehensive template for building sophisticated customer support automation systems that scale with business needs while maintaining high service quality.

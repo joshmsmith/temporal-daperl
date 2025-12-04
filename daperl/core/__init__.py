@@ -18,7 +18,6 @@ from daperl.core.agents import (
     BaseDetectionAgent,
     BaseAnalysisAgent,
     BasePlanningAgent,
-    BaseExecutionAgent,
     BaseReportingAgent,
     BaseLearningAgent,
 )
@@ -27,6 +26,7 @@ from daperl.core.tools import (
     ToolRegistry,
     ToolInfo,
 )
+from daperl.core.exceptions import ActionExecutionError
 
 __all__ = [
     "AgentPhase",
@@ -45,10 +45,10 @@ __all__ = [
     "BaseDetectionAgent",
     "BaseAnalysisAgent",
     "BasePlanningAgent",
-    "BaseExecutionAgent",
     "BaseReportingAgent",
     "BaseLearningAgent",
     "BaseTool",
     "ToolRegistry",
     "ToolInfo",
+    "ActionExecutionError",
 ]

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { apiClient, type WorkflowData, type WorkflowStatus } from '../lib/api';
+import { apiClient, type WorkflowData, type WorkflowStatus, type AppConfig } from '../lib/api';
 import PhaseProgress from './PhaseProgress.tsx';
 import PlanApproval from './PlanApproval.tsx';
 import DetectionResults from './DetectionResults.tsx';
@@ -13,6 +13,7 @@ interface DashboardProps {
 
 export default function Dashboard({ workflowId }: DashboardProps) {
   const [workflow, setWorkflow] = useState<WorkflowData | null>(null);
+  const [config, setConfig] = useState<AppConfig | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [approving, setApproving] = useState(false);
@@ -38,6 +39,21 @@ export default function Dashboard({ workflowId }: DashboardProps) {
   useEffect(() => {
     workflowRef.current = workflow;
   }, [workflow]);
+
+  // Fetch config on mount
+  useEffect(() => {
+    const fetchConfig = async () => {
+      try {
+        const configData = await apiClient.getConfig();
+        setConfig(configData);
+      } catch (err) {
+        console.error('Failed to load config:', err);
+        // Continue without config - will use fallback values
+      }
+    };
+
+    fetchConfig();
+  }, []);
 
   // Fetch workflow data
   useEffect(() => {
@@ -247,6 +263,17 @@ export default function Dashboard({ workflowId }: DashboardProps) {
       <div className="status-header">
         <div className="status-info">
           <h2>Workflow: {workflow.workflow_id}</h2>
+      {/* Temporal UI Link */}
+      <div className="temporal-ui-link">
+        <a 
+          href={`${config?.temporal.ui_url || 'http://localhost:8233'}/namespaces/${config?.temporal.namespace || 'default'}/workflows/${workflow.workflow_id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: '#0066cc', textDecoration: 'none', fontWeight: 500 }}
+        >
+          🔗 View in Temporal UI
+        </a>
+      </div>
           <div className={`status-badge status-${workflow.status.status.toLowerCase()}`}>
             {workflow.status.status}
           </div>
