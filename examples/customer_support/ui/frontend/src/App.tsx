@@ -78,8 +78,16 @@ function App() {
       <header className="app-header">
         <div className="header-content">
           <div>
-            <h1>🎧 Customer Support DAPERL Dashboard</h1>
-            <p className="subtitle">Intelligent Support Automation Monitoring</p>
+            <h1>Take on Keys <br />
+            Rad Synth Sounds in a Day or Twooooooo</h1>
+          </div>
+        </div>
+      </header>
+      <header className="app-header">
+        <div className="header-content">
+          <div>
+            <h2>🎧 Customer Support DAPERL Dashboard</h2>
+            <h2>Intelligent Support Automation Monitoring</h2>
           </div>
           
           {!loadingWorkflows && availableWorkflows.length > 0 && (

@@ -50,6 +50,10 @@ body {
   margin-bottom: 0.5rem;
 }
 
+.app-header h2 {
+  font-size: 1.5rem;
+}
+
 .subtitle {
   opacity: 0.9;
   font-size: 1rem;
@@ -752,7 +756,7 @@ body {
 
 .overview-header h2 {
   color: #2c3e50;
-  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 /* Stats Cards */
@@ -1362,7 +1366,7 @@ body {
 
 .impact-header h2 {
   color: #2c3e50;
-  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 .impact-analysis-loading,
