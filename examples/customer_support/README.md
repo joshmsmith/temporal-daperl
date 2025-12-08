@@ -117,6 +117,11 @@ cd examples/customer_support
 # Install the Python dependencies
 poetry install
 
+# Install the Node dependencies, then go back up to the customer_support folder
+cd ui
+npm install
+cd ..
+
 # Start the worker
 poetry run python ../../scripts/run_worker.py
 
