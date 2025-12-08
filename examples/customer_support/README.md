@@ -102,13 +102,20 @@ The implementation of DAPERL could integrate with:
 
 ## Running the Example
 
-This example uses Poetry for Python package management. Install dependencies:
+### Prerequisites
+- Python 3.12+
+- NodeJS 22.21.0
+- Temporal Server (local or cloud)
+- API keys for LLM providers (OpenAI, Anthropic, etc.)
+
+### Run it!
+This example uses Poetry for Python package management and comes with a couple of scripts to start the various components.
 
 ```bash
 # Start the Temporal server (if connecting locally)
 temporal server start-dev
 
-# In another terminal, starting from the project root, create or copy a .env file into the expense_reports folder
+# In a second terminal, starting from the project root, create or copy a .env file into the expense_reports folder
 cp .env examples/customer_support/.
 
 # Move to the expense_reports directory

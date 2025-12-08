@@ -39,7 +39,7 @@ DAPERL is a generic, extensible framework for building intelligent automation sy
 
 ### Prerequisites
 
-- Python 3.10+
+- Python 3.12+
 - Temporal Server (local or cloud)
 - API keys for LLM providers (OpenAI, Anthropic, etc.)
 
